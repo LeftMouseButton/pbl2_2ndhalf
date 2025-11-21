@@ -1,0 +1,247 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tabularx}
+\usepackage{svg}
+
+\begin{document}
+
+\title{Extracting Data to Build and Analyze Networks: Integrating Biomedical Entities for Multi-Layer Analysis}
+
+\author{
+\IEEEauthorblockN{Daisuke Terauchi, Ibuki Yasuda, Jeremy Duncan, Muhammad Omar Salah Ud Din
+}
+\IEEEauthorblockA{Information Systems Science and Engineering\\
+Intelligent Computer Entertainment Lab\\
+Ritsumeikan University, Japan}
+}
+
+\maketitle
+
+\begin{abstract}
+This study presents the design and analysis of a comprehensive \textbf{knowledge graph (KG)} integrating information regarding cancer diseases, symptoms, treatments, and genes. 
+Data were collected automatically from \textbf{Wikipedia} and \textbf{MedlinePlus} via API-based crawling and processed through a structured \textbf{LLM-driven entity-relationship extraction pipeline}. 
+The resulting graph contains \textbf{1,421 nodes} and \textbf{2,383 relationships} (matched-only subset), representing a unified view of oncological knowledge. 
+Analyses including connectivity, community detection, and centrality reveal highly connected patterns: \textit{radiation therapy}, \textit{chemotherapy}, \textit{lung cancer}, \textit{colorectal cancer}, \textit{ovarian cancer}, and \textit{TP53} emerge as major hubs. 
+The graph’s community structure (23 clusters in the analyzed run) mirrors key cancer groupings, confirming the viability of automated biomedical KGs for exploratory research and hypothesis generation.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Knowledge Graph, Cancer, Graph Analysis, Community Detection, Biomedical Informatics, LLM
+\end{IEEEkeywords}
+
+\section{Introduction}
+\subsection{Problem Description and Motivation}
+Biomedical data are fragmented across thousands of web resources, each describing diseases, genes, and therapies in diverse textual formats.
+Researchers and clinicians face challenges integrating this information into unified computational models for inference, prediction, and discovery.
+A \textbf{knowledge graph (KG)} can bridge this gap by representing heterogeneous biomedical concepts as nodes and their relationships as edges, enabling multi-layer network analyses that reveal hidden connections among diseases, molecular mechanisms, and clinical outcomes.
+
+\subsection{Objective and Scope}
+The objective of this project is to build a multi-source knowledge graph of cancer-related diseases and conduct a suite of graph-theoretic analyses to uncover structural and biological insights.
+The scope includes:
+\begin{itemize}
+    \item Focus on distinct \textbf{cancer types} (approximately 150 diseases).
+    \item Entities include \textbf{diseases, genes, symptoms, treatments, diagnoses, and subtypes}.
+    \item Analyses emphasize \textbf{graph topology, centrality, and predictive link discovery}.
+\end{itemize}
+
+\subsection{Data Sources}
+Two authoritative biomedical repositories were used:
+\begin{enumerate}
+    \item \textbf{Wikipedia API}: structured, human-readable summaries of diseases.
+    \item \textbf{MedlinePlus Web Service}: curated medical data provided by the U.S. National Library of Medicine.
+\end{enumerate}
+
+\section{Methodology}
+
+
+
+
+
+\subsection{Data Source Description}
+The KG pipeline ingests semi-structured textual data;
+Wikipedia entries provide user-moderated summaries, causes, and subtypes, while MedlinePlus provides clinically verified symptoms, diagnoses, and treatments.
+
+\subsection{Data Acquisition}
+A custom Python crawler automates acquisition of raw data. Each record is saved with provenance metadata.
+Wikipedia is accessed via its REST API for plaintext extracts, while MedlinePlus is accessed through its XML search API. 
+MedlinePlus search results are ranked via a transparent heuristic that weights URL tokens, titles, alternate titles, summary mentions, and the API-provided rank.
+
+
+\subsection{Cleaning and Preprocessing}
+HTML tags and boilerplate sections are removed, text is normalized (mojibake fixes, whitespace smoothing), and for MedlinePlus two strict trimming rules are applied: (1) drop all content up to and including the first line matching ``- Patient Handouts'', and (2) drop all content from the first heading matching ``\#\# Start Here'' to the end. Slugified filenames preserve disease/source provenance. This ensures compatibility with token constraints while maintaining biomedical accuracy.
+
+\subsection{Entity and Relationship Extraction}
+Using Google AI Studio API (gemini-2.5-flash-lite), structured entities and relations are extracted following this schema:
+
+\begin{verbatim}
+{
+ "disease_name": "",
+ "synonyms": [],
+ "summary": "",
+ "causes": [],
+ "risk_factors": [],
+ "symptoms": [],
+ "diagnosis": [],
+ "treatments": [],
+ "related_genes": [],
+ "subtypes": []
+}
+\end{verbatim}
+
+Validated JSON outputs are merged into a unified dataset.
+
+\subsection{Graph Construction}
+The graph is built using \textbf{NetworkX}, where each entity type corresponds to a node label and each relation forms a typed edge (e.g., \texttt{has\_symptom}, \texttt{associated\_gene}, \texttt{treated\_with}, \texttt{has\_diagnosis}). 
+Interactive visualization is provided using \textbf{PyVis}.
+
+\subsection{Tools and Frameworks}
+Python 3.12, NetworkX, and PyVis were employed. Louvain community detection is used when available, otherwise greedy modularity with an optional consensus that combines Louvain, greedy modularity, and label propagation results. Adamic–Adar, Jaccard, and Preferential Attachment were used for link prediction, while ChatGPT-5 supported interpretive analysis.
+
+\subsection{Normalization and Matching}
+Validated per-disease JSON files are normalized against local ontologies (disease and gene if available) using fuzzy matching (token-sort ratio cutoff) to reduce naming variation. For all runs, the ontology set comprises \texttt{NCIT\_ThesaurusInferred.owl} (National Cancer Institute Thesaurus: clinical and research terminology with rich definitions/synonyms), \texttt{doid.obo} (Human Disease Ontology: etiology-based disease classification), and \texttt{hgnc.owl} (HGNC gene nomenclature with approved gene symbols/names and cross-references). Outputs include an ontology mapping log, normalization statistics, unmatched term lists, and a matched-only dataset used for analysis; if no gene ontology is detected, gene normalization is skipped to prevent cross-category errors related to acronyms. The analysis in this paper uses the matched-only dataset produced in the \texttt{for\_demo/combined/all\_diseases\_matched.json} run (see its \texttt{normalization\_stats.json}).
+
+\subsection{Edge Weighting}
+Edges carry a multi-factor weight for downstream analysis: \(w = \log(1+f) \times C \times M \times S\), where \(f\) is term frequency, \(C\) is extraction confidence (default 1.0), \(M\) is ontology match strength (1.0 exact; 0.7 synonym; 0.4–0.5 partial fuzzy), and \(S\) is source reliability (Wikipedia 0.6, MedlinePlus 0.8, reserved PubMed 1.0). We report both unweighted and weighted metrics in the analysis.
+\subsection{Data Definition}
+The cancer knowledge graph represents entities across multiple biomedical layers, including \textit{diseases, genes, treatments, symptoms, risk factors, diagnoses, and subtypes}. Each entity type corresponds to a node label, while their interactions (e.g., \textit{associated\_gene}, \textit{treated\_with}, \textit{has\_symptom}, \textit{has\_diagnosis}) form typed edges.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.47\textwidth]{images/cancer_kg_full.png}
+    \caption{Full cancer knowledge graph visualization.}
+    \label{fig:fullgraph}
+\end{figure}
+
+
+
+\section{Graph Analysis and Experiments}
+
+\subsection{Data Justification}
+The chosen entity and relationship schema follows design principles from established biomedical knowledge graphs such as \textit{Hetionet}~\cite{hetionet2017} and \textit{DisGeNET}~\cite{disgenet2020}, where disease--gene--drug triplets form the foundation for mechanistic and therapeutic inference. Integrating additional layers---such as \textit{symptoms} and \textit{risk factors}---follows recommendations from Kaur \textit{et al.}~\cite{kaur2021}, emphasizing multi-level data integration to improve explainability in oncology AI systems. This structure ensures semantic alignment with biomedical ontologies like the National Cancer Institute Thesaurus (NCIt) and compliance with FAIR data principles, supporting interoperability and reusability for future biomedical graph research.
+
+
+\subsection{Connectivity}
+The final graph in this study (from the `for\_demo` run) comprises 1,421 nodes and 2,383 edges, built from the ontology-matched subset `all\_diseases\_matched.json` to favor higher-quality entities.
+A single \textbf{giant component} connects 1,404 nodes (98.8\%), showing strong biological integration, with four additional small components. Diseases act as bridges between molecular (genes) and clinical (symptoms/treatments) layers.
+
+
+\subsection{Community Detection}
+Using Louvain (or greedy modularity when Louvain is unavailable) with an optional consensus across Louvain/greedy/label-propagation, 23 communities were identified in the `for\_demo` run. Community leaders include pancreatic cancer, radiation therapy, neuroendocrine tumors, colorectal cancer, brain tumor, carcinoid syndrome, multiple myeloma, skin cancer, ovarian cancer, lymphoma, and salivary gland cancer (see supplemental table from the analysis report). The previous Table~\ref{tab:cancer_clusters} summarizes an earlier thematic grouping.
+
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\begin{table*}[t]
+\caption{Cancer Clusters: Major Themes and Key Entities}
+\label{tab:cancer_clusters}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{1cm} Y Y}
+\toprule
+\textbf{Cluster} & \textbf{Major Theme} & \textbf{Key Entities / Hubs} \\
+\midrule
+1 & Breast / Ovarian / Endometrial cancers & \textbf{BRCA1}, \textbf{BRCA2}, estrogen, hormonal therapy \\
+2 & Lung / Esophageal / Colorectal cancers & \textbf{TP53}, \textbf{KRAS}, chemotherapy, smoking risk \\
+3 & Hematologic malignancies & \textbf{BCR-ABL}, \textbf{MYC}, leukemia, lymphoma, myeloma \\
+4 & CNS tumors (glioblastoma, medulloblastoma) & \textbf{EGFR}, \textbf{IDH1}, radiotherapy, temozolomide \\
+5 & Skin / Endocrine cancers (melanoma, thyroid) & \textbf{BRAF}, \textbf{RET}, MAPK pathway \\
+6 & Pediatric cancers (neuroblastoma, Wilms, sarcoma) & \textbf{ALK}, \textbf{RB1}, surgery, targeted therapy \\
+7--12 & Smaller clusters (biliary, prostate, head-and-neck, pancreatic, hepatic, rare) & Pathway-specific genes and localized therapies \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\subsection{Centrality Analysis}
+\begin{itemize}
+    \item \textbf{Degree}: Top nodes are lung cancer, colorectal cancer, ovarian cancer, radiation therapy, head and neck cancer, endometrial cancer, chemotherapy, and pancreatic cancer.
+    \item \textbf{Betweenness}: Radiation therapy and chemotherapy lead, followed by lung and colorectal cancer, TP53, ovarian cancer, and surgery.
+    \item \textbf{Eigenvector}: Radiation therapy and chemotherapy dominate, with colorectal cancer, lung cancer, ovarian cancer, TP53, and targeted therapy also prominent.
+    \item \textbf{Weighted metrics}: Weighted centrality (using the multi-factor edge weights) is reported alongside unweighted metrics to highlight high-confidence, high-reliability relationships.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.47\textwidth]{images/centrality_metrics_top300.png}
+    \caption{Centrality metrics highlighting major hubs.}
+    \label{fig:centrality}
+\end{figure}
+
+\subsection{Disease–Gene Subgraph}
+A subgraph focusing on diseases and their associated genes demonstrates the strongest biomedical coherence.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.47\textwidth]{images/cancer_kg_disease_gene.png}
+    \caption{Disease–gene subgraph showing genetic interconnectivity among cancers.}
+    \label{fig:diseasegene}
+\end{figure}
+
+
+\subsection{Link Prediction}
+Two implementations are used: a basic variant that ranks disease–gene/treatment/symptom pairs, and an extended variant that evaluates all plausible typed edges (e.g., disease–diagnosis, gene–treatment). Both use ensemble-normalized Jaccard, Adamic–Adar, and Preferential Attachment scores; outputs are ranked edge lists without autogenerated biomedical rationales. In the `for\_demo` run, top suggestions were dominated by treatment–treatment or gene–gene links (e.g., radiation therapy–chemotherapy, radiation therapy–surgery, MYB–NFIB), rather than disease–gene pairs.
+
+
+
+\subsection{Statistical Validation}
+Degree distribution comparisons did not strongly favor a power-law over an exponential model (AIC analysis), indicating the network lacks a clean scale-free signature. Centrality rankings were internally consistent: Spearman correlation between degree and betweenness was 0.975 (p $\approx$ 0), and between degree and eigenvector was 0.653 (p $\approx$ 9.9 $\times$ 10\textsuperscript{-174}).
+
+\subsection{Node Property Prediction}
+Neighbor-majority voting achieved 8.45\% accuracy on 142 hidden nodes in the `for\_demo` run, indicating weak recoverability of node types from local neighborhoods under the current schema and sparsity.
+
+\subsection{Traversal and Search}
+Seeded traversals were generated in the \texttt{for\_demo} run: BFS (depth $\leq 3$) and DFS previews from \textit{lung cancer} and \textit{liver cancer} showed multi-hop chains through treatments, diagnoses, and related diseases (e.g., lung cancer $\rightarrow$ surgery $\rightarrow$ chemotherapy $\rightarrow$ radiation therapy \dots; liver cancer $\rightarrow$ liver transplantation $\rightarrow$ radiation therapy $\rightarrow$ chemotherapy \dots). The shortest path between the seeds was lung cancer $\rightarrow$ radiation therapy $\rightarrow$ liver cancer.
+
+\section{Discussion}
+The analyses demonstrate a biologically coherent topology with strong integration across entities (98.8\% giant component). Radiation therapy and chemotherapy act as dominant connectors across many disease, diagnosis, and treatment contexts, while high-degree diseases include lung, colorectal, and ovarian cancers; TP53 is a key genetic bridge. Community boundaries (23 clusters) align with recognizable cancer groupings, and centrality patterns highlight phenotype–therapy–gene triads (e.g., treatment hubs paired with common diagnoses and cancer types).
+
+\subsection{Limitations}
+\begin{itemize}
+    \item Reliance on secondary textual sources may propagate errors.
+    \item LLM extraction errors and deviations can introduce noise and limit reproducibility.
+    \item Token constraints restrict final LLM analysis to a maximum of approximately 300 diseases without summarization.
+\end{itemize}
+
+\section{Related Work}
+Prior biomedical KGs such as \textbf{Hetionet} and \textbf{BioKG} integrate curated databases (DrugBank, DisGeNET).
+Our system differs by extracting data from public textual sources.
+Menche et al. (Science, 2015) explored curated interactomes; our work complements this through automated extraction and modular graph analysis.
+
+\section{Conclusion}
+The cancer knowledge graph demonstrates high connectivity, biologically coherent modularity, and realistic centrality distributions.
+\begin{itemize}
+    \item Radiation therapy and chemotherapy act as dominant hubs linking many disease, diagnosis, and treatment contexts.
+    \item High-degree diseases include lung, colorectal, and ovarian cancers; TP53 is a key genetic bridge.
+    \item Twenty-three communities capture major cancer groupings with a 98.8\% giant component, indicating strong integration of the matched-only corpus.
+\end{itemize}
+Future work includes edge weighting, integration of non-cancer diseases, and deployment of Graph Neural Networks (GraphSAGE, GAT) for predictive tasks.
+
+\section*{Acknowledgments}
+This work utilized the following LLM tools: ChatGPT, Google AI Studio.
+We would like to thank Djedje Didier GOHOUROU and Ruck THAWONMAS for their guidance and support.
+
+
+\begin{thebibliography}{00}
+\bibitem{medlineplus}
+National Library of Medicine. \textit{MedlinePlus Web Service Developer Guide}, 2025.
+\bibitem{wiki}
+Wikipedia API Documentation. \textit{MediaWiki Extracts Endpoint}, 2024.
+\bibitem{networkx}
+NetworkX Developers. \textit{NetworkX: Complex Network Analysis in Python}, 2025.
+\bibitem{menche}
+J. Menche et al., ``Uncovering Disease–Disease Relationships through the Human Interactome,'' \textit{Science}, vol. 347, no. 6224, 2015.
+\bibitem{gemini}
+Google AI Studio. \textit{Gemini 2.5 Flash Live: Entity Extraction API Reference}, 2025.
+\end{thebibliography}
+
+\end{document}
