@@ -1,0 +1,118 @@
+{
+  "entities": [
+    {
+      "id": "champion_yasuo",
+      "type": "champion",
+      "name": "Yasuo",
+      "attributes": {
+        "title": "The Unforgiven",
+        "roles": [
+          "Fighter",
+          "Skirmisher"
+        ],
+        "region": [
+          "Ionia"
+        ],
+        "faction": [],
+        "resource": "Flow",
+        "attack_range": "Melee",
+        "lore": "Yasuo is a master swordsman of Ionia who manipulates wind with his blade. He was falsely accused of killing an elder and has lived as a wandering exile ever since. He seeks redemption after learning the truth and reconnects with his brother Yone.",
+        "playstyle_tags": [
+          "mobility",
+          "wind magic",
+          "critical strikes",
+          "close-quarters combat"
+        ]
+      }
+    },
+    {
+      "id": "ability_yasuo_q_steel_tempest",
+      "type": "ability",
+      "name": "Steel Tempest",
+      "attributes": {
+        "slot": "Q",
+        "description": "Yasuo thrusts his sword forward, stacking toward a tornado."
+      }
+    },
+    {
+      "id": "ability_yasuo_w_wind_wall",
+      "type": "ability",
+      "name": "Wind Wall",
+      "attributes": {
+        "slot": "W",
+        "description": "Yasuo creates a barrier that blocks enemy projectiles."
+      }
+    },
+    {
+      "id": "ability_yasuo_e_sweeping_blade",
+      "type": "ability",
+      "name": "Sweeping Blade",
+      "attributes": {
+        "slot": "E",
+        "description": "Yasuo dashes through enemies, dealing magic damage."
+      }
+    },
+    {
+      "id": "ability_yasuo_r_last_breath",
+      "type": "ability",
+      "name": "Last Breath",
+      "attributes": {
+        "slot": "R",
+        "description": "Yasuo teleports to airborne enemies, suspending them and striking rapidly."
+      }
+    },
+    {
+      "id": "champion_yone",
+      "type": "champion",
+      "name": "Yone",
+      "attributes": {}
+    },
+    {
+      "id": "champion_riven",
+      "type": "champion",
+      "name": "Riven",
+      "attributes": {}
+    }
+  ],
+  "relationships": [
+    {
+      "source": "champion_yasuo",
+      "relation": "has_ability",
+      "target": "ability_yasuo_q_steel_tempest"
+    },
+    {
+      "source": "champion_yasuo",
+      "relation": "has_ability",
+      "target": "ability_yasuo_w_wind_wall"
+    },
+    {
+      "source": "champion_yasuo",
+      "relation": "has_ability",
+      "target": "ability_yasuo_e_sweeping_blade"
+    },
+    {
+      "source": "champion_yasuo",
+      "relation": "has_ability",
+      "target": "ability_yasuo_r_last_breath"
+    },
+    {
+      "source": "champion_yasuo",
+      "relation": "related_to",
+      "target": "champion_yone",
+      "properties": {
+        "relationship_type": "brother"
+      }
+    },
+    {
+      "source": "champion_yasuo",
+      "relation": "related_to",
+      "target": "champion_riven",
+      "properties": {
+        "relationship_type": "acquaintance"
+      }
+    }
+  ],
+  "source_reliability": {
+    "yasuo_-_example.txt": 0.5
+  }
+}

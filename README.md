@@ -55,7 +55,7 @@ OR
 2) python -m src.kg.module2_clean.clean --data-location data/cancer
 3) python -m src.kg.module3_extraction_entity_relationship.extraction_entity_relationship --data-location data/cancer --all
 4) python -m src.kg.module4_validate_json.validate_json --data-location data/cancer
-5) python -m src.kg.module5_prepare_for_analysis.combine_json_files --data-location data/cancer
+5) opic-agnostic knowledge graph
 6) python -m src.kg.module6_analysis.analyse --data-location data/cancer --validation --enhanced-viz --memory-monitor --seed "lung cancer" --seed "liver cancer"
 
 OR

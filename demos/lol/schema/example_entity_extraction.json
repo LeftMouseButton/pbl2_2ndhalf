@@ -1,0 +1,290 @@
+{
+  "entities": [
+    {
+      "id": "champion_ahri",
+      "type": "champion",
+      "name": "Ahri",
+      "attributes": {
+        "title": "The Nine-Tailed Fox",
+        "roles": ["Mage", "Assassin"],
+        "region": ["Ionia"],
+        "faction": ["Vastaya"],
+        "resource": "Mana",
+        "attack_range": 550,
+        "lore": "Ahri is a Vastayan fox spirit able to manipulate emotions and consume life essence. She seeks to understand her origins while navigating Ionian spiritual conflicts.",
+        "playstyle_tags": ["Burst", "Mobility", "Magic Damage"]
+      }
+    },
+    {
+      "id": "ability_ahri_q_orb_of_deception",
+      "type": "ability",
+      "name": "Orb of Deception",
+      "attributes": {
+        "slot": "Q",
+        "description": "Ahri throws an orb that deals magic damage outward and true damage on its return.",
+        "scaling": null
+      }
+    },
+    {
+      "id": "ability_ahri_w_foxfire",
+      "type": "ability",
+      "name": "Fox-Fire",
+      "attributes": {
+        "slot": "W",
+        "description": "Three flames circle Ahri and target enemies automatically."
+      }
+    },
+    {
+      "id": "ability_ahri_e_charm",
+      "type": "ability",
+      "name": "Charm",
+      "attributes": {
+        "slot": "E",
+        "description": "Ahri charms the first enemy hit, causing them to walk harmlessly toward her."
+      }
+    },
+    {
+      "id": "ability_ahri_r_spirit_rush",
+      "type": "ability",
+      "name": "Spirit Rush",
+      "attributes": {
+        "slot": "R",
+        "description": "Ahri dashes up to three times, firing energy bolts at nearby enemies."
+      }
+    },
+
+    {
+      "id": "champion_garen",
+      "type": "champion",
+      "name": "Garen",
+      "attributes": {
+        "title": "The Might of Demacia",
+        "roles": ["Fighter", "Tank"],
+        "region": ["Demacia"],
+        "faction": ["Dauntless Vanguard"],
+        "resource": "None",
+        "attack_range": "Melee",
+        "lore": "Garen is a proud Demacian warrior dedicated to justice and honor. As a member of the Dauntless Vanguard, he protects his homeland and fights against Noxian threats.",
+        "playstyle_tags": ["Durability", "Execution", "Melee Damage"]
+      }
+    },
+    {
+      "id": "ability_garen_q_decisive_strike",
+      "type": "ability",
+      "name": "Decisive Strike",
+      "attributes": {
+        "slot": "Q",
+        "description": "Garen gains movement speed and his next attack silences the target."
+      }
+    },
+    {
+      "id": "ability_garen_w_courage",
+      "type": "ability",
+      "name": "Courage",
+      "attributes": {
+        "slot": "W",
+        "description": "Garen gains a shield and damage reduction."
+      }
+    },
+    {
+      "id": "ability_garen_e_judgment",
+      "type": "ability",
+      "name": "Judgment",
+      "attributes": {
+        "slot": "E",
+        "description": "Garen rapidly spins with his sword, damaging nearby enemies."
+      }
+    },
+    {
+      "id": "ability_garen_r_demacian_justice",
+      "type": "ability",
+      "name": "Demacian Justice",
+      "attributes": {
+        "slot": "R",
+        "description": "Garen executes a champion, dealing damage based on missing health."
+      }
+    },
+
+    {
+      "id": "champion_jinx",
+      "type": "champion",
+      "name": "Jinx",
+      "attributes": {
+        "title": "The Loose Cannon",
+        "roles": ["Marksman"],
+        "region": ["Zaun"],
+        "resource": "Mana",
+        "attack_range": 525,
+        "lore": "Jinx is a manic criminal from Zaun who delights in causing chaos. Her rivalry with Vi fuels conflicts across Piltover and Zaun.",
+        "playstyle_tags": ["Ranged DPS", "Explosive Damage", "High Scaling"]
+      }
+    },
+    {
+      "id": "ability_jinx_q_switcheroo",
+      "type": "ability",
+      "name": "Switcheroo!",
+      "attributes": {
+        "slot": "Q",
+        "description": "Jinx switches between her minigun and rocket launcher."
+      }
+    },
+    {
+      "id": "ability_jinx_w_zap",
+      "type": "ability",
+      "name": "Zap!",
+      "attributes": {
+        "slot": "W",
+        "description": "Jinx fires a long-range shock blast."
+      }
+    },
+    {
+      "id": "ability_jinx_e_flame_chompers",
+      "type": "ability",
+      "name": "Flame Chompers!",
+      "attributes": {
+        "slot": "E",
+        "description": "Jinx throws snare grenades that root enemies."
+      }
+    },
+    {
+      "id": "ability_jinx_r_super_mega_death_rocket",
+      "type": "ability",
+      "name": "Super Mega Death Rocket!",
+      "attributes": {
+        "slot": "R",
+        "description": "Jinx fires a global rocket that deals more damage over distance."
+      }
+    },
+
+    {
+      "id": "champion_thresh",
+      "type": "champion",
+      "name": "Thresh",
+      "attributes": {
+        "title": "The Chain Warden",
+        "roles": ["Support", "Control"],
+        "region": ["Shadow Isles"],
+        "resource": "Mana",
+        "attack_range": 450,
+        "lore": "Thresh is an undead jailer twisted by the Ruination. He torments souls and manipulates victims with cunning cruelty.",
+        "playstyle_tags": ["Crowd Control", "Utility", "Support"]
+      }
+    },
+    {
+      "id": "ability_thresh_q_death_sentence",
+      "type": "ability",
+      "name": "Death Sentence",
+      "attributes": {
+        "slot": "Q",
+        "description": "Thresh throws his scythe, pulling himself to hooked enemies."
+      }
+    },
+    {
+      "id": "ability_thresh_w_dark_passage",
+      "type": "ability",
+      "name": "Dark Passage",
+      "attributes": {
+        "slot": "W",
+        "description": "Thresh throws a lantern that shields allies and lets them dash to him."
+      }
+    },
+    {
+      "id": "ability_thresh_e_flay",
+      "type": "ability",
+      "name": "Flay",
+      "attributes": {
+        "slot": "E",
+        "description": "Thresh sweeps his chain, knocking enemies in a chosen direction."
+      }
+    },
+    {
+      "id": "ability_thresh_r_the_box",
+      "type": "ability",
+      "name": "The Box",
+      "attributes": {
+        "slot": "R",
+        "description": "Thresh creates a prison of spectral walls that slow and damage enemies."
+      }
+    },
+
+    {
+      "id": "champion_yasuo",
+      "type": "champion",
+      "name": "Yasuo",
+      "attributes": {
+        "title": "The Unforgiven",
+        "roles": ["Fighter", "Skirmisher"],
+        "region": ["Ionia"],
+        "resource": "Flow",
+        "attack_range": "Melee",
+        "lore": "Yasuo is a wandering Ionian swordsman who manipulates wind. After being falsely accused of murder, he seeks redemption and reconciliation with his brother Yone.",
+        "playstyle_tags": ["Mobility", "Crit Scaling", "Combo Fighter"]
+      }
+    },
+    {
+      "id": "ability_yasuo_q_steel_tempest",
+      "type": "ability",
+      "name": "Steel Tempest",
+      "attributes": {
+        "slot": "Q",
+        "description": "Yasuo thrusts his blade, stacking toward a tornado."
+      }
+    },
+    {
+      "id": "ability_yasuo_w_wind_wall",
+      "type": "ability",
+      "name": "Wind Wall",
+      "attributes": {
+        "slot": "W",
+        "description": "Yasuo creates a barrier that blocks projectiles."
+      }
+    },
+    {
+      "id": "ability_yasuo_e_sweeping_blade",
+      "type": "ability",
+      "name": "Sweeping Blade",
+      "attributes": {
+        "slot": "E",
+        "description": "Yasuo dashes through enemies, dealing magic damage."
+      }
+    },
+    {
+      "id": "ability_yasuo_r_last_breath",
+      "type": "ability",
+      "name": "Last Breath",
+      "attributes": {
+        "slot": "R",
+        "description": "Yasuo blinks to airborne enemies and deals rapid strikes."
+      }
+    }
+  ],
+
+  "relationships": [
+    { "source": "champion_ahri", "relation": "has_ability", "target": "ability_ahri_q_orb_of_deception" },
+    { "source": "champion_ahri", "relation": "has_ability", "target": "ability_ahri_w_foxfire" },
+    { "source": "champion_ahri", "relation": "has_ability", "target": "ability_ahri_e_charm" },
+    { "source": "champion_ahri", "relation": "has_ability", "target": "ability_ahri_r_spirit_rush" },
+    { "source": "champion_ahri", "relation": "related_to", "target": "champion_yasuo", "properties": { "relationship_type": "lore_connection" } },
+
+    { "source": "champion_garen", "relation": "has_ability", "target": "ability_garen_q_decisive_strike" },
+    { "source": "champion_garen", "relation": "has_ability", "target": "ability_garen_w_courage" },
+    { "source": "champion_garen", "relation": "has_ability", "target": "ability_garen_e_judgment" },
+    { "source": "champion_garen", "relation": "has_ability", "target": "ability_garen_r_demacian_justice" },
+
+    { "source": "champion_jinx", "relation": "has_ability", "target": "ability_jinx_q_switcheroo" },
+    { "source": "champion_jinx", "relation": "has_ability", "target": "ability_jinx_w_zap" },
+    { "source": "champion_jinx", "relation": "has_ability", "target": "ability_jinx_e_flame_chompers" },
+    { "source": "champion_jinx", "relation": "has_ability", "target": "ability_jinx_r_super_mega_death_rocket" },
+    { "source": "champion_jinx", "relation": "related_to", "target": "champion_yasuo", "properties": { "relationship_type": "region_conflict" } },
+
+    { "source": "champion_thresh", "relation": "has_ability", "target": "ability_thresh_q_death_sentence" },
+    { "source": "champion_thresh", "relation": "has_ability", "target": "ability_thresh_w_dark_passage" },
+    { "source": "champion_thresh", "relation": "has_ability", "target": "ability_thresh_e_flay" },
+    { "source": "champion_thresh", "relation": "has_ability", "target": "ability_thresh_r_the_box" },
+
+    { "source": "champion_yasuo", "relation": "has_ability", "target": "ability_yasuo_q_steel_tempest" },
+    { "source": "champion_yasuo", "relation": "has_ability", "target": "ability_yasuo_w_wind_wall" },
+    { "source": "champion_yasuo", "relation": "has_ability", "target": "ability_yasuo_e_sweeping_blade" },
+    { "source": "champion_yasuo", "relation": "has_ability", "target": "ability_yasuo_r_last_breath" }
+  ]
+}

@@ -1,0 +1,721 @@
+{
+  "records": [
+    {
+      "entities": [
+        {
+          "id": "pokemon_dragonite",
+          "type": "pokemon",
+          "name": "Dragonite",
+          "attributes": {
+            "pokedex_number": 149,
+            "types": [
+              "Dragon",
+              "Flying"
+            ],
+            "abilities": [
+              "Inner Focus",
+              "Multiscale"
+            ],
+            "description": "Dragonite is capable of flying around the world in 16 hours. It is highly intelligent and known to rescue people from drowning and shipwrecks."
+          }
+        },
+        {
+          "id": "pokemon_dragonair",
+          "type": "pokemon",
+          "name": "Dragonair",
+          "attributes": {
+            "pokedex_number": 148,
+            "evolution_stage": 2
+          }
+        },
+        {
+          "id": "pokemon_dratini",
+          "type": "pokemon",
+          "name": "Dratini",
+          "attributes": {
+            "pokedex_number": 147,
+            "evolution_stage": 1
+          }
+        },
+        {
+          "id": "type_dragon",
+          "type": "type",
+          "name": "Dragon"
+        },
+        {
+          "id": "type_flying",
+          "type": "type",
+          "name": "Flying"
+        },
+        {
+          "id": "ability_inner_focus",
+          "type": "ability",
+          "name": "Inner Focus",
+          "attributes": {
+            "description": "Prevents the Pokémon from flinching."
+          }
+        },
+        {
+          "id": "ability_multiscale",
+          "type": "ability",
+          "name": "Multiscale",
+          "attributes": {
+            "description": "Reduces damage taken when the Pokémon is at full HP."
+          }
+        }
+      ],
+      "relationships": [
+        {
+          "source": "pokemon_dragonair",
+          "relation": "evolves_to",
+          "target": "pokemon_dragonite",
+          "properties": {
+            "condition": "Level 55"
+          }
+        },
+        {
+          "source": "pokemon_dratini",
+          "relation": "evolves_to",
+          "target": "pokemon_dragonair",
+          "properties": {
+            "condition": "Level 30"
+          }
+        },
+        {
+          "source": "pokemon_dragonite",
+          "relation": "has_type",
+          "target": "type_dragon"
+        },
+        {
+          "source": "pokemon_dragonite",
+          "relation": "has_type",
+          "target": "type_flying"
+        },
+        {
+          "source": "pokemon_dragonite",
+          "relation": "has_ability",
+          "target": "ability_inner_focus"
+        },
+        {
+          "source": "pokemon_dragonite",
+          "relation": "has_ability",
+          "target": "ability_multiscale"
+        }
+      ],
+      "source_reliability": {
+        "dragonite_-_example.txt": 0.5
+      },
+      "_source_file": "dragonite.json"
+    },
+    {
+      "entities": [
+        {
+          "id": "pokemon_eevee",
+          "type": "pokemon",
+          "name": "Eevee",
+          "attributes": {
+            "pokedex_number": 133,
+            "types": [
+              "Normal"
+            ],
+            "abilities": [
+              "Run Away",
+              "Adaptability"
+            ],
+            "description": "Eevee has an irregular genetic code that allows it to evolve into many different forms. Its unstable structure enables it to adapt to various environments.",
+            "evolution_stage": 1
+          }
+        },
+        {
+          "id": "type_normal",
+          "type": "type",
+          "name": "Normal"
+        },
+        {
+          "id": "ability_run_away",
+          "type": "ability",
+          "name": "Run Away",
+          "attributes": {
+            "description": "Allows the Pokémon to flee from battle with wild Pokémon."
+          }
+        },
+        {
+          "id": "ability_adaptability",
+          "type": "ability",
+          "name": "Adaptability",
+          "attributes": {
+            "description": "Powers up moves of the same type as the Pokémon."
+          }
+        },
+        {
+          "id": "ability_anticipation",
+          "type": "ability",
+          "name": "Anticipation",
+          "attributes": {
+            "description": "The Pokémon is alert to the opponent's moves."
+          }
+        },
+        {
+          "id": "item_water_stone",
+          "type": "item",
+          "name": "Water Stone"
+        },
+        {
+          "id": "item_thunder_stone",
+          "type": "item",
+          "name": "Thunder Stone"
+        },
+        {
+          "id": "item_fire_stone",
+          "type": "item",
+          "name": "Fire Stone"
+        },
+        {
+          "id": "pokemon_vaporeon",
+          "type": "pokemon",
+          "name": "Vaporeon",
+          "attributes": {
+            "evolution_stage": 2
+          }
+        },
+        {
+          "id": "pokemon_jolteon",
+          "type": "pokemon",
+          "name": "Jolteon",
+          "attributes": {
+            "evolution_stage": 2
+          }
+        },
+        {
+          "id": "pokemon_flareon",
+          "type": "pokemon",
+          "name": "Flareon",
+          "attributes": {
+            "evolution_stage": 2
+          }
+        },
+        {
+          "id": "pokemon_espeon",
+          "type": "pokemon",
+          "name": "Espeon",
+          "attributes": {
+            "evolution_stage": 2
+          }
+        },
+        {
+          "id": "pokemon_umbreon",
+          "type": "pokemon",
+          "name": "Umbreon",
+          "attributes": {
+            "evolution_stage": 2
+          }
+        },
+        {
+          "id": "pokemon_leafeon",
+          "type": "pokemon",
+          "name": "Leafeon",
+          "attributes": {
+            "evolution_stage": 2
+          }
+        },
+        {
+          "id": "pokemon_glaceon",
+          "type": "pokemon",
+          "name": "Glaceon",
+          "attributes": {
+            "evolution_stage": 2
+          }
+        },
+        {
+          "id": "pokemon_sylveon",
+          "type": "pokemon",
+          "name": "Sylveon",
+          "attributes": {
+            "evolution_stage": 2
+          }
+        },
+        {
+          "id": "type_fairy",
+          "type": "type",
+          "name": "Fairy"
+        },
+        {
+          "id": "item_moss_rock",
+          "type": "item",
+          "name": "Moss Rock"
+        },
+        {
+          "id": "item_ice_rock",
+          "type": "item",
+          "name": "Ice Rock"
+        }
+      ],
+      "relationships": [
+        {
+          "source": "pokemon_eevee",
+          "relation": "has_type",
+          "target": "type_normal"
+        },
+        {
+          "source": "pokemon_eevee",
+          "relation": "has_ability",
+          "target": "ability_run_away"
+        },
+        {
+          "source": "pokemon_eevee",
+          "relation": "has_ability",
+          "target": "ability_adaptability"
+        },
+        {
+          "source": "pokemon_eevee",
+          "relation": "has_ability",
+          "target": "ability_anticipation",
+          "properties": {
+            "method": "hidden"
+          }
+        },
+        {
+          "source": "pokemon_eevee",
+          "relation": "evolves_to",
+          "target": "pokemon_vaporeon",
+          "properties": {
+            "condition": "Exposed to a Water Stone"
+          }
+        },
+        {
+          "source": "pokemon_eevee",
+          "relation": "evolves_to",
+          "target": "pokemon_jolteon",
+          "properties": {
+            "condition": "Exposed to a Thunder Stone"
+          }
+        },
+        {
+          "source": "pokemon_eevee",
+          "relation": "evolves_to",
+          "target": "pokemon_flareon",
+          "properties": {
+            "condition": "Exposed to a Fire Stone"
+          }
+        },
+        {
+          "source": "pokemon_eevee",
+          "relation": "evolves_to",
+          "target": "pokemon_espeon",
+          "properties": {
+            "condition": "Leveled up during the day with high friendship"
+          }
+        },
+        {
+          "source": "pokemon_eevee",
+          "relation": "evolves_to",
+          "target": "pokemon_umbreon",
+          "properties": {
+            "condition": "Leveled up at night with high friendship"
+          }
+        },
+        {
+          "source": "pokemon_eevee",
+          "relation": "evolves_to",
+          "target": "pokemon_leafeon",
+          "properties": {
+            "condition": "Leveled up near a Moss Rock"
+          }
+        },
+        {
+          "source": "pokemon_eevee",
+          "relation": "evolves_to",
+          "target": "pokemon_glaceon",
+          "properties": {
+            "condition": "Leveled up near an Ice Rock"
+          }
+        },
+        {
+          "source": "pokemon_eevee",
+          "relation": "evolves_to",
+          "target": "pokemon_sylveon",
+          "properties": {
+            "condition": "Leveled up knowing a Fairy-type move with high affection"
+          }
+        },
+        {
+          "source": "pokemon_vaporeon",
+          "relation": "has_type",
+          "target": "type_normal"
+        },
+        {
+          "source": "pokemon_jolteon",
+          "relation": "has_type",
+          "target": "type_normal"
+        },
+        {
+          "source": "pokemon_flareon",
+          "relation": "has_type",
+          "target": "type_normal"
+        },
+        {
+          "source": "pokemon_espeon",
+          "relation": "has_type",
+          "target": "type_normal"
+        },
+        {
+          "source": "pokemon_umbreon",
+          "relation": "has_type",
+          "target": "type_normal"
+        },
+        {
+          "source": "pokemon_leafeon",
+          "relation": "has_type",
+          "target": "type_normal"
+        },
+        {
+          "source": "pokemon_glaceon",
+          "relation": "has_type",
+          "target": "type_normal"
+        },
+        {
+          "source": "pokemon_sylveon",
+          "relation": "has_type",
+          "target": "type_normal"
+        },
+        {
+          "source": "pokemon_sylveon",
+          "relation": "learns_move",
+          "target": "move_fairy_type_move",
+          "properties": {
+            "method": "learned",
+            "level": null
+          }
+        }
+      ],
+      "source_reliability": {
+        "eevee_-_example.txt": 0.5
+      },
+      "_source_file": "eevee.json"
+    },
+    {
+      "entities": [
+        {
+          "id": "pokemon_gengar",
+          "type": "pokemon",
+          "name": "Gengar",
+          "attributes": {
+            "pokedex_number": 94,
+            "types": [
+              "Ghost",
+              "Poison"
+            ],
+            "abilities": [
+              "Cursed Body"
+            ],
+            "description": "Gengar hides in shadows and absorbs heat from nearby surroundings, causing the air to become cold. It is known to mimic the shadows of its prey."
+          }
+        },
+        {
+          "id": "pokemon_haunter",
+          "type": "pokemon",
+          "name": "Haunter",
+          "attributes": {
+            "pokedex_number": 93
+          }
+        },
+        {
+          "id": "pokemon_gastly",
+          "type": "pokemon",
+          "name": "Gastly",
+          "attributes": {
+            "pokedex_number": 92
+          }
+        },
+        {
+          "id": "ability_cursed_body",
+          "type": "ability",
+          "name": "Cursed Body",
+          "attributes": {
+            "description": "Chance to disable moves used against the Pokémon."
+          }
+        },
+        {
+          "id": "type_ghost",
+          "type": "type",
+          "name": "Ghost"
+        },
+        {
+          "id": "type_poison",
+          "type": "type",
+          "name": "Poison"
+        }
+      ],
+      "relationships": [
+        {
+          "source": "pokemon_haunter",
+          "relation": "evolves_to",
+          "target": "pokemon_gengar",
+          "properties": {
+            "condition": "When traded"
+          }
+        },
+        {
+          "source": "pokemon_gastly",
+          "relation": "evolves_to",
+          "target": "pokemon_haunter",
+          "properties": {
+            "condition": "Level 25"
+          }
+        },
+        {
+          "source": "pokemon_gengar",
+          "relation": "has_type",
+          "target": "type_ghost"
+        },
+        {
+          "source": "pokemon_gengar",
+          "relation": "has_type",
+          "target": "type_poison"
+        },
+        {
+          "source": "pokemon_gengar",
+          "relation": "has_ability",
+          "target": "ability_cursed_body"
+        }
+      ],
+      "source_reliability": {
+        "gengar_-_example.txt": 0.5
+      },
+      "_source_file": "gengar.json"
+    },
+    {
+      "entities": [
+        {
+          "id": "pokemon_lucario",
+          "type": "pokemon",
+          "name": "Lucario",
+          "attributes": {
+            "pokedex_number": 448,
+            "types": [
+              "Fighting",
+              "Steel"
+            ],
+            "abilities": [
+              "Steadfast",
+              "Inner Focus",
+              "Justified"
+            ],
+            "description": "Lucario can sense and manipulate aura, understanding the emotions of living things. It is calm, brave, and highly loyal."
+          }
+        },
+        {
+          "id": "pokemon_riolu",
+          "type": "pokemon",
+          "name": "Riolu",
+          "attributes": {}
+        },
+        {
+          "id": "type_fighting",
+          "type": "type",
+          "name": "Fighting"
+        },
+        {
+          "id": "type_steel",
+          "type": "type",
+          "name": "Steel"
+        },
+        {
+          "id": "ability_steadfast",
+          "type": "ability",
+          "name": "Steadfast",
+          "attributes": {}
+        },
+        {
+          "id": "ability_inner_focus",
+          "type": "ability",
+          "name": "Inner Focus",
+          "attributes": {}
+        },
+        {
+          "id": "ability_justified",
+          "type": "ability",
+          "name": "Justified",
+          "attributes": {}
+        }
+      ],
+      "relationships": [
+        {
+          "source": "pokemon_riolu",
+          "relation": "evolves_to",
+          "target": "pokemon_lucario",
+          "properties": {
+            "condition": "High friendship during the day"
+          }
+        },
+        {
+          "source": "pokemon_lucario",
+          "relation": "has_type",
+          "target": "type_fighting"
+        },
+        {
+          "source": "pokemon_lucario",
+          "relation": "has_type",
+          "target": "type_steel"
+        },
+        {
+          "source": "pokemon_lucario",
+          "relation": "has_ability",
+          "target": "ability_steadfast"
+        },
+        {
+          "source": "pokemon_lucario",
+          "relation": "has_ability",
+          "target": "ability_inner_focus"
+        },
+        {
+          "source": "pokemon_lucario",
+          "relation": "has_ability",
+          "target": "ability_justified"
+        }
+      ],
+      "source_reliability": {
+        "lucario_-_example.txt": 0.5
+      },
+      "_source_file": "lucario.json"
+    },
+    {
+      "entities": [
+        {
+          "id": "pokemon_pikachu",
+          "type": "pokemon",
+          "name": "Pikachu",
+          "attributes": {
+            "pokedex_number": 25,
+            "types": [
+              "Electric"
+            ],
+            "abilities": [
+              "Static",
+              "Lightning Rod"
+            ],
+            "description": "Pikachu stores electricity in its cheeks. It releases electric discharges when threatened or excited. Pikachu live in small groups and communicate by tail signals."
+          }
+        },
+        {
+          "id": "pokemon_pichu",
+          "type": "pokemon",
+          "name": "Pichu",
+          "attributes": {}
+        },
+        {
+          "id": "pokemon_raichu",
+          "type": "pokemon",
+          "name": "Raichu",
+          "attributes": {}
+        },
+        {
+          "id": "pokemon_alolan_raichu",
+          "type": "pokemon",
+          "name": "Alolan Raichu",
+          "attributes": {}
+        },
+        {
+          "id": "move_thunder_shock",
+          "type": "move",
+          "name": "Thunder Shock",
+          "attributes": {
+            "move_type": "Electric"
+          }
+        },
+        {
+          "id": "move_thunderbolt",
+          "type": "move",
+          "name": "Thunderbolt",
+          "attributes": {
+            "move_type": "Electric"
+          }
+        },
+        {
+          "id": "item_thunder_stone",
+          "type": "item",
+          "name": "Thunder Stone",
+          "attributes": {}
+        },
+        {
+          "id": "region_alola",
+          "type": "region",
+          "name": "Alola",
+          "attributes": {}
+        },
+        {
+          "id": "type_electric",
+          "type": "type",
+          "name": "Electric",
+          "attributes": {}
+        }
+      ],
+      "relationships": [
+        {
+          "source": "pokemon_pichu",
+          "relation": "evolves_to",
+          "target": "pokemon_pikachu",
+          "properties": {
+            "condition": "High friendship"
+          }
+        },
+        {
+          "source": "pokemon_pikachu",
+          "relation": "evolves_to",
+          "target": "pokemon_raichu",
+          "properties": {
+            "condition": "Exposure to Thunder Stone"
+          }
+        },
+        {
+          "source": "pokemon_pikachu",
+          "relation": "evolves_to",
+          "target": "pokemon_alolan_raichu",
+          "properties": {
+            "condition": "Exposure to Thunder Stone in Alola region"
+          }
+        },
+        {
+          "source": "pokemon_pikachu",
+          "relation": "has_type",
+          "target": "type_electric"
+        },
+        {
+          "source": "pokemon_pikachu",
+          "relation": "has_ability",
+          "target": "Static"
+        },
+        {
+          "source": "pokemon_pikachu",
+          "relation": "has_ability",
+          "target": "Lightning Rod"
+        },
+        {
+          "source": "pokemon_pikachu",
+          "relation": "learns_move",
+          "target": "move_thunder_shock",
+          "properties": {
+            "method": "TM"
+          }
+        },
+        {
+          "source": "pokemon_pikachu",
+          "relation": "learns_move",
+          "target": "move_thunderbolt",
+          "properties": {
+            "method": "TM"
+          }
+        },
+        {
+          "source": "pokemon_alolan_raichu",
+          "relation": "found_in_region",
+          "target": "region_alola"
+        }
+      ],
+      "source_reliability": {
+        "pikachu_-_example.txt": 0.5
+      },
+      "_source_file": "pikachu.json"
+    }
+  ]
+}

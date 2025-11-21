@@ -189,6 +189,8 @@ def improved_link_prediction(G: nx.Graph, limit: int = 2000) -> List[Dict[str, A
         tu = G.nodes[u].get("type")
         tv = G.nodes[v].get("type")
 
+        if tu is None or tv is None:
+            continue
         key = tuple(sorted((tu, tv)))
         if key in plausible_edges:
             candidates_by_type.setdefault(key, []).append((u, v))

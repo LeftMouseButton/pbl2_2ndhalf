@@ -1,0 +1,24 @@
+# Yasuo
+Title: The Unforgiven
+Roles: Fighter, Skirmisher
+Region: Ionia
+Faction: None
+Resource: Flow (unique resource)
+Attack Range: Melee
+
+## Lore
+Yasuo is a master swordsman of Ionia who manipulates wind with his blade. 
+He was falsely accused of killing an elder and has lived as a wandering exile ever since.
+He seeks redemption after learning the truth and reconnects with his brother Yone.
+
+## Abilities
+Steel Tempest (Q): Yasuo thrusts his sword forward, stacking toward a tornado.
+Wind Wall (W): Yasuo creates a barrier that blocks enemy projectiles.
+Sweeping Blade (E): Yasuo dashes through enemies, dealing magic damage.
+Last Breath (R): Yasuo teleports to airborne enemies, suspending them and striking rapidly.
+
+## Relationships
+Yasuo’s story is strongly tied to Yone, Riven, and other Ionian champions.
+
+## Moves (summary)
+Yasuo combines mobility, wind magic, and critical strikes for close-quarters combat.

@@ -1,0 +1,42 @@
+node,label,type,community
+champion_ahri,Ahri,champion,0
+ability_ahri_orb_of_deception,Orb of Deception,ability,0
+ability_ahri_fox_fire,Fox-Fire,ability,0
+ability_ahri_charm,Charm,ability,0
+ability_ahri_spirit_rush,Spirit Rush,ability,0
+champion_syndra,Syndra,champion,0
+champion_yone,Yone,champion,0
+champion_yasuo,Yasuo,champion,1
+champion_garen,Garen,champion,2
+champion_lux,Lux,champion,2
+champion_katarina,Katarina,champion,3
+ability_garen_q_decisive_strike,Decisive Strike,ability,2
+ability_garen_w_courage,Courage,ability,2
+ability_garen_e_judgment,Judgment,ability,2
+ability_garen_r_demacian_justice,Demacian Justice,ability,2
+region_demacia,Demacia,region,2
+faction_dauntless_vanguard,Dauntless Vanguard,faction,2
+region_noxus,Noxus,region,3
+faction_noxian_empire,Noxian Empire,faction,3
+champion_jinx,Jinx,champion,4
+ability_jinx_q_switcheroo,Switcheroo!,ability,4
+ability_jinx_w_zap,Zap!,ability,4
+ability_jinx_e_flame_chompers,Flame Chompers!,ability,4
+ability_jinx_r_super_mega_death_rocket,Super Mega Death Rocket!,ability,4
+champion_vi,Vi,champion,4
+champion_caitlyn,Caitlyn,champion,4
+champion_ekko,Ekko,champion,4
+region_zaun,Zaun,region,4
+region_piltover,Piltover,region,4
+champion_thresh,Thresh,champion,5
+ability_thresh_q_death_sentence,Death Sentence,ability,5
+ability_thresh_w_dark_passage,Dark Passage,ability,5
+ability_thresh_e_flay,Flay,ability,5
+ability_thresh_r_the_box,The Box,ability,5
+champion_lucian,Lucian,champion,5
+champion_senna,Senna,champion,5
+ability_yasuo_q_steel_tempest,Steel Tempest,ability,1
+ability_yasuo_w_wind_wall,Wind Wall,ability,1
+ability_yasuo_e_sweeping_blade,Sweeping Blade,ability,1
+ability_yasuo_r_last_breath,Last Breath,ability,1
+champion_riven,Riven,champion,1

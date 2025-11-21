@@ -23,6 +23,7 @@ import argparse
 import gc
 import sys
 import time
+import warnings
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -282,7 +283,9 @@ def main() -> None:
     validation_results: Dict[str, Any] = {}
     if args.validation:
         print("📊 Performing statistical validation …")
-        validation_results = statistical_validation(G, node2comm, cent)
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", category=RuntimeWarning)
+            validation_results = statistical_validation(G, node2comm, cent)
         print(f"   Validation complete ({len(validation_results)} sections).")
 
     # Traversal demos
@@ -290,10 +293,23 @@ def main() -> None:
     bfs_txt, dfs_txt = traversal_demo(G, args.seed)
     sp_txts = shortest_path_demos(G, args.seed)
 
-    # GraphML export
+    # GraphML export (sanitized to avoid unsupported types)
     graphml_path = outdir / args.graphml
-    nx.write_graphml(G, graphml_path)
-    print(f"💾 Saved GraphML → {graphml_path}")
+    try:
+        # remove list/dict attributes not supported by GraphML
+        G_graphml = G.copy()
+        for n, attrs in list(G_graphml.nodes(data=True)):
+            bad_keys = [k for k, v in attrs.items() if isinstance(v, (list, dict)) or v is None]
+            for k in bad_keys:
+                del G_graphml.nodes[n][k]
+        for u, v, attrs in list(G_graphml.edges(data=True)):
+            bad_keys = [k for k, v in attrs.items() if isinstance(v, (list, dict)) or v is None]
+            for k in bad_keys:
+                del G_graphml.edges[u, v][k]
+        nx.write_graphml(G_graphml, graphml_path)
+        print(f"💾 Saved GraphML → {graphml_path}")
+    except TypeError as e:
+        print(f"[WARN] GraphML export skipped due to unsupported types: {e}")
 
     # PyVis visualization
     html_path = outdir / args.viz_html

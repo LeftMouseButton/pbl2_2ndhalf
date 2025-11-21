@@ -1,0 +1,24 @@
+# Garen
+Title: The Might of Demacia
+Roles: Fighter, Tank
+Region: Demacia
+Faction: Dauntless Vanguard
+Resource: None (uses no mana)
+Attack Range: Melee
+
+## Lore
+Garen is a proud soldier of Demacia, dedicated to maintaining justice and order. 
+He represents Demacia’s ideals of honor and courage. As a member of the Dauntless Vanguard 
+and brother to Lux, he fights to protect his homeland from internal and external threats.
+
+## Abilities
+Decisive Strike (Q): Garen gains movement speed and his next attack silences the target.
+Courage (W): Garen gains a shield and damage reduction.
+Judgment (E): Garen rapidly spins with his sword, striking nearby enemies.
+Demacian Justice (R): Garen executes a champion, dealing damage based on their missing health.
+
+## Relationships
+Garen is closely tied to Lux and the Demacian royal family. He often opposes Noxian champions such as Katarina.
+
+## Moves (summary)
+Garen uses simple but powerful melee abilities focused on durability and execution.

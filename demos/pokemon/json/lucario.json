@@ -1,0 +1,94 @@
+{
+  "entities": [
+    {
+      "id": "pokemon_lucario",
+      "type": "pokemon",
+      "name": "Lucario",
+      "attributes": {
+        "pokedex_number": 448,
+        "types": [
+          "Fighting",
+          "Steel"
+        ],
+        "abilities": [
+          "Steadfast",
+          "Inner Focus",
+          "Justified"
+        ],
+        "description": "Lucario can sense and manipulate aura, understanding the emotions of living things. It is calm, brave, and highly loyal."
+      }
+    },
+    {
+      "id": "pokemon_riolu",
+      "type": "pokemon",
+      "name": "Riolu",
+      "attributes": {}
+    },
+    {
+      "id": "type_fighting",
+      "type": "type",
+      "name": "Fighting"
+    },
+    {
+      "id": "type_steel",
+      "type": "type",
+      "name": "Steel"
+    },
+    {
+      "id": "ability_steadfast",
+      "type": "ability",
+      "name": "Steadfast",
+      "attributes": {}
+    },
+    {
+      "id": "ability_inner_focus",
+      "type": "ability",
+      "name": "Inner Focus",
+      "attributes": {}
+    },
+    {
+      "id": "ability_justified",
+      "type": "ability",
+      "name": "Justified",
+      "attributes": {}
+    }
+  ],
+  "relationships": [
+    {
+      "source": "pokemon_riolu",
+      "relation": "evolves_to",
+      "target": "pokemon_lucario",
+      "properties": {
+        "condition": "High friendship during the day"
+      }
+    },
+    {
+      "source": "pokemon_lucario",
+      "relation": "has_type",
+      "target": "type_fighting"
+    },
+    {
+      "source": "pokemon_lucario",
+      "relation": "has_type",
+      "target": "type_steel"
+    },
+    {
+      "source": "pokemon_lucario",
+      "relation": "has_ability",
+      "target": "ability_steadfast"
+    },
+    {
+      "source": "pokemon_lucario",
+      "relation": "has_ability",
+      "target": "ability_inner_focus"
+    },
+    {
+      "source": "pokemon_lucario",
+      "relation": "has_ability",
+      "target": "ability_justified"
+    }
+  ],
+  "source_reliability": {
+    "lucario_-_example.txt": 0.5
+  }
+}

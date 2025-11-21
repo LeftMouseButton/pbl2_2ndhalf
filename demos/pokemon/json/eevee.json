@@ -1,0 +1,285 @@
+{
+  "entities": [
+    {
+      "id": "pokemon_eevee",
+      "type": "pokemon",
+      "name": "Eevee",
+      "attributes": {
+        "pokedex_number": 133,
+        "types": [
+          "Normal"
+        ],
+        "abilities": [
+          "Run Away",
+          "Adaptability"
+        ],
+        "description": "Eevee has an irregular genetic code that allows it to evolve into many different forms. Its unstable structure enables it to adapt to various environments.",
+        "evolution_stage": 1
+      }
+    },
+    {
+      "id": "type_normal",
+      "type": "type",
+      "name": "Normal"
+    },
+    {
+      "id": "ability_run_away",
+      "type": "ability",
+      "name": "Run Away",
+      "attributes": {
+        "description": "Allows the Pokémon to flee from battle with wild Pokémon."
+      }
+    },
+    {
+      "id": "ability_adaptability",
+      "type": "ability",
+      "name": "Adaptability",
+      "attributes": {
+        "description": "Powers up moves of the same type as the Pokémon."
+      }
+    },
+    {
+      "id": "ability_anticipation",
+      "type": "ability",
+      "name": "Anticipation",
+      "attributes": {
+        "description": "The Pokémon is alert to the opponent's moves."
+      }
+    },
+    {
+      "id": "item_water_stone",
+      "type": "item",
+      "name": "Water Stone"
+    },
+    {
+      "id": "item_thunder_stone",
+      "type": "item",
+      "name": "Thunder Stone"
+    },
+    {
+      "id": "item_fire_stone",
+      "type": "item",
+      "name": "Fire Stone"
+    },
+    {
+      "id": "pokemon_vaporeon",
+      "type": "pokemon",
+      "name": "Vaporeon",
+      "attributes": {
+        "evolution_stage": 2
+      }
+    },
+    {
+      "id": "pokemon_jolteon",
+      "type": "pokemon",
+      "name": "Jolteon",
+      "attributes": {
+        "evolution_stage": 2
+      }
+    },
+    {
+      "id": "pokemon_flareon",
+      "type": "pokemon",
+      "name": "Flareon",
+      "attributes": {
+        "evolution_stage": 2
+      }
+    },
+    {
+      "id": "pokemon_espeon",
+      "type": "pokemon",
+      "name": "Espeon",
+      "attributes": {
+        "evolution_stage": 2
+      }
+    },
+    {
+      "id": "pokemon_umbreon",
+      "type": "pokemon",
+      "name": "Umbreon",
+      "attributes": {
+        "evolution_stage": 2
+      }
+    },
+    {
+      "id": "pokemon_leafeon",
+      "type": "pokemon",
+      "name": "Leafeon",
+      "attributes": {
+        "evolution_stage": 2
+      }
+    },
+    {
+      "id": "pokemon_glaceon",
+      "type": "pokemon",
+      "name": "Glaceon",
+      "attributes": {
+        "evolution_stage": 2
+      }
+    },
+    {
+      "id": "pokemon_sylveon",
+      "type": "pokemon",
+      "name": "Sylveon",
+      "attributes": {
+        "evolution_stage": 2
+      }
+    },
+    {
+      "id": "type_fairy",
+      "type": "type",
+      "name": "Fairy"
+    },
+    {
+      "id": "item_moss_rock",
+      "type": "item",
+      "name": "Moss Rock"
+    },
+    {
+      "id": "item_ice_rock",
+      "type": "item",
+      "name": "Ice Rock"
+    }
+  ],
+  "relationships": [
+    {
+      "source": "pokemon_eevee",
+      "relation": "has_type",
+      "target": "type_normal"
+    },
+    {
+      "source": "pokemon_eevee",
+      "relation": "has_ability",
+      "target": "ability_run_away"
+    },
+    {
+      "source": "pokemon_eevee",
+      "relation": "has_ability",
+      "target": "ability_adaptability"
+    },
+    {
+      "source": "pokemon_eevee",
+      "relation": "has_ability",
+      "target": "ability_anticipation",
+      "properties": {
+        "method": "hidden"
+      }
+    },
+    {
+      "source": "pokemon_eevee",
+      "relation": "evolves_to",
+      "target": "pokemon_vaporeon",
+      "properties": {
+        "condition": "Exposed to a Water Stone"
+      }
+    },
+    {
+      "source": "pokemon_eevee",
+      "relation": "evolves_to",
+      "target": "pokemon_jolteon",
+      "properties": {
+        "condition": "Exposed to a Thunder Stone"
+      }
+    },
+    {
+      "source": "pokemon_eevee",
+      "relation": "evolves_to",
+      "target": "pokemon_flareon",
+      "properties": {
+        "condition": "Exposed to a Fire Stone"
+      }
+    },
+    {
+      "source": "pokemon_eevee",
+      "relation": "evolves_to",
+      "target": "pokemon_espeon",
+      "properties": {
+        "condition": "Leveled up during the day with high friendship"
+      }
+    },
+    {
+      "source": "pokemon_eevee",
+      "relation": "evolves_to",
+      "target": "pokemon_umbreon",
+      "properties": {
+        "condition": "Leveled up at night with high friendship"
+      }
+    },
+    {
+      "source": "pokemon_eevee",
+      "relation": "evolves_to",
+      "target": "pokemon_leafeon",
+      "properties": {
+        "condition": "Leveled up near a Moss Rock"
+      }
+    },
+    {
+      "source": "pokemon_eevee",
+      "relation": "evolves_to",
+      "target": "pokemon_glaceon",
+      "properties": {
+        "condition": "Leveled up near an Ice Rock"
+      }
+    },
+    {
+      "source": "pokemon_eevee",
+      "relation": "evolves_to",
+      "target": "pokemon_sylveon",
+      "properties": {
+        "condition": "Leveled up knowing a Fairy-type move with high affection"
+      }
+    },
+    {
+      "source": "pokemon_vaporeon",
+      "relation": "has_type",
+      "target": "type_normal"
+    },
+    {
+      "source": "pokemon_jolteon",
+      "relation": "has_type",
+      "target": "type_normal"
+    },
+    {
+      "source": "pokemon_flareon",
+      "relation": "has_type",
+      "target": "type_normal"
+    },
+    {
+      "source": "pokemon_espeon",
+      "relation": "has_type",
+      "target": "type_normal"
+    },
+    {
+      "source": "pokemon_umbreon",
+      "relation": "has_type",
+      "target": "type_normal"
+    },
+    {
+      "source": "pokemon_leafeon",
+      "relation": "has_type",
+      "target": "type_normal"
+    },
+    {
+      "source": "pokemon_glaceon",
+      "relation": "has_type",
+      "target": "type_normal"
+    },
+    {
+      "source": "pokemon_sylveon",
+      "relation": "has_type",
+      "target": "type_normal"
+    },
+    {
+      "source": "pokemon_sylveon",
+      "relation": "learns_move",
+      "target": "move_fairy_type_move",
+      "properties": {
+        "method": "learned",
+        "level": null
+      }
+    }
+  ],
+  "source_reliability": {
+    "eevee_-_example.txt": 0.5
+  }
+}

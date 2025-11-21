@@ -1,0 +1,24 @@
+# Jinx
+Title: The Loose Cannon
+Roles: Marksman
+Region: Zaun
+Faction: None (Independent)
+Resource: Mana
+Attack Range: 525
+
+## Lore
+Jinx is a chaotic and impulsive criminal from Zaun. She creates mayhem for amusement and delights 
+in destruction. Her rivalry with Vi fuels many conflicts in Piltover and Zaun. She is known for 
+her unpredictability, manic personality, and mastery of explosives.
+
+## Abilities
+Switcheroo! (Q): Jinx switches between her minigun and rocket launcher.
+Zap! (W): Jinx fires a long-range shock blast.
+Flame Chompers! (E): Jinx throws snare grenades that root enemies.
+Super Mega Death Rocket! (R): Jinx fires a global rocket that gains damage with travel distance.
+
+## Relationships
+Jinx is the primary rival of Vi. She also has connections to Caitlyn and Ekko through Zaunite and Piltover conflicts.
+
+## Moves (summary)
+Jinx uses long-range attacks, alternating between sustained DPS and explosive burst damage.

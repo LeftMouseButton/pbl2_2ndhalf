@@ -1,0 +1,557 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 850px;
+                 background-color: #0d1117;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+
+<style id="themeStyles">
+body {
+  background-color: #0d1117;
+  color: #ddd;
+}
+#legend {
+  background: rgba(0,0,0,0.85);
+  border-color: #444;
+  color: #fff;
+}
+#searchBox {
+  background: #222;
+  color: #eee;
+  border-color: #555;
+}
+#darkLightToggle {
+  background: #222;
+  color: #eee;
+  border-color: #555;
+}
+</style>
+
+
+<h1 style="
+    text-align:center;
+    color:#ddd;
+    font-family:Arial, sans-serif;
+    margin-top:20px;
+">
+Enhanced pokemon Knowledge Graph
+</h1>
+
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_dragonite", "label": "Dragonite", "physics": true, "shape": "dot", "size": 25, "title": "Dragonite\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=0", "type": "pokemon", "x": 426.6596100095552, "y": 475.2035064783239}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_dragonair", "label": "Dragonair", "physics": true, "shape": "dot", "size": 25, "title": "Dragonair\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=0", "type": "pokemon", "x": 445.2454388456971, "y": 377.02157872519035}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_dratini", "label": "Dratini", "physics": true, "shape": "dot", "size": 25, "title": "Dratini\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=0", "type": "pokemon", "x": 453.0166604877864, "y": 297.34516477560646}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "type_dragon", "label": "Dragon", "physics": true, "shape": "dot", "size": 25, "title": "Dragon\u003cbr\u003etype=type\u003cbr\u003ecommunity=0", "type": "type", "x": 469.66310023949467, "y": 547.24200482231}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "type_flying", "label": "Flying", "physics": true, "shape": "dot", "size": 25, "title": "Flying\u003cbr\u003etype=type\u003cbr\u003ecommunity=0", "type": "type", "x": 509.77501633871225, "y": 508.98678073180014}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_inner_focus", "label": "Inner Focus", "physics": true, "shape": "dot", "size": 25, "title": "Inner Focus\u003cbr\u003etype=ability\u003cbr\u003ecommunity=0", "type": "ability", "x": 308.5554236699316, "y": 530.4686489192753}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_multiscale", "label": "Multiscale", "physics": true, "shape": "dot", "size": 25, "title": "Multiscale\u003cbr\u003etype=ability\u003cbr\u003ecommunity=0", "type": "ability", "x": 502.4246799183386, "y": 452.3813637841748}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_eevee", "label": "Eevee", "physics": true, "shape": "dot", "size": 25, "title": "Eevee\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=1", "type": "pokemon", "x": -387.2342093308247, "y": -285.0287639175117}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "type_normal", "label": "Normal", "physics": true, "shape": "dot", "size": 25, "title": "Normal\u003cbr\u003etype=type\u003cbr\u003ecommunity=1", "type": "type", "x": -356.2759007509279, "y": -261.8625498182317}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_run_away", "label": "Run Away", "physics": true, "shape": "dot", "size": 25, "title": "Run Away\u003cbr\u003etype=ability\u003cbr\u003ecommunity=1", "type": "ability", "x": -473.88301246087696, "y": -351.0731321430332}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_adaptability", "label": "Adaptability", "physics": true, "shape": "dot", "size": 25, "title": "Adaptability\u003cbr\u003etype=ability\u003cbr\u003ecommunity=1", "type": "ability", "x": -417.22703151008824, "y": -387.32270054187387}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_anticipation", "label": "Anticipation", "physics": true, "shape": "dot", "size": 25, "title": "Anticipation\u003cbr\u003etype=ability\u003cbr\u003ecommunity=1", "type": "ability", "x": -493.11028990137424, "y": -291.176040333755}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "item_water_stone", "label": "Water Stone", "physics": true, "shape": "dot", "size": 25, "title": "Water Stone\u003cbr\u003etype=item\u003cbr\u003ecommunity=2", "type": "item", "x": 109.24509623917888, "y": 938.0400501405076}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "item_thunder_stone", "label": "Thunder Stone", "physics": true, "shape": "dot", "size": 25, "title": "Thunder Stone\u003cbr\u003etype=item\u003cbr\u003ecommunity=3", "type": "item", "x": -933.782004457354, "y": 13.840480269772925}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "item_fire_stone", "label": "Fire Stone", "physics": true, "shape": "dot", "size": 25, "title": "Fire Stone\u003cbr\u003etype=item\u003cbr\u003ecommunity=4", "type": "item", "x": 292.77474886719517, "y": -985.4336494070612}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_vaporeon", "label": "Vaporeon", "physics": true, "shape": "dot", "size": 25, "title": "Vaporeon\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=1", "type": "pokemon", "x": -348.9479469178554, "y": -339.9950005940065}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_jolteon", "label": "Jolteon", "physics": true, "shape": "dot", "size": 25, "title": "Jolteon\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=1", "type": "pokemon", "x": -373.4267192488154, "y": -207.4367192044915}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_flareon", "label": "Flareon", "physics": true, "shape": "dot", "size": 25, "title": "Flareon\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=1", "type": "pokemon", "x": -306.66530819584136, "y": -274.25205152910655}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_espeon", "label": "Espeon", "physics": true, "shape": "dot", "size": 25, "title": "Espeon\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=1", "type": "pokemon", "x": -397.32487121967205, "y": -325.9591034753488}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_umbreon", "label": "Umbreon", "physics": true, "shape": "dot", "size": 25, "title": "Umbreon\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=1", "type": "pokemon", "x": -313.97205598002614, "y": -316.0081753125849}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_leafeon", "label": "Leafeon", "physics": true, "shape": "dot", "size": 25, "title": "Leafeon\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=1", "type": "pokemon", "x": -435.44793240930545, "y": -256.583603332388}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_glaceon", "label": "Glaceon", "physics": true, "shape": "dot", "size": 25, "title": "Glaceon\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=1", "type": "pokemon", "x": -414.65379133438546, "y": -216.4956206153666}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_sylveon", "label": "Sylveon", "physics": true, "shape": "dot", "size": 25, "title": "Sylveon\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=1", "type": "pokemon", "x": -314.6517340935507, "y": -208.83467060507508}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "type_fairy", "label": "Fairy", "physics": true, "shape": "dot", "size": 25, "title": "Fairy\u003cbr\u003etype=type\u003cbr\u003ecommunity=5", "type": "type", "x": -652.1322530706731, "y": 497.68126437850304}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "item_moss_rock", "label": "Moss Rock", "physics": true, "shape": "dot", "size": 25, "title": "Moss Rock\u003cbr\u003etype=item\u003cbr\u003ecommunity=6", "type": "item", "x": 14.557211347046687, "y": -960.0180583872173}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "item_ice_rock", "label": "Ice Rock", "physics": true, "shape": "dot", "size": 25, "title": "Ice Rock\u003cbr\u003etype=item\u003cbr\u003ecommunity=7", "type": "item", "x": 1000.0, "y": 332.8319248328688}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "move_fairy_type_move", "label": "move_fairy_type_move", "physics": true, "shape": "dot", "size": 25, "title": "move_fairy_type_move\u003cbr\u003etype=\u003cbr\u003ecommunity=1", "type": "", "x": -259.7253929662658, "y": -145.24195735234863}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_gengar", "label": "Gengar", "physics": true, "shape": "dot", "size": 25, "title": "Gengar\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=8", "type": "pokemon", "x": -489.9714771188358, "y": 484.88153507028915}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_haunter", "label": "Haunter", "physics": true, "shape": "dot", "size": 25, "title": "Haunter\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=8", "type": "pokemon", "x": -574.460258432057, "y": 460.1421024545178}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_gastly", "label": "Gastly", "physics": true, "shape": "dot", "size": 25, "title": "Gastly\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=8", "type": "pokemon", "x": -652.5515874592365, "y": 446.49314541457613}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_cursed_body", "label": "Cursed Body", "physics": true, "shape": "dot", "size": 25, "title": "Cursed Body\u003cbr\u003etype=ability\u003cbr\u003ecommunity=8", "type": "ability", "x": -469.9115209344121, "y": 427.26551907477017}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "type_ghost", "label": "Ghost", "physics": true, "shape": "dot", "size": 25, "title": "Ghost\u003cbr\u003etype=type\u003cbr\u003ecommunity=8", "type": "type", "x": -408.0458595598428, "y": 461.4774741049518}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "type_poison", "label": "Poison", "physics": true, "shape": "dot", "size": 25, "title": "Poison\u003cbr\u003etype=type\u003cbr\u003ecommunity=8", "type": "type", "x": -516.4286740205022, "y": 564.2873241988547}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_lucario", "label": "Lucario", "physics": true, "shape": "dot", "size": 25, "title": "Lucario\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=9", "type": "pokemon", "x": 205.0283999076098, "y": 612.6312453361949}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_riolu", "label": "Riolu", "physics": true, "shape": "dot", "size": 25, "title": "Riolu\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=9", "type": "pokemon", "x": 185.61746904490838, "y": 697.2720078818658}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "type_fighting", "label": "Fighting", "physics": true, "shape": "dot", "size": 25, "title": "Fighting\u003cbr\u003etype=type\u003cbr\u003ecommunity=9", "type": "type", "x": 250.73113188376388, "y": 604.1165554738836}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "type_steel", "label": "Steel", "physics": true, "shape": "dot", "size": 25, "title": "Steel\u003cbr\u003etype=type\u003cbr\u003ecommunity=9", "type": "type", "x": 135.9121302022976, "y": 658.9877431917811}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_steadfast", "label": "Steadfast", "physics": true, "shape": "dot", "size": 25, "title": "Steadfast\u003cbr\u003etype=ability\u003cbr\u003ecommunity=9", "type": "ability", "x": 246.643973331492, "y": 691.8954478130775}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_justified", "label": "Justified", "physics": true, "shape": "dot", "size": 25, "title": "Justified\u003cbr\u003etype=ability\u003cbr\u003ecommunity=9", "type": "ability", "x": 135.02512984754074, "y": 592.5395893377352}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_pikachu", "label": "Pikachu", "physics": true, "shape": "dot", "size": 25, "title": "Pikachu\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=10", "type": "pokemon", "x": 436.32479708170587, "y": -588.7259018088589}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_pichu", "label": "Pichu", "physics": true, "shape": "dot", "size": 25, "title": "Pichu\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=10", "type": "pokemon", "x": 508.50382435697793, "y": -544.1486294285456}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_raichu", "label": "Raichu", "physics": true, "shape": "dot", "size": 25, "title": "Raichu\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=10", "type": "pokemon", "x": 381.29121336993, "y": -638.1894467698332}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "pokemon_alolan_raichu", "label": "Alolan Raichu", "physics": true, "shape": "dot", "size": 25, "title": "Alolan Raichu\u003cbr\u003etype=pokemon\u003cbr\u003ecommunity=10", "type": "pokemon", "x": 333.49434512086555, "y": -524.4791597010653}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "move_thunder_shock", "label": "Thunder Shock", "physics": true, "shape": "dot", "size": 25, "title": "Thunder Shock\u003cbr\u003etype=move\u003cbr\u003ecommunity=10", "type": "move", "x": 454.99212259894614, "y": -522.9882742240936}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "move_thunderbolt", "label": "Thunderbolt", "physics": true, "shape": "dot", "size": 25, "title": "Thunderbolt\u003cbr\u003etype=move\u003cbr\u003ecommunity=10", "type": "move", "x": 528.7057444882386, "y": -593.1805018556347}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "region_alola", "label": "Alola", "physics": true, "shape": "dot", "size": 25, "title": "Alola\u003cbr\u003etype=region\u003cbr\u003ecommunity=10", "type": "region", "x": 241.069746586821, "y": -462.10333379925834}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "type_electric", "label": "Electric", "physics": true, "shape": "dot", "size": 25, "title": "Electric\u003cbr\u003etype=type\u003cbr\u003ecommunity=10", "type": "type", "x": 506.68564784189505, "y": -635.4258160304614}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "Static", "label": "Static", "physics": true, "shape": "dot", "size": 25, "title": "Static\u003cbr\u003etype=\u003cbr\u003ecommunity=10", "type": "", "x": 480.6589167956851, "y": -675.4513159746379}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "Lightning Rod", "label": "Lightning Rod", "physics": true, "shape": "dot", "size": 25, "title": "Lightning Rod\u003cbr\u003etype=\u003cbr\u003ecommunity=10", "type": "", "x": 427.2282529511078, "y": -675.6182810490403}]);
+                  edges = new vis.DataSet([{"color": "#888888", "from": "pokemon_dragonite", "title": "evolves_to", "to": "pokemon_dragonair", "width": 2}, {"color": "#888888", "from": "pokemon_dragonite", "title": "has_type", "to": "type_dragon", "width": 2}, {"color": "#888888", "from": "pokemon_dragonite", "title": "has_type", "to": "type_flying", "width": 2}, {"color": "#888888", "from": "pokemon_dragonite", "title": "has_ability", "to": "ability_inner_focus", "width": 2}, {"color": "#888888", "from": "pokemon_dragonite", "title": "has_ability", "to": "ability_multiscale", "width": 2}, {"color": "#888888", "from": "pokemon_dragonair", "title": "evolves_to", "to": "pokemon_dratini", "width": 2}, {"color": "#888888", "from": "ability_inner_focus", "title": "has_ability", "to": "pokemon_lucario", "width": 2}, {"color": "#888888", "from": "pokemon_eevee", "title": "has_type", "to": "type_normal", "width": 2}, {"color": "#888888", "from": "pokemon_eevee", "title": "has_ability", "to": "ability_run_away", "width": 2}, {"color": "#888888", "from": "pokemon_eevee", "title": "has_ability", "to": "ability_adaptability", "width": 2}, {"color": "#888888", "from": "pokemon_eevee", "title": "has_ability", "to": "ability_anticipation", "width": 2}, {"color": "#888888", "from": "pokemon_eevee", "title": "evolves_to", "to": "pokemon_vaporeon", "width": 2}, {"color": "#888888", "from": "pokemon_eevee", "title": "evolves_to", "to": "pokemon_jolteon", "width": 2}, {"color": "#888888", "from": "pokemon_eevee", "title": "evolves_to", "to": "pokemon_flareon", "width": 2}, {"color": "#888888", "from": "pokemon_eevee", "title": "evolves_to", "to": "pokemon_espeon", "width": 2}, {"color": "#888888", "from": "pokemon_eevee", "title": "evolves_to", "to": "pokemon_umbreon", "width": 2}, {"color": "#888888", "from": "pokemon_eevee", "title": "evolves_to", "to": "pokemon_leafeon", "width": 2}, {"color": "#888888", "from": "pokemon_eevee", "title": "evolves_to", "to": "pokemon_glaceon", "width": 2}, {"color": "#888888", "from": "pokemon_eevee", "title": "evolves_to", "to": "pokemon_sylveon", "width": 2}, {"color": "#888888", "from": "type_normal", "title": "has_type", "to": "pokemon_vaporeon", "width": 2}, {"color": "#888888", "from": "type_normal", "title": "has_type", "to": "pokemon_jolteon", "width": 2}, {"color": "#888888", "from": "type_normal", "title": "has_type", "to": "pokemon_flareon", "width": 2}, {"color": "#888888", "from": "type_normal", "title": "has_type", "to": "pokemon_espeon", "width": 2}, {"color": "#888888", "from": "type_normal", "title": "has_type", "to": "pokemon_umbreon", "width": 2}, {"color": "#888888", "from": "type_normal", "title": "has_type", "to": "pokemon_leafeon", "width": 2}, {"color": "#888888", "from": "type_normal", "title": "has_type", "to": "pokemon_glaceon", "width": 2}, {"color": "#888888", "from": "type_normal", "title": "has_type", "to": "pokemon_sylveon", "width": 2}, {"color": "#888888", "from": "pokemon_sylveon", "title": "learns_move", "to": "move_fairy_type_move", "width": 2}, {"color": "#888888", "from": "pokemon_gengar", "title": "evolves_to", "to": "pokemon_haunter", "width": 2}, {"color": "#888888", "from": "pokemon_gengar", "title": "has_type", "to": "type_ghost", "width": 2}, {"color": "#888888", "from": "pokemon_gengar", "title": "has_type", "to": "type_poison", "width": 2}, {"color": "#888888", "from": "pokemon_gengar", "title": "has_ability", "to": "ability_cursed_body", "width": 2}, {"color": "#888888", "from": "pokemon_haunter", "title": "evolves_to", "to": "pokemon_gastly", "width": 2}, {"color": "#888888", "from": "pokemon_lucario", "title": "evolves_to", "to": "pokemon_riolu", "width": 2}, {"color": "#888888", "from": "pokemon_lucario", "title": "has_type", "to": "type_fighting", "width": 2}, {"color": "#888888", "from": "pokemon_lucario", "title": "has_type", "to": "type_steel", "width": 2}, {"color": "#888888", "from": "pokemon_lucario", "title": "has_ability", "to": "ability_steadfast", "width": 2}, {"color": "#888888", "from": "pokemon_lucario", "title": "has_ability", "to": "ability_justified", "width": 2}, {"color": "#888888", "from": "pokemon_pikachu", "title": "evolves_to", "to": "pokemon_pichu", "width": 2}, {"color": "#888888", "from": "pokemon_pikachu", "title": "evolves_to", "to": "pokemon_raichu", "width": 2}, {"color": "#888888", "from": "pokemon_pikachu", "title": "evolves_to", "to": "pokemon_alolan_raichu", "width": 2}, {"color": "#888888", "from": "pokemon_pikachu", "title": "has_type", "to": "type_electric", "width": 2}, {"color": "#888888", "from": "pokemon_pikachu", "title": "has_ability", "to": "Static", "width": 2}, {"color": "#888888", "from": "pokemon_pikachu", "title": "has_ability", "to": "Lightning Rod", "width": 2}, {"color": "#888888", "from": "pokemon_pikachu", "title": "learns_move", "to": "move_thunder_shock", "width": 2}, {"color": "#888888", "from": "pokemon_pikachu", "title": "learns_move", "to": "move_thunderbolt", "width": 2}, {"color": "#888888", "from": "pokemon_alolan_raichu", "title": "found_in_region", "to": "region_alola", "width": 2}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"physics": {"enabled": true, "barnesHut": {"gravitationalConstant": -5000, "centralGravity": 0.2, "springLength": 130, "springConstant": 0.02, "damping": 0.09, "avoidOverlap": 0}, "stabilization": {"enabled": true, "iterations": 300}}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+<!-- Dark/Light Toggle Button -->
+<button id="darkLightToggle" style="
+    position: fixed;
+    top: 15px;
+    right: 20px;
+    z-index: 9999;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #222;
+    color: #eee;
+    border: 1px solid #555;
+">🌙 Dark</button>
+
+<div id="legend" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 0;
+    background: rgba(0,0,0,0.85);
+    border: 2px solid #444;
+    border-radius: 10px;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    min-width: 260px;
+    z-index: 9999;
+    max-height: 450px;
+">
+
+    <div id="legendDragHandle" style="
+        width: 100%;
+        padding: 8px;
+        background: rgba(255,255,255,0.05);
+        border-bottom: 1px solid #555;
+        cursor: grab;
+        font-weight: bold;
+        user-select: none;
+    ">Legend</div>
+
+    <div id="legendContent" style="padding:15px; max-height:380px; overflow:auto;">
+
+        <div style="font-weight:bold; margin-bottom:10px;">Search Node</div>
+        <input id="searchBox" placeholder="Type name…" style="
+            width:95%;
+            padding:6px;
+            margin-bottom:12px;
+            border-radius:5px;
+            border:1px solid #555;
+            background:#222;
+            color:#eee;
+        ">
+
+        <div style="font-weight:bold; margin-bottom:10px;">Physics</div>
+        <label style="display:block;margin-bottom:12px;cursor:pointer;">
+            <input type="checkbox" id="physicsToggle" checked style="margin-right:6px;">
+            <span>Enable physics (layout updates)</span>
+        </label>
+
+        <div style="font-weight:bold; margin-bottom:10px;">Node Types (Toggle)</div>
+        <div id="nodeTypeControls"></div>
+
+        <hr style="border-color:#666; margin:10px 0;">
+        <div style="font-weight:bold; margin-bottom:10px;">Edge Types (Toggle)</div>
+        <div id="edgeTypeControls"></div>
+    </div>
+
+    <div id="legendResizeHandle" style="
+        position:absolute;
+        width:14px;
+        height:14px;
+        bottom:2px;
+        right:2px;
+        cursor:se-resize;
+        background:rgba(255,255,255,0.2);
+        border-radius:3px;
+    "></div>
+</div>
+
+<script>
+// Helper: set canvas background to match theme
+function applyGraphBackground(isDark) {
+    var bg = isDark ? "#0d1117" : "#ffffff";
+    var canvas = document.querySelector("canvas");
+    if (canvas) {
+        canvas.style.background = bg;
+    }
+}
+
+// ======================================================================
+// Node-type Filters (hide/show nodes only)
+// ======================================================================
+function addLegendControls() {
+    if (typeof network === 'undefined') return setTimeout(addLegendControls, 200);
+
+    var container = document.getElementById('nodeTypeControls');
+    var allNodes = network.body.nodes;
+    var typeColors = {};
+
+    Object.values(allNodes).forEach(function(n) {
+        var t = n.options.type || '';
+        if (!typeColors[t]) {
+            var col = (n.options.color && n.options.color.background)
+                ? n.options.color.background
+                : '#cccccc';
+            typeColors[t] = col;
+        }
+    });
+
+    Object.keys(typeColors).forEach(function(t) {
+        var col = typeColors[t];
+        var id = "toggle_" + t.replace(/[^a-zA-Z0-9]/g, '_');
+
+        container.innerHTML += ''
+            + '<label style="display:block;margin-bottom:6px;cursor:pointer;">'
+            +   '<input type="checkbox" id="' + id + '" checked style="margin-right:6px;">'
+            +   '<span style="color:' + col + '">' + t.replace(/_/g,' ') + '</span>'
+            + '</label>';
+
+        setTimeout(function() {
+            var cb = document.getElementById(id);
+            if (!cb) return;
+            cb.onchange = function() {
+                var visible = cb.checked;
+                var nodeDS = network.body.data.nodes;
+                var updates = [];
+
+                // Batch updates to avoid repeated heavy work
+                Object.values(network.body.nodes).forEach(function(n) {
+                    if ((n.options.type || '') === t) {
+                        updates.push({ id: n.id, hidden: !visible });
+                    }
+                });
+
+                if (updates.length > 0) {
+                    nodeDS.update(updates);
+                }
+                // No explicit redraw() here – vis handles it efficiently
+            };
+        }, 50);
+    });
+}
+setTimeout(addLegendControls, 300);
+
+
+// ======================================================================
+// Edge-type Filters (hide/show edges by type)
+// ======================================================================
+function addEdgeFilters() {
+    if (typeof network === 'undefined') return setTimeout(addEdgeFilters, 200);
+
+    var container = document.getElementById('edgeTypeControls');
+    var allEdges = network.body.edges;
+    var typeColors = {};
+
+    Object.values(allEdges).forEach(function(e) {
+        var t = e.options.title || '';
+        if (!typeColors[t]) {
+            var col = e.options.color || '#cccccc';
+            var colStr = (typeof col === 'string') ? col : (col.color || '#cccccc');
+            typeColors[t] = colStr;
+        }
+    });
+
+    Object.keys(typeColors).forEach(function(etype) {
+        var color = typeColors[etype];
+        var id = "edge_toggle_" + etype.replace(/[^a-zA-Z0-9]/g, '_');
+
+        container.innerHTML += ''
+            + '<label style="display:block;margin-bottom:6px;cursor:pointer;">'
+            +   '<input type="checkbox" id="' + id + '" checked style="margin-right:6px;">'
+            +   '<span style="color:' + color + '">' + etype.replace(/_/g,' ') + '</span>'
+            + '</label>';
+
+        setTimeout(function() {
+            var cb = document.getElementById(id);
+            if (!cb) return;
+            cb.onchange = function() {
+                var visible = cb.checked;
+                var edgeDS = network.body.data.edges;
+                var updates = [];
+
+                Object.values(allEdges).forEach(function(edge) {
+                    if ((edge.options.title || '') === etype) {
+                        updates.push({ id: edge.id, hidden: !visible });
+                    }
+                });
+
+                if (updates.length > 0) {
+                    edgeDS.update(updates);
+                }
+                // Again, rely on internal redraw
+            };
+        }, 50);
+    });
+}
+setTimeout(addEdgeFilters, 350);
+
+
+// ======================================================================
+// Search Bar with highlight + auto-zoom
+// ======================================================================
+function setupSearchBar() {
+    if (typeof network === 'undefined') return setTimeout(setupSearchBar, 200);
+
+    var box = document.getElementById("searchBox");
+    var allNodes = network.body.nodes;
+
+    box.addEventListener("input", function() {
+        var q = box.value.trim().toLowerCase();
+
+        if (q === "") {
+            Object.values(allNodes).forEach(function(n) {
+                var orig = n.options._origColor || n.options.color;
+                n.setOptions({ color: orig });
+            });
+            return;
+        }
+
+        var found = null;
+
+        Object.values(allNodes).forEach(function(n) {
+            var label = (n.options.label || "").toLowerCase();
+            var idStr = String(n.id).toLowerCase();
+
+            if (label.includes(q) || idStr.includes(q)) {
+                found = n;
+                n.setOptions({
+                    _origColor: n.options.color,
+                    color: { background:"#ffcc00", border:"#ffaa00" }
+                });
+            } else {
+                n.setOptions({
+                    _origColor: n.options.color,
+                    color: { background:"#444", border:"#222" }
+                });
+            }
+        });
+
+        if (found) {
+            network.focus(found.id, {
+                scale: 1.2,
+                animation: { duration: 500, easingFunction: "easeInOutQuad" }
+            });
+        }
+    });
+}
+setTimeout(setupSearchBar, 300);
+
+
+// ======================================================================
+// Dark/Light Mode Toggle (including canvas background)
+// ======================================================================
+function setupDarkLightToggle() {
+    var btn = document.getElementById("darkLightToggle");
+    var styleTag = document.getElementById("themeStyles");
+    var mode = "dark";
+
+    // ensure initial canvas matches dark theme
+    applyGraphBackground(true);
+
+    btn.onclick = function() {
+        if (mode === "dark") {
+            mode = "light";
+            btn.textContent = "☀️ Light";
+            styleTag.innerHTML = ''
+                + 'body { background:#f4f4f4; color:#222; }'
+                + '#legend { background:rgba(255,255,255,0.85);color:#222;border-color:#bbb; }'
+                + '#searchBox { background:#fff;color:#000;border-color:#aaa; }'
+                + '#darkLightToggle { background:#fff;color:#000;border-color:#aaa; }';
+            applyGraphBackground(false);
+        } else {
+            mode = "dark";
+            btn.textContent = "🌙 Dark";
+            styleTag.innerHTML = ''
+                + 'body { background:#0d1117; color:#ddd; }'
+                + '#legend { background:rgba(0,0,0,0.85);color:#fff;border-color:#444; }'
+                + '#searchBox { background:#222;color:#eee;border-color:#555; }'
+                + '#darkLightToggle { background:#222;color:#eee;border-color:#555; }';
+            applyGraphBackground(true);
+        }
+    };
+}
+setTimeout(setupDarkLightToggle, 300);
+
+
+// ======================================================================
+// Physics Toggle Checkbox
+// ======================================================================
+function setupPhysicsToggle() {
+    if (typeof network === 'undefined') return setTimeout(setupPhysicsToggle, 200);
+    var cb = document.getElementById("physicsToggle");
+    if (!cb) return;
+
+    cb.onchange = function() {
+        var enable = cb.checked;
+        network.setOptions({ physics: { enabled: enable } });
+    };
+}
+setTimeout(setupPhysicsToggle, 350);
+
+
+// ======================================================================
+// Disable physics after initial stabilization
+// ======================================================================
+function disablePhysicsAfterStabilization() {
+    if (typeof network === 'undefined') {
+        setTimeout(disablePhysicsAfterStabilization, 200);
+        return;
+    }
+    network.once("stabilizationIterationsDone", function () {
+        network.setOptions({ physics: { enabled: false } });
+        var cb = document.getElementById("physicsToggle");
+        if (cb) cb.checked = false;
+    });
+}
+disablePhysicsAfterStabilization();
+
+
+// ======================================================================
+// DRAGGABLE + RESIZABLE LEGEND (with boundaries)
+// ======================================================================
+function setupLegendDragResize() {
+    var legend = document.getElementById("legend");
+    var handle = document.getElementById("legendDragHandle");
+    var resize = document.getElementById("legendResizeHandle");
+    if (!legend || !handle || !resize) return;
+
+    // Dragging
+    var dragging = false, offsetX = 0, offsetY = 0;
+
+    handle.addEventListener("mousedown", function(e) {
+        dragging = true;
+        handle.style.cursor = "grabbing";
+        var rect = legend.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+    });
+
+    document.addEventListener("mousemove", function(e) {
+        if (!dragging) return;
+        var vw = window.innerWidth;
+        var vh = window.innerHeight;
+        var rect = legend.getBoundingClientRect();
+
+        var left = e.clientX - offsetX;
+        var top = e.clientY - offsetY;
+
+        left = Math.max(0, Math.min(left, vw - rect.width));
+        top = Math.max(0, Math.min(top, vh - rect.height));
+
+        legend.style.left = left + "px";
+        legend.style.top = top + "px";
+        legend.style.right = "auto";
+        legend.style.bottom = "auto";
+        legend.style.position = "fixed";
+    });
+
+    document.addEventListener("mouseup", function() {
+        dragging = false;  // FIX: JS boolean
+        handle.style.cursor = "grab";
+    });
+
+    // Resizing
+    var resizing = false, startW = 0, startH = 0, startX = 0, startY = 0;
+
+    resize.addEventListener("mousedown", function(e) {
+        e.preventDefault();
+        resizing = true;
+        var rect = legend.getBoundingClientRect();
+        startW = rect.width;
+        startH = rect.height;
+        startX = e.clientX;
+        startY = e.clientY;
+    });
+
+    document.addEventListener("mousemove", function(e) {
+        if (!resizing) return;
+
+        var newW = Math.max(260, startW + (e.clientX - startX));
+        var newH = Math.max(220, startH + (e.clientY - startY));
+
+        legend.style.width = newW + "px";
+        legend.style.height = newH + "px";
+
+        var inner = document.getElementById("legendContent");
+        inner.style.maxHeight = (newH - 60) + "px";
+    });
+
+    document.addEventListener("mouseup", function() {
+        resizing = false;
+    });
+}
+setTimeout(setupLegendDragResize, 400);
+</script>
+
+</body>
+</html>

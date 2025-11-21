@@ -1,0 +1,373 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd"><key id="d11" for="edge" attr.name="context" attr.type="string"/>
+<key id="d10" for="edge" attr.name="relationship_type" attr.type="string"/>
+<key id="d9" for="edge" attr.name="type" attr.type="string"/>
+<key id="d8" for="node" attr.name="attack_range" attr.type="string"/>
+<key id="d7" for="node" attr.name="description" attr.type="string"/>
+<key id="d6" for="node" attr.name="slot" attr.type="string"/>
+<key id="d5" for="node" attr.name="lore" attr.type="string"/>
+<key id="d4" for="node" attr.name="attack_range" attr.type="long"/>
+<key id="d3" for="node" attr.name="resource" attr.type="string"/>
+<key id="d2" for="node" attr.name="title" attr.type="string"/>
+<key id="d1" for="node" attr.name="label" attr.type="string"/>
+<key id="d0" for="node" attr.name="type" attr.type="string"/>
+<graph edgedefault="undirected"><node id="champion_ahri">
+  <data key="d0">champion</data>
+  <data key="d1">Ahri</data>
+  <data key="d2">The Nine-Tailed Fox</data>
+  <data key="d3">Mana</data>
+  <data key="d4">550</data>
+  <data key="d5">Ahri is a Vastayan fox spirit with the ability to manipulate emotions and steal life essence. She once consumed the life force of mortals, but now strives to understand her origins and find a new path. Her magic is deeply tied to Ionia’s spiritual realm, and her story intersects with other Ionian champions.</data>
+</node>
+<node id="ability_ahri_orb_of_deception">
+  <data key="d0">ability</data>
+  <data key="d1">Orb of Deception</data>
+  <data key="d6">Q</data>
+  <data key="d7">Ahri throws an orb that travels out and back, dealing magic damage and then true damage.</data>
+</node>
+<node id="ability_ahri_fox_fire">
+  <data key="d0">ability</data>
+  <data key="d1">Fox-Fire</data>
+  <data key="d6">W</data>
+  <data key="d7">Three spectral flames circle Ahri and automatically target nearby enemies.</data>
+</node>
+<node id="ability_ahri_charm">
+  <data key="d0">ability</data>
+  <data key="d1">Charm</data>
+  <data key="d6">E</data>
+  <data key="d7">Ahri blows a kiss that charms an enemy, causing them to walk harmlessly toward her.</data>
+</node>
+<node id="ability_ahri_spirit_rush">
+  <data key="d0">ability</data>
+  <data key="d1">Spirit Rush</data>
+  <data key="d6">R</data>
+  <data key="d7">Ahri dashes forward up to three times, firing energy bolts at nearby enemies.</data>
+</node>
+<node id="champion_syndra">
+  <data key="d0">champion</data>
+  <data key="d1">Syndra</data>
+</node>
+<node id="champion_yone">
+  <data key="d0">champion</data>
+  <data key="d1">Yone</data>
+</node>
+<node id="champion_yasuo">
+  <data key="d0">champion</data>
+  <data key="d1">Yasuo</data>
+  <data key="d2">The Unforgiven</data>
+  <data key="d3">Flow</data>
+  <data key="d8">Melee</data>
+  <data key="d5">Yasuo is a master swordsman of Ionia who manipulates wind with his blade. He was falsely accused of killing an elder and has lived as a wandering exile ever since. He seeks redemption after learning the truth and reconnects with his brother Yone.</data>
+</node>
+<node id="champion_garen">
+  <data key="d0">champion</data>
+  <data key="d1">Garen</data>
+  <data key="d2">The Might of Demacia</data>
+  <data key="d3">None</data>
+  <data key="d8">Melee</data>
+  <data key="d5">Garen is a proud soldier of Demacia, dedicated to maintaining justice and order. He represents Demacia’s ideals of honor and courage. As a member of the Dauntless Vanguard and brother to Lux, he fights to protect his homeland from internal and external threats.</data>
+</node>
+<node id="champion_lux">
+  <data key="d0">champion</data>
+  <data key="d1">Lux</data>
+  <data key="d2">The Lady of Luminosity</data>
+</node>
+<node id="champion_katarina">
+  <data key="d0">champion</data>
+  <data key="d1">Katarina</data>
+  <data key="d2">The Sinister Blade</data>
+</node>
+<node id="ability_garen_q_decisive_strike">
+  <data key="d0">ability</data>
+  <data key="d1">Decisive Strike</data>
+  <data key="d6">Q</data>
+  <data key="d7">Garen gains movement speed and his next attack silences the target.</data>
+</node>
+<node id="ability_garen_w_courage">
+  <data key="d0">ability</data>
+  <data key="d1">Courage</data>
+  <data key="d6">W</data>
+  <data key="d7">Garen gains a shield and damage reduction.</data>
+</node>
+<node id="ability_garen_e_judgment">
+  <data key="d0">ability</data>
+  <data key="d1">Judgment</data>
+  <data key="d6">E</data>
+  <data key="d7">Garen rapidly spins with his sword, striking nearby enemies.</data>
+</node>
+<node id="ability_garen_r_demacian_justice">
+  <data key="d0">ability</data>
+  <data key="d1">Demacian Justice</data>
+  <data key="d6">R</data>
+  <data key="d7">Garen executes a champion, dealing damage based on their missing health.</data>
+</node>
+<node id="region_demacia">
+  <data key="d0">region</data>
+  <data key="d1">Demacia</data>
+</node>
+<node id="faction_dauntless_vanguard">
+  <data key="d0">faction</data>
+  <data key="d1">Dauntless Vanguard</data>
+</node>
+<node id="region_noxus">
+  <data key="d0">region</data>
+  <data key="d1">Noxus</data>
+</node>
+<node id="faction_noxian_empire">
+  <data key="d0">faction</data>
+  <data key="d1">Noxian Empire</data>
+</node>
+<node id="champion_jinx">
+  <data key="d0">champion</data>
+  <data key="d1">Jinx</data>
+  <data key="d2">The Loose Cannon</data>
+  <data key="d3">Mana</data>
+  <data key="d4">525</data>
+  <data key="d5">Jinx is a chaotic and impulsive criminal from Zaun. She creates mayhem for amusement and delights in destruction. Her rivalry with Vi fuels many conflicts in Piltover and Zaun. She is known for her unpredictability, manic personality, and mastery of explosives.</data>
+</node>
+<node id="ability_jinx_q_switcheroo">
+  <data key="d0">ability</data>
+  <data key="d1">Switcheroo!</data>
+  <data key="d6">Q</data>
+  <data key="d7">Jinx switches between her minigun and rocket launcher.</data>
+</node>
+<node id="ability_jinx_w_zap">
+  <data key="d0">ability</data>
+  <data key="d1">Zap!</data>
+  <data key="d6">W</data>
+  <data key="d7">Jinx fires a long-range shock blast.</data>
+</node>
+<node id="ability_jinx_e_flame_chompers">
+  <data key="d0">ability</data>
+  <data key="d1">Flame Chompers!</data>
+  <data key="d6">E</data>
+  <data key="d7">Jinx throws snare grenades that root enemies.</data>
+</node>
+<node id="ability_jinx_r_super_mega_death_rocket">
+  <data key="d0">ability</data>
+  <data key="d1">Super Mega Death Rocket!</data>
+  <data key="d6">R</data>
+  <data key="d7">Jinx fires a global rocket that gains damage with travel distance.</data>
+</node>
+<node id="champion_vi">
+  <data key="d0">champion</data>
+  <data key="d1">Vi</data>
+</node>
+<node id="champion_caitlyn">
+  <data key="d0">champion</data>
+  <data key="d1">Caitlyn</data>
+</node>
+<node id="champion_ekko">
+  <data key="d0">champion</data>
+  <data key="d1">Ekko</data>
+</node>
+<node id="region_zaun">
+  <data key="d0">region</data>
+  <data key="d1">Zaun</data>
+</node>
+<node id="region_piltover">
+  <data key="d0">region</data>
+  <data key="d1">Piltover</data>
+</node>
+<node id="champion_thresh">
+  <data key="d0">champion</data>
+  <data key="d1">Thresh</data>
+  <data key="d2">The Chain Warden</data>
+  <data key="d3">Mana</data>
+  <data key="d4">450</data>
+  <data key="d5">Thresh is a spectral jailer from the Shadow Isles who delights in torment. Once a custodian of arcane secrets, he became twisted by the Ruination. He traps souls to prolong his own existence and manipulates victims with cruel cunning.</data>
+</node>
+<node id="ability_thresh_q_death_sentence">
+  <data key="d0">ability</data>
+  <data key="d1">Death Sentence</data>
+  <data key="d6">Q</data>
+  <data key="d7">Thresh throws his scythe, pulling himself to enemies he hooks.</data>
+</node>
+<node id="ability_thresh_w_dark_passage">
+  <data key="d0">ability</data>
+  <data key="d1">Dark Passage</data>
+  <data key="d6">W</data>
+  <data key="d7">Thresh throws a lantern that shields allies and allows them to dash to him.</data>
+</node>
+<node id="ability_thresh_e_flay">
+  <data key="d0">ability</data>
+  <data key="d1">Flay</data>
+  <data key="d6">E</data>
+  <data key="d7">Thresh sweeps his chain, knocking enemies in a direction.</data>
+</node>
+<node id="ability_thresh_r_the_box">
+  <data key="d0">ability</data>
+  <data key="d1">The Box</data>
+  <data key="d6">R</data>
+  <data key="d7">Thresh creates a prison of spectral walls that damage and slow enemies.</data>
+</node>
+<node id="champion_lucian">
+  <data key="d0">champion</data>
+  <data key="d1">Lucian</data>
+</node>
+<node id="champion_senna">
+  <data key="d0">champion</data>
+  <data key="d1">Senna</data>
+</node>
+<node id="ability_yasuo_q_steel_tempest">
+  <data key="d0">ability</data>
+  <data key="d1">Steel Tempest</data>
+  <data key="d6">Q</data>
+  <data key="d7">Yasuo thrusts his sword forward, stacking toward a tornado.</data>
+</node>
+<node id="ability_yasuo_w_wind_wall">
+  <data key="d0">ability</data>
+  <data key="d1">Wind Wall</data>
+  <data key="d6">W</data>
+  <data key="d7">Yasuo creates a barrier that blocks enemy projectiles.</data>
+</node>
+<node id="ability_yasuo_e_sweeping_blade">
+  <data key="d0">ability</data>
+  <data key="d1">Sweeping Blade</data>
+  <data key="d6">E</data>
+  <data key="d7">Yasuo dashes through enemies, dealing magic damage.</data>
+</node>
+<node id="ability_yasuo_r_last_breath">
+  <data key="d0">ability</data>
+  <data key="d1">Last Breath</data>
+  <data key="d6">R</data>
+  <data key="d7">Yasuo teleports to airborne enemies, suspending them and striking rapidly.</data>
+</node>
+<node id="champion_riven">
+  <data key="d0">champion</data>
+  <data key="d1">Riven</data>
+</node>
+<edge source="champion_ahri" target="ability_ahri_orb_of_deception">
+  <data key="d9">has_ability</data>
+</edge>
+<edge source="champion_ahri" target="ability_ahri_fox_fire">
+  <data key="d9">has_ability</data>
+</edge>
+<edge source="champion_ahri" target="ability_ahri_charm">
+  <data key="d9">has_ability</data>
+</edge>
+<edge source="champion_ahri" target="ability_ahri_spirit_rush">
+  <data key="d9">has_ability</data>
+</edge>
+<edge source="champion_ahri" target="champion_syndra">
+  <data key="d9">related_to</data>
+  <data key="d10">lore_connection</data>
+</edge>
+<edge source="champion_ahri" target="champion_yone">
+  <data key="d9">related_to</data>
+  <data key="d10">lore_connection</data>
+</edge>
+<edge source="champion_ahri" target="champion_yasuo">
+  <data key="d9">related_to</data>
+  <data key="d10">lore_connection</data>
+</edge>
+<edge source="champion_yone" target="champion_yasuo">
+  <data key="d9">related_to</data>
+  <data key="d10">brother</data>
+</edge>
+<edge source="champion_yasuo" target="ability_yasuo_q_steel_tempest">
+  <data key="d9">has_ability</data>
+</edge>
+<edge source="champion_yasuo" target="ability_yasuo_w_wind_wall">
+  <data key="d9">has_ability</data>
+</edge>
+<edge source="champion_yasuo" target="ability_yasuo_e_sweeping_blade">
+  <data key="d9">has_ability</data>
+</edge>
+<edge source="champion_yasuo" target="ability_yasuo_r_last_breath">
+  <data key="d9">has_ability</data>
+</edge>
+<edge source="champion_yasuo" target="champion_riven">
+  <data key="d9">related_to</data>
+  <data key="d10">acquaintance</data>
+</edge>
+<edge source="champion_garen" target="ability_garen_q_decisive_strike">
+  <data key="d9">has_ability</data>
+</edge>
+<edge source="champion_garen" target="ability_garen_w_courage">
+  <data key="d9">has_ability</data>
+</edge>
+<edge source="champion_garen" target="ability_garen_e_judgment">
+  <data key="d9">has_ability</data>
+</edge>
+<edge source="champion_garen" target="ability_garen_r_demacian_justice">
+  <data key="d9">has_ability</data>
+</edge>
+<edge source="champion_garen" target="region_demacia">
+  <data key="d9">belongs_to_region</data>
+</edge>
+<edge source="champion_garen" target="faction_dauntless_vanguard">
+  <data key="d9">belongs_to_faction</data>
+</edge>
+<edge source="champion_garen" target="champion_lux">
+  <data key="d9">related_to</data>
+  <data key="d10">brother</data>
+</edge>
+<edge source="champion_garen" target="champion_katarina">
+  <data key="d9">related_to</data>
+  <data key="d10">opposes</data>
+</edge>
+<edge source="champion_lux" target="region_demacia">
+  <data key="d9">belongs_to_region</data>
+</edge>
+<edge source="champion_lux" target="faction_dauntless_vanguard">
+  <data key="d9">belongs_to_faction</data>
+</edge>
+<edge source="champion_katarina" target="region_noxus">
+  <data key="d9">belongs_to_region</data>
+</edge>
+<edge source="champion_katarina" target="faction_noxian_empire">
+  <data key="d9">belongs_to_faction</data>
+</edge>
+<edge source="champion_jinx" target="ability_jinx_q_switcheroo">
+  <data key="d9">has_ability</data>
+</edge>
+<edge source="champion_jinx" target="ability_jinx_w_zap">
+  <data key="d9">has_ability</data>
+</edge>
+<edge source="champion_jinx" target="ability_jinx_e_flame_chompers">
+  <data key="d9">has_ability</data>
+</edge>
+<edge source="champion_jinx" target="ability_jinx_r_super_mega_death_rocket">
+  <data key="d9">has_ability</data>
+</edge>
+<edge source="champion_jinx" target="region_zaun">
+  <data key="d9">belongs_to_region</data>
+</edge>
+<edge source="champion_jinx" target="champion_vi">
+  <data key="d9">related_to</data>
+  <data key="d10">rival</data>
+</edge>
+<edge source="champion_jinx" target="champion_caitlyn">
+  <data key="d9">related_to</data>
+  <data key="d10">conflict_connection</data>
+</edge>
+<edge source="champion_jinx" target="champion_ekko">
+  <data key="d9">related_to</data>
+  <data key="d10">conflict_connection</data>
+</edge>
+<edge source="champion_jinx" target="region_piltover">
+  <data key="d9">belongs_to_region</data>
+  <data key="d11">conflicts in</data>
+</edge>
+<edge source="champion_thresh" target="ability_thresh_q_death_sentence">
+  <data key="d9">has_ability</data>
+</edge>
+<edge source="champion_thresh" target="ability_thresh_w_dark_passage">
+  <data key="d9">has_ability</data>
+</edge>
+<edge source="champion_thresh" target="ability_thresh_e_flay">
+  <data key="d9">has_ability</data>
+</edge>
+<edge source="champion_thresh" target="ability_thresh_r_the_box">
+  <data key="d9">has_ability</data>
+</edge>
+<edge source="champion_thresh" target="champion_lucian">
+  <data key="d9">related_to</data>
+  <data key="d10">lore_connection</data>
+</edge>
+<edge source="champion_thresh" target="champion_senna">
+  <data key="d9">related_to</data>
+  <data key="d10">lore_connection</data>
+</edge>
+</graph></graphml>

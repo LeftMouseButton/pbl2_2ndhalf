@@ -1,0 +1,14 @@
+# Lucario
+Number: 448
+Types: Fighting, Steel
+Abilities: Steadfast, Inner Focus
+Hidden Ability: Justified
+
+## Pokédex Entries
+Lucario can sense and manipulate aura, understanding the emotions of living things. It is calm, brave, and highly loyal.
+
+## Evolution
+- Evolves from Riolu when leveled up with high friendship during the day.
+
+## Moves (summary)
+Lucario can use Fighting- and Steel-type attacks and learns a wide variety of special and physical moves.

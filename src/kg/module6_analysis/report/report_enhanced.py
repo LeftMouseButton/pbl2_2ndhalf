@@ -396,27 +396,24 @@ def generate_enhanced_report(
 
     sections.append("\n")
 
-    # Biological Interpretation (high-level)
-    sections.append("## Biological Interpretation (High-Level)\n")
+    # Interpretation (high-level)
+    sections.append("## Interpretation (High-Level)\n")
 
     if giant_fraction > 0.8:
         sections.append(
-            "- The graph is highly connected, suggesting that the underlying "
-            "disease–gene–treatment landscape is strongly interlinked. "
-            "Many entities participate in shared pathways or therapeutic contexts.\n"
+            "- The graph is densely connected, with many entities linked through shared contextual relationships.\n"
         )
     else:
         sections.append(
-            "- The presence of multiple sizable components suggests distinct "
-            "subnetworks, which may correspond to disease families, specialized "
-            "treatment regimes, or disconnected data sources.\n"
+            "- Multiple sizable components suggest distinct subnetworks that may "
+            "reflect different themes, domains, or disconnected data sources.\n"
         )
 
     if len(comms) > 10:
         sections.append(
-            "- The rich community structure indicates multiple functional modules "
-            "or thematic clusters, potentially corresponding to disease subtypes, "
-            "shared genetic pathways, or co-occurring symptom groups.\n"
+            "- The rich community structure points to multiple functional clusters "
+            "within the graph (e.g., related concepts, co-occurring attributes, or "
+            "entities that frequently appear together).\n"
         )
 
     # Highlight top link prediction if available

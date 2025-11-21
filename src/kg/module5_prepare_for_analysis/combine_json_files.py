@@ -37,6 +37,7 @@ BASE_DIR: Path | None = None
 INPUT_DIR: Path | None = None
 OUTPUT_DIR: Path | None = None
 ONTOLOGY_DIR: Path | None = None
+SCHEMA_PATH: Path | None = None
 
 OUTPUT_FILE: Path | None = None
 MAPPING_FILE: Path | None = None
@@ -49,13 +50,15 @@ def configure_paths(
     input_dir: Path | None = None,
     ontology_dir: Path | None = None,
     output_dir: Path | None = None,
+    schema_path: Path | None = None,
 ) -> None:
     """Initialize module-level paths for a given graph/topic."""
-    global BASE_DIR, INPUT_DIR, OUTPUT_DIR, ONTOLOGY_DIR, OUTPUT_FILE, MAPPING_FILE, STATS_FILE, UNMATCHED_FILE
+    global BASE_DIR, INPUT_DIR, OUTPUT_DIR, ONTOLOGY_DIR, OUTPUT_FILE, MAPPING_FILE, STATS_FILE, UNMATCHED_FILE, SCHEMA_PATH
     BASE_DIR = base_dir
     INPUT_DIR = Path(input_dir) if input_dir else BASE_DIR / "json"
     OUTPUT_DIR = Path(output_dir) if output_dir else BASE_DIR / "combined"
     ONTOLOGY_DIR = Path(ontology_dir) if ontology_dir else BASE_DIR / "ontologies"
+    SCHEMA_PATH = Path(schema_path) if schema_path else BASE_DIR / "schema" / "schema_keys.json"
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     OUTPUT_FILE = OUTPUT_DIR / "all_entities.json"
@@ -65,7 +68,7 @@ def configure_paths(
 
 
 def require_paths() -> tuple[Path, Path, Path, Path, Path, Path, Path]:
-    if not all([INPUT_DIR, OUTPUT_DIR, ONTOLOGY_DIR, OUTPUT_FILE, MAPPING_FILE, STATS_FILE, UNMATCHED_FILE]):
+    if not all([INPUT_DIR, OUTPUT_DIR, ONTOLOGY_DIR, OUTPUT_FILE, MAPPING_FILE, STATS_FILE, UNMATCHED_FILE, SCHEMA_PATH]):
         raise RuntimeError("Paths not configured. Call configure_paths(...) first.")
     return INPUT_DIR, OUTPUT_DIR, ONTOLOGY_DIR, OUTPUT_FILE, MAPPING_FILE, STATS_FILE, UNMATCHED_FILE  # type: ignore
 
@@ -332,18 +335,28 @@ def create_matched_only_dataset(combined, mapping_file: Path, output_dir: Path, 
     with open(mapping_file, "r", encoding="utf-8") as f:
         mapping_data = json.load(f)
 
-    # --- Load schema keys from /keys/schema_keys.json ----------------------------
+    # --- Load schema to determine keys -----------------------------------------
     schema_keys = []
+    node_graph_mode = False
     if Path(schema_path).exists():
         try:
             with open(schema_path, "r", encoding="utf-8") as f:
                 schema_json = json.load(f)
-                schema_keys = list(schema_json.keys())
+                # If schema uses node_types (graph-centric), just carry through records without pruning
+                if isinstance(schema_json, dict) and "node_types" in schema_json:
+                    node_graph_mode = True
+                else:
+                    schema_keys = list(schema_json.keys())
                 print(f"✅ Loaded schema keys from {schema_path}")
         except Exception as e:
             print(f"⚠️  Failed to read schema file ({schema_path}): {e}")
-    else:
-        print(f"⚠️  Schema file not found at {schema_path}, using dynamic keys")
+    if node_graph_mode:
+        matched_combined["records"] = combined.get("records", [])
+        matched_file.write_text(json.dumps(matched_combined, indent=2, ensure_ascii=False), encoding="utf-8")
+        print(f"📄 Created matched-only dataset (pass-through) → {matched_file}")
+        return
+    if not schema_keys:
+        print(f"⚠️  Schema file not found or empty at {schema_path}, using dynamic keys")
         all_possible = set()
         for fd in mapping_data.values():
             all_possible |= set(fd.keys())
@@ -356,12 +369,15 @@ def create_matched_only_dataset(combined, mapping_file: Path, output_dir: Path, 
         if not original:
             continue
 
-        disease_name = original.get("disease_name")
-        if not disease_name:
+        entity_name = original.get("disease_name") or original.get("name")
+        if not entity_name:
             continue
 
         new_entry = OrderedDict()
-        new_entry["disease_name"] = disease_name
+        # Keep both for backwards compatibility
+        new_entry["name"] = entity_name
+        if original.get("disease_name"):
+            new_entry["disease_name"] = original.get("disease_name")
 
         # pass through auxiliary metadata if present
         for aux_key in ["_source_file", "source_reliability", "_edge_weights"]:
@@ -371,7 +387,7 @@ def create_matched_only_dataset(combined, mapping_file: Path, output_dir: Path, 
         has_matched = False
 
         for key in schema_keys:
-            if key == "disease_name":
+            if key in ("disease_name", "name"):
                 continue
             matched_terms = []
             for m in file_data.get(key, []):
@@ -398,12 +414,23 @@ def create_matched_only_dataset(combined, mapping_file: Path, output_dir: Path, 
 # --- Combination Logic ----------------------------------------------------
 def combine_json_files(no_normalize=False, lowercase=True):
     input_dir, output_dir, _, output_file, mapping_file, stats_file, unmatched_file = require_paths()
+    schema_path = SCHEMA_PATH or Path("schema/schema_keys.json")
+    schema_json = {}
+    graph_mode = False
+    if schema_path.exists():
+        try:
+            schema_json = json.loads(schema_path.read_text(encoding="utf-8"))
+            if isinstance(schema_json, dict) and "node_types" in schema_json:
+                graph_mode = True
+                print("ℹ️  Detected node_types in schema — skipping ontology normalization.")
+        except Exception as e:
+            print(f"⚠️  Could not parse schema file at {schema_path}: {e}")
     combined = {"records": []}
     mapping_dict = {}
     stats = {"total": 0, "matched": 0, "unmatched": 0, "scores": [], "unmatched_terms": set()}
 
     schema_path = BASE_DIR / "schema" / "schema_keys.json" if BASE_DIR else output_dir.parent / "schema" / "schema_keys.json"
-    ontology_dicts, ontology_files = ({}, []) if no_normalize else load_ontologies()
+    ontology_dicts, ontology_files = ({}, []) if no_normalize or graph_mode else load_ontologies()
 
     json_files = sorted(input_dir.glob("*.json"))
     if not json_files:
@@ -413,12 +440,25 @@ def combine_json_files(no_normalize=False, lowercase=True):
     for file in json_files:
         try:
             data = json.loads(file.read_text(encoding="utf-8"))
-            if "disease_name" in data and isinstance(data, dict):
+            # Graph-style schema: accept entire document as-is
+            if graph_mode and isinstance(data, dict):
+                data["_source_file"] = file.name
+                combined["records"].append(data)
+                print(f"✅ Added {file.name} (graph schema)")
+                continue
+
+            if isinstance(data, dict) and (data.get("disease_name") or data.get("name")):
                 # tag source filename so matched-only export can join correctly
                 data["_source_file"] = file.name
-                if lowercase:
-                    data["disease_name"] = data["disease_name"].lower()
-                if not no_normalize:
+                # normalize primary name key to lower for consistency
+                primary_name = data.get("disease_name") or data.get("name")
+                if lowercase and isinstance(primary_name, str):
+                    primary_name = primary_name.lower()
+                # use topic-agnostic primary name field
+                if primary_name:
+                    data["name"] = primary_name
+
+                if not no_normalize and not graph_mode:
                     data = normalize_entity_lists(data, ontology_dicts, stats, mapping_dict, file.name, lowercase=lowercase)
                 elif lowercase:
                     for key in ["causes", "risk_factors", "symptoms", "diagnosis", "treatments", "related_genes", "subtypes"]:
@@ -427,27 +467,28 @@ def combine_json_files(no_normalize=False, lowercase=True):
 
                 # compute edge weights using mapping_dict and source reliability metadata
                 weights = {}
-                reliability_map = data.get("source_reliability", {})
-                for key in ["causes", "risk_factors", "symptoms", "diagnosis", "treatments", "related_genes", "subtypes"]:
-                    if key in data and isinstance(data[key], list):
-                        mapping_infos = mapping_dict.get(file.name, {}).get(key, [])
-                        weights[key] = _compute_weights(data[key], mapping_infos, reliability_map)
-                if weights:
-                    data["_edge_weights"] = weights
+                if not graph_mode:
+                    reliability_map = data.get("source_reliability", {})
+                    for key in ["causes", "risk_factors", "symptoms", "diagnosis", "treatments", "related_genes", "subtypes"]:
+                        if key in data and isinstance(data[key], list):
+                            mapping_infos = mapping_dict.get(file.name, {}).get(key, [])
+                            weights[key] = _compute_weights(data[key], mapping_infos, reliability_map)
+                    if weights:
+                        data["_edge_weights"] = weights
 
                 combined["records"].append(data)
                 print(f"✅ Added {file.name}{' (no normalization)' if no_normalize else ''}")
             else:
-                print(f"⚠️ Skipping {file.name} (missing 'disease_name')")
+                print(f"⚠️ Skipping {file.name} (missing primary name field)")
         except json.JSONDecodeError as e:
             print(f"❌ Error reading {file.name}: {e}")
 
     # Write clean combined output
     output_file.write_text(json.dumps(combined, indent=2, ensure_ascii=False), encoding="utf-8")
 
-    if no_normalize:
+    if no_normalize or graph_mode:
         print(f"\n📦 Combined {len(combined['records'])} files → {output_file}")
-        print("⚙️  Normalization skipped (--no-normalize)")
+        print("⚙️  Normalization skipped (--no-normalize or graph schema)")
         return
 
     # Write ontology mapping

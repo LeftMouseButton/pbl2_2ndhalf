@@ -1,0 +1,90 @@
+{
+  "entities": [
+    {
+      "id": "pokemon_gengar",
+      "type": "pokemon",
+      "name": "Gengar",
+      "attributes": {
+        "pokedex_number": 94,
+        "types": [
+          "Ghost",
+          "Poison"
+        ],
+        "abilities": [
+          "Cursed Body"
+        ],
+        "description": "Gengar hides in shadows and absorbs heat from nearby surroundings, causing the air to become cold. It is known to mimic the shadows of its prey."
+      }
+    },
+    {
+      "id": "pokemon_haunter",
+      "type": "pokemon",
+      "name": "Haunter",
+      "attributes": {
+        "pokedex_number": 93
+      }
+    },
+    {
+      "id": "pokemon_gastly",
+      "type": "pokemon",
+      "name": "Gastly",
+      "attributes": {
+        "pokedex_number": 92
+      }
+    },
+    {
+      "id": "ability_cursed_body",
+      "type": "ability",
+      "name": "Cursed Body",
+      "attributes": {
+        "description": "Chance to disable moves used against the Pokémon."
+      }
+    },
+    {
+      "id": "type_ghost",
+      "type": "type",
+      "name": "Ghost"
+    },
+    {
+      "id": "type_poison",
+      "type": "type",
+      "name": "Poison"
+    }
+  ],
+  "relationships": [
+    {
+      "source": "pokemon_haunter",
+      "relation": "evolves_to",
+      "target": "pokemon_gengar",
+      "properties": {
+        "condition": "When traded"
+      }
+    },
+    {
+      "source": "pokemon_gastly",
+      "relation": "evolves_to",
+      "target": "pokemon_haunter",
+      "properties": {
+        "condition": "Level 25"
+      }
+    },
+    {
+      "source": "pokemon_gengar",
+      "relation": "has_type",
+      "target": "type_ghost"
+    },
+    {
+      "source": "pokemon_gengar",
+      "relation": "has_type",
+      "target": "type_poison"
+    },
+    {
+      "source": "pokemon_gengar",
+      "relation": "has_ability",
+      "target": "ability_cursed_body"
+    }
+  ],
+  "source_reliability": {
+    "gengar_-_example.txt": 0.5
+  }
+}

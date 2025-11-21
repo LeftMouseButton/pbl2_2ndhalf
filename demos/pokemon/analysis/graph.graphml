@@ -1,0 +1,392 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd"><key id="d8" for="edge" attr.name="method" attr.type="string"/>
+<key id="d7" for="edge" attr.name="condition" attr.type="string"/>
+<key id="d6" for="edge" attr.name="type" attr.type="string"/>
+<key id="d5" for="node" attr.name="move_type" attr.type="string"/>
+<key id="d4" for="node" attr.name="evolution_stage" attr.type="long"/>
+<key id="d3" for="node" attr.name="description" attr.type="string"/>
+<key id="d2" for="node" attr.name="pokedex_number" attr.type="long"/>
+<key id="d1" for="node" attr.name="label" attr.type="string"/>
+<key id="d0" for="node" attr.name="type" attr.type="string"/>
+<graph edgedefault="undirected"><node id="pokemon_dragonite">
+  <data key="d0">pokemon</data>
+  <data key="d1">Dragonite</data>
+  <data key="d2">149</data>
+  <data key="d3">Dragonite is capable of flying around the world in 16 hours. It is highly intelligent and known to rescue people from drowning and shipwrecks.</data>
+</node>
+<node id="pokemon_dragonair">
+  <data key="d0">pokemon</data>
+  <data key="d1">Dragonair</data>
+  <data key="d2">148</data>
+  <data key="d4">2</data>
+</node>
+<node id="pokemon_dratini">
+  <data key="d0">pokemon</data>
+  <data key="d1">Dratini</data>
+  <data key="d2">147</data>
+  <data key="d4">1</data>
+</node>
+<node id="type_dragon">
+  <data key="d0">type</data>
+  <data key="d1">Dragon</data>
+</node>
+<node id="type_flying">
+  <data key="d0">type</data>
+  <data key="d1">Flying</data>
+</node>
+<node id="ability_inner_focus">
+  <data key="d0">ability</data>
+  <data key="d1">Inner Focus</data>
+  <data key="d3">Prevents the Pokémon from flinching.</data>
+</node>
+<node id="ability_multiscale">
+  <data key="d0">ability</data>
+  <data key="d1">Multiscale</data>
+  <data key="d3">Reduces damage taken when the Pokémon is at full HP.</data>
+</node>
+<node id="pokemon_eevee">
+  <data key="d0">pokemon</data>
+  <data key="d1">Eevee</data>
+  <data key="d2">133</data>
+  <data key="d3">Eevee has an irregular genetic code that allows it to evolve into many different forms. Its unstable structure enables it to adapt to various environments.</data>
+  <data key="d4">1</data>
+</node>
+<node id="type_normal">
+  <data key="d0">type</data>
+  <data key="d1">Normal</data>
+</node>
+<node id="ability_run_away">
+  <data key="d0">ability</data>
+  <data key="d1">Run Away</data>
+  <data key="d3">Allows the Pokémon to flee from battle with wild Pokémon.</data>
+</node>
+<node id="ability_adaptability">
+  <data key="d0">ability</data>
+  <data key="d1">Adaptability</data>
+  <data key="d3">Powers up moves of the same type as the Pokémon.</data>
+</node>
+<node id="ability_anticipation">
+  <data key="d0">ability</data>
+  <data key="d1">Anticipation</data>
+  <data key="d3">The Pokémon is alert to the opponent's moves.</data>
+</node>
+<node id="item_water_stone">
+  <data key="d0">item</data>
+  <data key="d1">Water Stone</data>
+</node>
+<node id="item_thunder_stone">
+  <data key="d0">item</data>
+  <data key="d1">Thunder Stone</data>
+</node>
+<node id="item_fire_stone">
+  <data key="d0">item</data>
+  <data key="d1">Fire Stone</data>
+</node>
+<node id="pokemon_vaporeon">
+  <data key="d0">pokemon</data>
+  <data key="d1">Vaporeon</data>
+  <data key="d4">2</data>
+</node>
+<node id="pokemon_jolteon">
+  <data key="d0">pokemon</data>
+  <data key="d1">Jolteon</data>
+  <data key="d4">2</data>
+</node>
+<node id="pokemon_flareon">
+  <data key="d0">pokemon</data>
+  <data key="d1">Flareon</data>
+  <data key="d4">2</data>
+</node>
+<node id="pokemon_espeon">
+  <data key="d0">pokemon</data>
+  <data key="d1">Espeon</data>
+  <data key="d4">2</data>
+</node>
+<node id="pokemon_umbreon">
+  <data key="d0">pokemon</data>
+  <data key="d1">Umbreon</data>
+  <data key="d4">2</data>
+</node>
+<node id="pokemon_leafeon">
+  <data key="d0">pokemon</data>
+  <data key="d1">Leafeon</data>
+  <data key="d4">2</data>
+</node>
+<node id="pokemon_glaceon">
+  <data key="d0">pokemon</data>
+  <data key="d1">Glaceon</data>
+  <data key="d4">2</data>
+</node>
+<node id="pokemon_sylveon">
+  <data key="d0">pokemon</data>
+  <data key="d1">Sylveon</data>
+  <data key="d4">2</data>
+</node>
+<node id="type_fairy">
+  <data key="d0">type</data>
+  <data key="d1">Fairy</data>
+</node>
+<node id="item_moss_rock">
+  <data key="d0">item</data>
+  <data key="d1">Moss Rock</data>
+</node>
+<node id="item_ice_rock">
+  <data key="d0">item</data>
+  <data key="d1">Ice Rock</data>
+</node>
+<node id="move_fairy_type_move"/>
+<node id="pokemon_gengar">
+  <data key="d0">pokemon</data>
+  <data key="d1">Gengar</data>
+  <data key="d2">94</data>
+  <data key="d3">Gengar hides in shadows and absorbs heat from nearby surroundings, causing the air to become cold. It is known to mimic the shadows of its prey.</data>
+</node>
+<node id="pokemon_haunter">
+  <data key="d0">pokemon</data>
+  <data key="d1">Haunter</data>
+  <data key="d2">93</data>
+</node>
+<node id="pokemon_gastly">
+  <data key="d0">pokemon</data>
+  <data key="d1">Gastly</data>
+  <data key="d2">92</data>
+</node>
+<node id="ability_cursed_body">
+  <data key="d0">ability</data>
+  <data key="d1">Cursed Body</data>
+  <data key="d3">Chance to disable moves used against the Pokémon.</data>
+</node>
+<node id="type_ghost">
+  <data key="d0">type</data>
+  <data key="d1">Ghost</data>
+</node>
+<node id="type_poison">
+  <data key="d0">type</data>
+  <data key="d1">Poison</data>
+</node>
+<node id="pokemon_lucario">
+  <data key="d0">pokemon</data>
+  <data key="d1">Lucario</data>
+  <data key="d2">448</data>
+  <data key="d3">Lucario can sense and manipulate aura, understanding the emotions of living things. It is calm, brave, and highly loyal.</data>
+</node>
+<node id="pokemon_riolu">
+  <data key="d0">pokemon</data>
+  <data key="d1">Riolu</data>
+</node>
+<node id="type_fighting">
+  <data key="d0">type</data>
+  <data key="d1">Fighting</data>
+</node>
+<node id="type_steel">
+  <data key="d0">type</data>
+  <data key="d1">Steel</data>
+</node>
+<node id="ability_steadfast">
+  <data key="d0">ability</data>
+  <data key="d1">Steadfast</data>
+</node>
+<node id="ability_justified">
+  <data key="d0">ability</data>
+  <data key="d1">Justified</data>
+</node>
+<node id="pokemon_pikachu">
+  <data key="d0">pokemon</data>
+  <data key="d1">Pikachu</data>
+  <data key="d2">25</data>
+  <data key="d3">Pikachu stores electricity in its cheeks. It releases electric discharges when threatened or excited. Pikachu live in small groups and communicate by tail signals.</data>
+</node>
+<node id="pokemon_pichu">
+  <data key="d0">pokemon</data>
+  <data key="d1">Pichu</data>
+</node>
+<node id="pokemon_raichu">
+  <data key="d0">pokemon</data>
+  <data key="d1">Raichu</data>
+</node>
+<node id="pokemon_alolan_raichu">
+  <data key="d0">pokemon</data>
+  <data key="d1">Alolan Raichu</data>
+</node>
+<node id="move_thunder_shock">
+  <data key="d0">move</data>
+  <data key="d1">Thunder Shock</data>
+  <data key="d5">Electric</data>
+</node>
+<node id="move_thunderbolt">
+  <data key="d0">move</data>
+  <data key="d1">Thunderbolt</data>
+  <data key="d5">Electric</data>
+</node>
+<node id="region_alola">
+  <data key="d0">region</data>
+  <data key="d1">Alola</data>
+</node>
+<node id="type_electric">
+  <data key="d0">type</data>
+  <data key="d1">Electric</data>
+</node>
+<node id="Static"/>
+<node id="Lightning Rod"/>
+<edge source="pokemon_dragonite" target="pokemon_dragonair">
+  <data key="d6">evolves_to</data>
+  <data key="d7">Level 55</data>
+</edge>
+<edge source="pokemon_dragonite" target="type_dragon">
+  <data key="d6">has_type</data>
+</edge>
+<edge source="pokemon_dragonite" target="type_flying">
+  <data key="d6">has_type</data>
+</edge>
+<edge source="pokemon_dragonite" target="ability_inner_focus">
+  <data key="d6">has_ability</data>
+</edge>
+<edge source="pokemon_dragonite" target="ability_multiscale">
+  <data key="d6">has_ability</data>
+</edge>
+<edge source="pokemon_dragonair" target="pokemon_dratini">
+  <data key="d6">evolves_to</data>
+  <data key="d7">Level 30</data>
+</edge>
+<edge source="ability_inner_focus" target="pokemon_lucario">
+  <data key="d6">has_ability</data>
+</edge>
+<edge source="pokemon_eevee" target="type_normal">
+  <data key="d6">has_type</data>
+</edge>
+<edge source="pokemon_eevee" target="ability_run_away">
+  <data key="d6">has_ability</data>
+</edge>
+<edge source="pokemon_eevee" target="ability_adaptability">
+  <data key="d6">has_ability</data>
+</edge>
+<edge source="pokemon_eevee" target="ability_anticipation">
+  <data key="d6">has_ability</data>
+  <data key="d8">hidden</data>
+</edge>
+<edge source="pokemon_eevee" target="pokemon_vaporeon">
+  <data key="d6">evolves_to</data>
+  <data key="d7">Exposed to a Water Stone</data>
+</edge>
+<edge source="pokemon_eevee" target="pokemon_jolteon">
+  <data key="d6">evolves_to</data>
+  <data key="d7">Exposed to a Thunder Stone</data>
+</edge>
+<edge source="pokemon_eevee" target="pokemon_flareon">
+  <data key="d6">evolves_to</data>
+  <data key="d7">Exposed to a Fire Stone</data>
+</edge>
+<edge source="pokemon_eevee" target="pokemon_espeon">
+  <data key="d6">evolves_to</data>
+  <data key="d7">Leveled up during the day with high friendship</data>
+</edge>
+<edge source="pokemon_eevee" target="pokemon_umbreon">
+  <data key="d6">evolves_to</data>
+  <data key="d7">Leveled up at night with high friendship</data>
+</edge>
+<edge source="pokemon_eevee" target="pokemon_leafeon">
+  <data key="d6">evolves_to</data>
+  <data key="d7">Leveled up near a Moss Rock</data>
+</edge>
+<edge source="pokemon_eevee" target="pokemon_glaceon">
+  <data key="d6">evolves_to</data>
+  <data key="d7">Leveled up near an Ice Rock</data>
+</edge>
+<edge source="pokemon_eevee" target="pokemon_sylveon">
+  <data key="d6">evolves_to</data>
+  <data key="d7">Leveled up knowing a Fairy-type move with high affection</data>
+</edge>
+<edge source="type_normal" target="pokemon_vaporeon">
+  <data key="d6">has_type</data>
+</edge>
+<edge source="type_normal" target="pokemon_jolteon">
+  <data key="d6">has_type</data>
+</edge>
+<edge source="type_normal" target="pokemon_flareon">
+  <data key="d6">has_type</data>
+</edge>
+<edge source="type_normal" target="pokemon_espeon">
+  <data key="d6">has_type</data>
+</edge>
+<edge source="type_normal" target="pokemon_umbreon">
+  <data key="d6">has_type</data>
+</edge>
+<edge source="type_normal" target="pokemon_leafeon">
+  <data key="d6">has_type</data>
+</edge>
+<edge source="type_normal" target="pokemon_glaceon">
+  <data key="d6">has_type</data>
+</edge>
+<edge source="type_normal" target="pokemon_sylveon">
+  <data key="d6">has_type</data>
+</edge>
+<edge source="pokemon_sylveon" target="move_fairy_type_move">
+  <data key="d6">learns_move</data>
+  <data key="d8">learned</data>
+</edge>
+<edge source="pokemon_gengar" target="pokemon_haunter">
+  <data key="d6">evolves_to</data>
+  <data key="d7">When traded</data>
+</edge>
+<edge source="pokemon_gengar" target="type_ghost">
+  <data key="d6">has_type</data>
+</edge>
+<edge source="pokemon_gengar" target="type_poison">
+  <data key="d6">has_type</data>
+</edge>
+<edge source="pokemon_gengar" target="ability_cursed_body">
+  <data key="d6">has_ability</data>
+</edge>
+<edge source="pokemon_haunter" target="pokemon_gastly">
+  <data key="d6">evolves_to</data>
+  <data key="d7">Level 25</data>
+</edge>
+<edge source="pokemon_lucario" target="pokemon_riolu">
+  <data key="d6">evolves_to</data>
+  <data key="d7">High friendship during the day</data>
+</edge>
+<edge source="pokemon_lucario" target="type_fighting">
+  <data key="d6">has_type</data>
+</edge>
+<edge source="pokemon_lucario" target="type_steel">
+  <data key="d6">has_type</data>
+</edge>
+<edge source="pokemon_lucario" target="ability_steadfast">
+  <data key="d6">has_ability</data>
+</edge>
+<edge source="pokemon_lucario" target="ability_justified">
+  <data key="d6">has_ability</data>
+</edge>
+<edge source="pokemon_pikachu" target="pokemon_pichu">
+  <data key="d6">evolves_to</data>
+  <data key="d7">High friendship</data>
+</edge>
+<edge source="pokemon_pikachu" target="pokemon_raichu">
+  <data key="d6">evolves_to</data>
+  <data key="d7">Exposure to Thunder Stone</data>
+</edge>
+<edge source="pokemon_pikachu" target="pokemon_alolan_raichu">
+  <data key="d6">evolves_to</data>
+  <data key="d7">Exposure to Thunder Stone in Alola region</data>
+</edge>
+<edge source="pokemon_pikachu" target="type_electric">
+  <data key="d6">has_type</data>
+</edge>
+<edge source="pokemon_pikachu" target="Static">
+  <data key="d6">has_ability</data>
+</edge>
+<edge source="pokemon_pikachu" target="Lightning Rod">
+  <data key="d6">has_ability</data>
+</edge>
+<edge source="pokemon_pikachu" target="move_thunder_shock">
+  <data key="d6">learns_move</data>
+  <data key="d8">TM</data>
+</edge>
+<edge source="pokemon_pikachu" target="move_thunderbolt">
+  <data key="d6">learns_move</data>
+  <data key="d8">TM</data>
+</edge>
+<edge source="pokemon_alolan_raichu" target="region_alola">
+  <data key="d6">found_in_region</data>
+</edge>
+</graph></graphml>

@@ -1,0 +1,130 @@
+{
+  "entities": [
+    {
+      "id": "champion_ahri",
+      "type": "champion",
+      "name": "Ahri",
+      "attributes": {
+        "title": "The Nine-Tailed Fox",
+        "roles": [
+          "Mage",
+          "Assassin"
+        ],
+        "region": [
+          "Ionia"
+        ],
+        "faction": [
+          "Vastaya"
+        ],
+        "resource": "Mana",
+        "attack_range": 550,
+        "lore": "Ahri is a Vastayan fox spirit with the ability to manipulate emotions and steal life essence. She once consumed the life force of mortals, but now strives to understand her origins and find a new path. Her magic is deeply tied to Ionia’s spiritual realm, and her story intersects with other Ionian champions.",
+        "playstyle_tags": [
+          "long-range magic abilities",
+          "burst damage",
+          "mobility"
+        ]
+      }
+    },
+    {
+      "id": "ability_ahri_orb_of_deception",
+      "type": "ability",
+      "name": "Orb of Deception",
+      "attributes": {
+        "slot": "Q",
+        "description": "Ahri throws an orb that travels out and back, dealing magic damage and then true damage."
+      }
+    },
+    {
+      "id": "ability_ahri_fox_fire",
+      "type": "ability",
+      "name": "Fox-Fire",
+      "attributes": {
+        "slot": "W",
+        "description": "Three spectral flames circle Ahri and automatically target nearby enemies."
+      }
+    },
+    {
+      "id": "ability_ahri_charm",
+      "type": "ability",
+      "name": "Charm",
+      "attributes": {
+        "slot": "E",
+        "description": "Ahri blows a kiss that charms an enemy, causing them to walk harmlessly toward her."
+      }
+    },
+    {
+      "id": "ability_ahri_spirit_rush",
+      "type": "ability",
+      "name": "Spirit Rush",
+      "attributes": {
+        "slot": "R",
+        "description": "Ahri dashes forward up to three times, firing energy bolts at nearby enemies."
+      }
+    },
+    {
+      "id": "champion_syndra",
+      "type": "champion",
+      "name": "Syndra"
+    },
+    {
+      "id": "champion_yone",
+      "type": "champion",
+      "name": "Yone"
+    },
+    {
+      "id": "champion_yasuo",
+      "type": "champion",
+      "name": "Yasuo"
+    }
+  ],
+  "relationships": [
+    {
+      "source": "champion_ahri",
+      "relation": "has_ability",
+      "target": "ability_ahri_orb_of_deception"
+    },
+    {
+      "source": "champion_ahri",
+      "relation": "has_ability",
+      "target": "ability_ahri_fox_fire"
+    },
+    {
+      "source": "champion_ahri",
+      "relation": "has_ability",
+      "target": "ability_ahri_charm"
+    },
+    {
+      "source": "champion_ahri",
+      "relation": "has_ability",
+      "target": "ability_ahri_spirit_rush"
+    },
+    {
+      "source": "champion_ahri",
+      "relation": "related_to",
+      "target": "champion_syndra",
+      "properties": {
+        "relationship_type": "lore_connection"
+      }
+    },
+    {
+      "source": "champion_ahri",
+      "relation": "related_to",
+      "target": "champion_yone",
+      "properties": {
+        "relationship_type": "lore_connection"
+      }
+    },
+    {
+      "source": "champion_ahri",
+      "relation": "related_to",
+      "target": "champion_yasuo",
+      "properties": {
+        "relationship_type": "lore_connection"
+      }
+    }
+  ],
+  "source_reliability": {
+    "ahri_-_example.txt": 0.5
+  }
+}

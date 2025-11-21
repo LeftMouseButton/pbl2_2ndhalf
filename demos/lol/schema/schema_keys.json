@@ -1,0 +1,93 @@
+{
+  "node_types": {
+    "champion": {
+      "required_fields": ["name"],
+      "optional_fields": [
+        "title",
+        "roles",
+        "resource",
+        "attack_range",
+        "regions",
+        "factions",
+        "stats",
+        "lore",
+        "playstyle_tags"
+      ]
+    },
+    "ability": {
+      "required_fields": ["name"],
+      "optional_fields": [
+        "slot",
+        "cooldown",
+        "cost",
+        "description",
+        "scaling"
+      ]
+    },
+    "item": {
+      "required_fields": ["name"],
+      "optional_fields": [
+        "item_type",
+        "stats",
+        "passives",
+        "actives",
+        "description"
+      ]
+    },
+    "rune": {
+      "required_fields": ["name"],
+      "optional_fields": [
+        "tree",
+        "slot",
+        "effect",
+        "description"
+      ]
+    },
+    "region": {
+      "required_fields": ["name"],
+      "optional_fields": ["description"]
+    },
+    "faction": {
+      "required_fields": ["name"],
+      "optional_fields": ["description"]
+    },
+    "role": {
+      "required_fields": ["name"],
+      "optional_fields": ["description"]
+    }
+  },
+
+  "edge_types": {
+    "has_ability": {
+      "source": "champion",
+      "target": "ability"
+    },
+    "belongs_to_region": {
+      "source": "champion",
+      "target": "region"
+    },
+    "belongs_to_faction": {
+      "source": "champion",
+      "target": "faction"
+    },
+    "has_role": {
+      "source": "champion",
+      "target": "role"
+    },
+    "uses_item_effectively": {
+      "source": "champion",
+      "target": "item",
+      "properties": ["context"]
+    },
+    "paired_with_rune": {
+      "source": "champion",
+      "target": "rune",
+      "properties": ["context"]
+    },
+    "related_to": {
+      "source": "champion",
+      "target": "champion",
+      "properties": ["relationship_type"]
+    }
+  }
+}

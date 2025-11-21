@@ -1,0 +1,140 @@
+{
+  "entities": [
+    {
+      "id": "pokemon_charizard",
+      "type": "pokemon",
+      "name": "Charizard",
+      "attributes": {
+        "pokedex_number": 6,
+        "types": ["Fire", "Flying"],
+        "description": "Charizard is a Fire/Flying Pokémon known for its powerful flames.",
+        "evolution_stage": 3
+      }
+    },
+    {
+      "id": "pokemon_charmeleon",
+      "type": "pokemon",
+      "name": "Charmeleon",
+      "attributes": {
+        "pokedex_number": 5
+      }
+    },
+    {
+      "id": "move_flamethrower",
+      "type": "move",
+      "name": "Flamethrower",
+      "attributes": {
+        "move_type": "Fire",
+        "description": "A powerful burst of flame."
+      }
+    },
+    {
+      "id": "move_air_slash",
+      "type": "move",
+      "name": "Air Slash",
+      "attributes": {
+        "move_type": "Flying",
+        "description": "A blade of wind that slices the target."
+      }
+    },
+    {
+      "id": "move_dragon_claw",
+      "type": "move",
+      "name": "Dragon Claw",
+      "attributes": {
+        "move_type": "Dragon"
+      }
+    },
+    {
+      "id": "ability_blaze",
+      "type": "ability",
+      "name": "Blaze",
+      "attributes": {
+        "description": "Powers up Fire-type moves when the Pokémon's HP is low."
+      }
+    },
+    {
+      "id": "type_fire",
+      "type": "type",
+      "name": "Fire"
+    },
+    {
+      "id": "type_flying",
+      "type": "type",
+      "name": "Flying"
+    },
+    {
+      "id": "type_rock",
+      "type": "type",
+      "name": "Rock"
+    },
+    {
+      "id": "region_kanto",
+      "type": "region",
+      "name": "Kanto"
+    }
+  ],
+
+  "relationships": [
+    {
+      "source": "pokemon_charmeleon",
+      "relation": "evolves_to",
+      "target": "pokemon_charizard",
+      "properties": {
+        "condition": "Level 36"
+      }
+    },
+    {
+      "source": "pokemon_charizard",
+      "relation": "has_type",
+      "target": "type_fire"
+    },
+    {
+      "source": "pokemon_charizard",
+      "relation": "has_type",
+      "target": "type_flying"
+    },
+    {
+      "source": "pokemon_charizard",
+      "relation": "has_ability",
+      "target": "ability_blaze"
+    },
+    {
+      "source": "pokemon_charizard",
+      "relation": "learns_move",
+      "target": "move_flamethrower",
+      "properties": {
+        "method": "unknown",
+        "level": null
+      }
+    },
+    {
+      "source": "pokemon_charizard",
+      "relation": "learns_move",
+      "target": "move_air_slash",
+      "properties": {
+        "method": "unknown",
+        "level": null
+      }
+    },
+    {
+      "source": "pokemon_charizard",
+      "relation": "learns_move",
+      "target": "move_dragon_claw",
+      "properties": {
+        "method": "unknown",
+        "level": null
+      }
+    },
+    {
+      "source": "type_fire",
+      "relation": "weak_against",
+      "target": "type_rock"
+    },
+    {
+      "source": "pokemon_charizard",
+      "relation": "found_in_region",
+      "target": "region_kanto"
+    }
+  ]
+}

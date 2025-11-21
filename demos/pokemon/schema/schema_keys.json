@@ -1,0 +1,108 @@
+{
+  "node_types": {
+    "pokemon": {
+      "required_fields": ["name"],
+      "optional_fields": [
+        "pokedex_number",
+        "types",
+        "abilities",
+        "egg_groups",
+        "stats",
+        "evolution_stage",
+        "description",
+        "gender_ratio",
+        "forms"
+      ]
+    },
+    "move": {
+      "required_fields": ["name"],
+      "optional_fields": [
+        "move_type",
+        "category",
+        "power",
+        "accuracy",
+        "pp",
+        "description",
+        "secondary_effects"
+      ]
+    },
+    "ability": {
+      "required_fields": ["name"],
+      "optional_fields": [
+        "description",
+        "activation_conditions",
+        "battle_effect",
+        "overworld_effect"
+      ]
+    },
+    "type": {
+      "required_fields": ["name"],
+      "optional_fields": ["description"]
+    },
+    "region": {
+      "required_fields": ["name"],
+      "optional_fields": ["description"]
+    },
+    "trainer": {
+      "required_fields": ["name"],
+      "optional_fields": [
+        "region",
+        "team",
+        "specialty_type",
+        "description"
+      ]
+    },
+    "item": {
+      "required_fields": ["name"],
+      "optional_fields": [
+        "description",
+        "item_type",
+        "battle_effect",
+        "overworld_effect"
+      ]
+    }
+  },
+
+  "edge_types": {
+    "evolves_to": {
+      "source": "pokemon",
+      "target": "pokemon",
+      "properties": ["condition"] 
+    },
+    "has_type": {
+      "source": "pokemon",
+      "target": "type"
+    },
+    "has_ability": {
+      "source": "pokemon",
+      "target": "ability"
+    },
+    "learns_move": {
+      "source": "pokemon",
+      "target": "move",
+      "properties": ["method", "level"]
+    },
+    "strong_against": {
+      "source": "type",
+      "target": "type"
+    },
+    "weak_against": {
+      "source": "type",
+      "target": "type"
+    },
+    "has_item_effect": {
+      "source": "item",
+      "target": "pokemon",
+      "properties": ["effect"]
+    },
+    "trainer_has_pokemon": {
+      "source": "trainer",
+      "target": "pokemon",
+      "properties": ["role"]
+    },
+    "found_in_region": {
+      "source": "pokemon",
+      "target": "region"
+    }
+  }
+}

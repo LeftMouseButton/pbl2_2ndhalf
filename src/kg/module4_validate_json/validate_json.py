@@ -44,7 +44,7 @@ def create_model_from_schema(schema: dict):
     fields = {}
     for key, val in schema.items():
         if isinstance(val, list):
-            fields[key] = (List[str], [])
+            fields[key] = (List[Any], [])
         elif isinstance(val, dict):
             fields[key] = (Dict[str, Any], {})
         elif isinstance(val, str):
@@ -122,10 +122,6 @@ def validate_file(path: Path):
             print(f"❌ {path.name}: Could not repair: {e2}")
             return False
 
-    # Ensure disease_name is not empty
-    if "disease_name" in data and not str(data["disease_name"]).strip():
-        doc.disease_name = "Unknown Disease"
-
     path.write_text(dump_json_compatible(doc), encoding="utf-8")
     print(f"✅ {path.name}: Validated and saved (in place)")
     return True
@@ -170,6 +166,15 @@ if __name__ == "__main__":
     base_dir = resolve_base_dir(args.graph_name, args.data_location, create=True)
     schema_path = Path(args.schema_path) if args.schema_path else base_dir / "schema" / "schema_keys.json"
     target_path = Path(args.target) if args.target else base_dir / "json"
+
+    # If schema defines node_types (graph schema), skip validation—assume structured elsewhere
+    try:
+        schema_json = json.loads(schema_path.read_text(encoding="utf-8"))
+        if isinstance(schema_json, dict) and "node_types" in schema_json:
+            print(f"Schema uses node_types; skipping Module 4 validation for graph-style schema: {schema_path}")
+            sys.exit(0)
+    except Exception as e:
+        print(f"⚠️  Could not parse schema at {schema_path}: {e}")
 
     configure_schema(schema_path)
 

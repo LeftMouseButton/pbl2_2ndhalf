@@ -1,0 +1,22 @@
+
+# Eevee
+Number: 133
+Types: Normal
+Abilities: Run Away, Adaptability
+Hidden Ability: Anticipation
+
+## Pokédex Entries
+Eevee has an irregular genetic code that allows it to evolve into many different forms. Its unstable structure enables it to adapt to various environments.
+
+## Evolution
+- Evolves into Vaporeon when exposed to a Water Stone.
+- Evolves into Jolteon when exposed to a Thunder Stone.
+- Evolves into Flareon when exposed to a Fire Stone.
+- Evolves into Espeon when leveled up during the day with high friendship.
+- Evolves into Umbreon when leveled up at night with high friendship.
+- Evolves into Leafeon when leveled up near a Moss Rock.
+- Evolves into Glaceon when leveled up near an Ice Rock.
+- Evolves into Sylveon when leveled up knowing a Fairy-type move with high affection.
+
+## Moves (summary)
+Eevee learns a variety of Normal-type moves and can learn numerous other moves via TMs and breeding.

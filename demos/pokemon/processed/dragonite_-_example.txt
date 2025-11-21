@@ -1,0 +1,15 @@
+# Dragonite
+Number: 149
+Types: Dragon, Flying
+Abilities: Inner Focus
+Hidden Ability: Multiscale
+
+## Pokédex Entries
+Dragonite is capable of flying around the world in 16 hours. It is highly intelligent and known to rescue people from drowning and shipwrecks.
+
+## Evolution
+- Evolves from Dragonair at level 55.
+- Dragonair evolves from Dratini at level 30.
+
+## Moves (summary)
+Dragonite learns powerful Dragon- and Flying-type moves, as well as diverse TMs.

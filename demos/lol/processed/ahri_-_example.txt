@@ -1,0 +1,24 @@
+# Ahri
+Title: The Nine-Tailed Fox
+Roles: Mage, Assassin
+Region: Ionia
+Faction: Vastaya
+Resource: Mana
+Attack Range: 550
+
+## Lore
+Ahri is a Vastayan fox spirit with the ability to manipulate emotions and steal life essence. 
+She once consumed the life force of mortals, but now strives to understand her origins and find a new path.
+Her magic is deeply tied to Ionia’s spiritual realm, and her story intersects with other Ionian champions.
+
+## Abilities
+Orb of Deception (Q): Ahri throws an orb that travels out and back, dealing magic damage and then true damage.
+Fox-Fire (W): Three spectral flames circle Ahri and automatically target nearby enemies.
+Charm (E): Ahri blows a kiss that charms an enemy, causing them to walk harmlessly toward her.
+Spirit Rush (R): Ahri dashes forward up to three times, firing energy bolts at nearby enemies.
+
+## Relationships
+Ahri has lore connections to Syndra, Yone, and Yasuo through Ionian history.
+
+## Moves (summary)
+Ahri uses long-range magic abilities focused on burst damage and mobility.

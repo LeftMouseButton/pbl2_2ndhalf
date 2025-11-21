@@ -80,6 +80,36 @@ def build_graph(records: List[Dict[str, Any]]) -> Tuple[nx.Graph, BuildStats]:
     G = nx.Graph()
 
     for rec in records:
+        # Graph-style record with explicit entities/relationships
+        if "entities" in rec and "relationships" in rec:
+            entities = rec.get("entities") or []
+            rels = rec.get("relationships") or []
+            # add all entities
+            for ent in entities:
+                ent_id = ent.get("id") or ent.get("name")
+                ent_type = ent.get("type", "entity")
+                label = ent.get("name", ent_id)
+                attrs = {"type": ent_type, "label": label}
+                if ent.get("attributes"):
+                    attrs.update(ent["attributes"])
+                if ent_id:
+                    G.add_node(ent_id, **attrs)
+            # add edges
+            for rel in rels:
+                src = rel.get("source")
+                tgt = rel.get("target")
+                if not (src and tgt):
+                    continue
+                etype = rel.get("relation") or rel.get("type") or "related"
+                attrs = {"type": etype}
+                if rel.get("properties"):
+                    attrs.update(rel["properties"])
+                if G.has_edge(src, tgt):
+                    # don't override existing attributes
+                    continue
+                G.add_edge(src, tgt, **attrs)
+            continue
+
         disease = (rec.get("disease_name") or rec.get("name") or "").strip()
         if not disease:
             continue

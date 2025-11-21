@@ -1,0 +1,106 @@
+{
+  "entities": [
+    {
+      "id": "pokemon_dragonite",
+      "type": "pokemon",
+      "name": "Dragonite",
+      "attributes": {
+        "pokedex_number": 149,
+        "types": [
+          "Dragon",
+          "Flying"
+        ],
+        "abilities": [
+          "Inner Focus",
+          "Multiscale"
+        ],
+        "description": "Dragonite is capable of flying around the world in 16 hours. It is highly intelligent and known to rescue people from drowning and shipwrecks."
+      }
+    },
+    {
+      "id": "pokemon_dragonair",
+      "type": "pokemon",
+      "name": "Dragonair",
+      "attributes": {
+        "pokedex_number": 148,
+        "evolution_stage": 2
+      }
+    },
+    {
+      "id": "pokemon_dratini",
+      "type": "pokemon",
+      "name": "Dratini",
+      "attributes": {
+        "pokedex_number": 147,
+        "evolution_stage": 1
+      }
+    },
+    {
+      "id": "type_dragon",
+      "type": "type",
+      "name": "Dragon"
+    },
+    {
+      "id": "type_flying",
+      "type": "type",
+      "name": "Flying"
+    },
+    {
+      "id": "ability_inner_focus",
+      "type": "ability",
+      "name": "Inner Focus",
+      "attributes": {
+        "description": "Prevents the Pokémon from flinching."
+      }
+    },
+    {
+      "id": "ability_multiscale",
+      "type": "ability",
+      "name": "Multiscale",
+      "attributes": {
+        "description": "Reduces damage taken when the Pokémon is at full HP."
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "source": "pokemon_dragonair",
+      "relation": "evolves_to",
+      "target": "pokemon_dragonite",
+      "properties": {
+        "condition": "Level 55"
+      }
+    },
+    {
+      "source": "pokemon_dratini",
+      "relation": "evolves_to",
+      "target": "pokemon_dragonair",
+      "properties": {
+        "condition": "Level 30"
+      }
+    },
+    {
+      "source": "pokemon_dragonite",
+      "relation": "has_type",
+      "target": "type_dragon"
+    },
+    {
+      "source": "pokemon_dragonite",
+      "relation": "has_type",
+      "target": "type_flying"
+    },
+    {
+      "source": "pokemon_dragonite",
+      "relation": "has_ability",
+      "target": "ability_inner_focus"
+    },
+    {
+      "source": "pokemon_dragonite",
+      "relation": "has_ability",
+      "target": "ability_multiscale"
+    }
+  ],
+  "source_reliability": {
+    "dragonite_-_example.txt": 0.5
+  }
+}

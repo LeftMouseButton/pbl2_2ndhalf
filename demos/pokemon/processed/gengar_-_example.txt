@@ -1,0 +1,15 @@
+# Gengar
+Number: 94
+Types: Ghost, Poison
+Abilities: Cursed Body
+Hidden Ability: None
+
+## Pokédex Entries
+Gengar hides in shadows and absorbs heat from nearby surroundings, causing the air to become cold. It is known to mimic the shadows of its prey.
+
+## Evolution
+- Evolves from Haunter when traded.
+- Gastly evolves into Haunter at level 25.
+
+## Moves (summary)
+Gengar learns many Ghost- and Poison-type attacks and has access to strong special attacks.

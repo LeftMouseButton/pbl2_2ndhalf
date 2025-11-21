@@ -1,0 +1,116 @@
+{
+  "entities": [
+    {
+      "id": "champion_thresh",
+      "type": "champion",
+      "name": "Thresh",
+      "attributes": {
+        "title": "The Chain Warden",
+        "roles": [
+          "Support",
+          "Control"
+        ],
+        "region": [
+          "Shadow Isles"
+        ],
+        "faction": [
+          "Undead"
+        ],
+        "resource": "Mana",
+        "attack_range": 450,
+        "lore": "Thresh is a spectral jailer from the Shadow Isles who delights in torment. Once a custodian of arcane secrets, he became twisted by the Ruination. He traps souls to prolong his own existence and manipulates victims with cruel cunning.",
+        "playstyle_tags": [
+          "Utility",
+          "Crowd Control"
+        ]
+      }
+    },
+    {
+      "id": "ability_thresh_q_death_sentence",
+      "type": "ability",
+      "name": "Death Sentence",
+      "attributes": {
+        "slot": "Q",
+        "description": "Thresh throws his scythe, pulling himself to enemies he hooks."
+      }
+    },
+    {
+      "id": "ability_thresh_w_dark_passage",
+      "type": "ability",
+      "name": "Dark Passage",
+      "attributes": {
+        "slot": "W",
+        "description": "Thresh throws a lantern that shields allies and allows them to dash to him."
+      }
+    },
+    {
+      "id": "ability_thresh_e_flay",
+      "type": "ability",
+      "name": "Flay",
+      "attributes": {
+        "slot": "E",
+        "description": "Thresh sweeps his chain, knocking enemies in a direction."
+      }
+    },
+    {
+      "id": "ability_thresh_r_the_box",
+      "type": "ability",
+      "name": "The Box",
+      "attributes": {
+        "slot": "R",
+        "description": "Thresh creates a prison of spectral walls that damage and slow enemies."
+      }
+    },
+    {
+      "id": "champion_lucian",
+      "type": "champion",
+      "name": "Lucian"
+    },
+    {
+      "id": "champion_senna",
+      "type": "champion",
+      "name": "Senna"
+    }
+  ],
+  "relationships": [
+    {
+      "source": "champion_thresh",
+      "relation": "has_ability",
+      "target": "ability_thresh_q_death_sentence"
+    },
+    {
+      "source": "champion_thresh",
+      "relation": "has_ability",
+      "target": "ability_thresh_w_dark_passage"
+    },
+    {
+      "source": "champion_thresh",
+      "relation": "has_ability",
+      "target": "ability_thresh_e_flay"
+    },
+    {
+      "source": "champion_thresh",
+      "relation": "has_ability",
+      "target": "ability_thresh_r_the_box"
+    },
+    {
+      "source": "champion_thresh",
+      "relation": "related_to",
+      "target": "champion_lucian",
+      "properties": {
+        "relationship_type": "lore_connection"
+      }
+    },
+    {
+      "source": "champion_thresh",
+      "relation": "related_to",
+      "target": "champion_senna",
+      "properties": {
+        "relationship_type": "lore_connection"
+      }
+    }
+  ],
+  "source_reliability": {
+    "thresh_-_example.txt": 0.5
+  }
+}

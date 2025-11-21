@@ -1,0 +1,50 @@
+node,label,type,community
+pokemon_dragonite,Dragonite,pokemon,0
+pokemon_dragonair,Dragonair,pokemon,0
+pokemon_dratini,Dratini,pokemon,0
+type_dragon,Dragon,type,0
+type_flying,Flying,type,0
+ability_inner_focus,Inner Focus,ability,0
+ability_multiscale,Multiscale,ability,0
+pokemon_eevee,Eevee,pokemon,1
+type_normal,Normal,type,1
+ability_run_away,Run Away,ability,1
+ability_adaptability,Adaptability,ability,1
+ability_anticipation,Anticipation,ability,1
+item_water_stone,Water Stone,item,2
+item_thunder_stone,Thunder Stone,item,3
+item_fire_stone,Fire Stone,item,4
+pokemon_vaporeon,Vaporeon,pokemon,1
+pokemon_jolteon,Jolteon,pokemon,1
+pokemon_flareon,Flareon,pokemon,1
+pokemon_espeon,Espeon,pokemon,1
+pokemon_umbreon,Umbreon,pokemon,1
+pokemon_leafeon,Leafeon,pokemon,1
+pokemon_glaceon,Glaceon,pokemon,1
+pokemon_sylveon,Sylveon,pokemon,1
+type_fairy,Fairy,type,5
+item_moss_rock,Moss Rock,item,6
+item_ice_rock,Ice Rock,item,7
+move_fairy_type_move,move_fairy_type_move,,1
+pokemon_gengar,Gengar,pokemon,8
+pokemon_haunter,Haunter,pokemon,8
+pokemon_gastly,Gastly,pokemon,8
+ability_cursed_body,Cursed Body,ability,8
+type_ghost,Ghost,type,8
+type_poison,Poison,type,8
+pokemon_lucario,Lucario,pokemon,9
+pokemon_riolu,Riolu,pokemon,9
+type_fighting,Fighting,type,9
+type_steel,Steel,type,9
+ability_steadfast,Steadfast,ability,9
+ability_justified,Justified,ability,9
+pokemon_pikachu,Pikachu,pokemon,10
+pokemon_pichu,Pichu,pokemon,10
+pokemon_raichu,Raichu,pokemon,10
+pokemon_alolan_raichu,Alolan Raichu,pokemon,10
+move_thunder_shock,Thunder Shock,move,10
+move_thunderbolt,Thunderbolt,move,10
+region_alola,Alola,region,10
+type_electric,Electric,type,10
+Static,Static,,10
+Lightning Rod,Lightning Rod,,10

@@ -1,0 +1,24 @@
+# Thresh
+Title: The Chain Warden
+Roles: Support, Control
+Region: Shadow Isles
+Faction: None (Undead)
+Resource: Mana
+Attack Range: 450
+
+## Lore
+Thresh is a spectral jailer from the Shadow Isles who delights in torment. 
+Once a custodian of arcane secrets, he became twisted by the Ruination. 
+He traps souls to prolong his own existence and manipulates victims with cruel cunning.
+
+## Abilities
+Death Sentence (Q): Thresh throws his scythe, pulling himself to enemies he hooks.
+Dark Passage (W): Thresh throws a lantern that shields allies and allows them to dash to him.
+Flay (E): Thresh sweeps his chain, knocking enemies in a direction.
+The Box (R): Thresh creates a prison of spectral walls that damage and slow enemies.
+
+## Relationships
+Thresh has strong lore connections to Lucian and Senna, whose souls he once tormented.
+
+## Moves (summary)
+Thresh uses utility and crowd control abilities to protect allies and manipulate enemies.

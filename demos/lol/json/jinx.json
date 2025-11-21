@@ -1,0 +1,178 @@
+{
+  "entities": [
+    {
+      "id": "champion_jinx",
+      "type": "champion",
+      "name": "Jinx",
+      "attributes": {
+        "title": "The Loose Cannon",
+        "roles": [
+          "Marksman"
+        ],
+        "region": [
+          "Zaun"
+        ],
+        "resource": "Mana",
+        "attack_range": 525,
+        "lore": "Jinx is a chaotic and impulsive criminal from Zaun. She creates mayhem for amusement and delights in destruction. Her rivalry with Vi fuels many conflicts in Piltover and Zaun. She is known for her unpredictability, manic personality, and mastery of explosives.",
+        "playstyle_tags": [
+          "long-range attacks",
+          "sustained DPS",
+          "explosive burst damage"
+        ]
+      }
+    },
+    {
+      "id": "ability_jinx_q_switcheroo",
+      "type": "ability",
+      "name": "Switcheroo!",
+      "attributes": {
+        "slot": "Q",
+        "description": "Jinx switches between her minigun and rocket launcher."
+      }
+    },
+    {
+      "id": "ability_jinx_w_zap",
+      "type": "ability",
+      "name": "Zap!",
+      "attributes": {
+        "slot": "W",
+        "description": "Jinx fires a long-range shock blast."
+      }
+    },
+    {
+      "id": "ability_jinx_e_flame_chompers",
+      "type": "ability",
+      "name": "Flame Chompers!",
+      "attributes": {
+        "slot": "E",
+        "description": "Jinx throws snare grenades that root enemies."
+      }
+    },
+    {
+      "id": "ability_jinx_r_super_mega_death_rocket",
+      "type": "ability",
+      "name": "Super Mega Death Rocket!",
+      "attributes": {
+        "slot": "R",
+        "description": "Jinx fires a global rocket that gains damage with travel distance."
+      }
+    },
+    {
+      "id": "champion_vi",
+      "type": "champion",
+      "name": "Vi",
+      "attributes": {}
+    },
+    {
+      "id": "champion_caitlyn",
+      "type": "champion",
+      "name": "Caitlyn",
+      "attributes": {}
+    },
+    {
+      "id": "champion_ekko",
+      "type": "champion",
+      "name": "Ekko",
+      "attributes": {}
+    },
+    {
+      "id": "region_zaun",
+      "type": "region",
+      "name": "Zaun",
+      "attributes": {}
+    },
+    {
+      "id": "region_piltover",
+      "type": "region",
+      "name": "Piltover",
+      "attributes": {}
+    }
+  ],
+  "relationships": [
+    {
+      "source": "champion_jinx",
+      "relation": "has_ability",
+      "target": "ability_jinx_q_switcheroo"
+    },
+    {
+      "source": "champion_jinx",
+      "relation": "has_ability",
+      "target": "ability_jinx_w_zap"
+    },
+    {
+      "source": "champion_jinx",
+      "relation": "has_ability",
+      "target": "ability_jinx_e_flame_chompers"
+    },
+    {
+      "source": "champion_jinx",
+      "relation": "has_ability",
+      "target": "ability_jinx_r_super_mega_death_rocket"
+    },
+    {
+      "source": "champion_jinx",
+      "relation": "belongs_to_region",
+      "target": "region_zaun"
+    },
+    {
+      "source": "champion_jinx",
+      "relation": "related_to",
+      "target": "champion_vi",
+      "properties": {
+        "relationship_type": "rival"
+      }
+    },
+    {
+      "source": "champion_jinx",
+      "relation": "related_to",
+      "target": "champion_caitlyn",
+      "properties": {
+        "relationship_type": "conflict_connection"
+      }
+    },
+    {
+      "source": "champion_jinx",
+      "relation": "related_to",
+      "target": "champion_ekko",
+      "properties": {
+        "relationship_type": "conflict_connection"
+      }
+    },
+    {
+      "source": "champion_vi",
+      "relation": "related_to",
+      "target": "champion_jinx",
+      "properties": {
+        "relationship_type": "rival"
+      }
+    },
+    {
+      "source": "champion_caitlyn",
+      "relation": "related_to",
+      "target": "champion_jinx",
+      "properties": {
+        "relationship_type": "conflict_connection"
+      }
+    },
+    {
+      "source": "champion_ekko",
+      "relation": "related_to",
+      "target": "champion_jinx",
+      "properties": {
+        "relationship_type": "conflict_connection"
+      }
+    },
+    {
+      "source": "champion_jinx",
+      "relation": "belongs_to_region",
+      "target": "region_piltover",
+      "properties": {
+        "context": "conflicts in"
+      }
+    }
+  ],
+  "source_reliability": {
+    "jinx_-_example.txt": 0.5
+  }
+}

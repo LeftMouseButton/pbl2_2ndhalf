@@ -1,0 +1,192 @@
+{
+  "entities": [
+    {
+      "id": "champion_garen",
+      "type": "champion",
+      "name": "Garen",
+      "attributes": {
+        "title": "The Might of Demacia",
+        "roles": [
+          "Fighter",
+          "Tank"
+        ],
+        "region": [
+          "Demacia"
+        ],
+        "faction": [
+          "Dauntless Vanguard"
+        ],
+        "resource": "None",
+        "attack_range": "Melee",
+        "lore": "Garen is a proud soldier of Demacia, dedicated to maintaining justice and order. He represents Demacia’s ideals of honor and courage. As a member of the Dauntless Vanguard and brother to Lux, he fights to protect his homeland from internal and external threats.",
+        "playstyle_tags": [
+          "durability",
+          "execution"
+        ]
+      }
+    },
+    {
+      "id": "champion_lux",
+      "type": "champion",
+      "name": "Lux",
+      "attributes": {
+        "title": "The Lady of Luminosity",
+        "roles": [
+          "Mage",
+          "Support"
+        ],
+        "region": [
+          "Demacia"
+        ],
+        "faction": [
+          "Dauntless Vanguard"
+        ]
+      }
+    },
+    {
+      "id": "champion_katarina",
+      "type": "champion",
+      "name": "Katarina",
+      "attributes": {
+        "title": "The Sinister Blade",
+        "roles": [
+          "Assassin",
+          "Mage"
+        ],
+        "region": [
+          "Noxus"
+        ],
+        "faction": [
+          "Noxian Empire"
+        ]
+      }
+    },
+    {
+      "id": "ability_garen_q_decisive_strike",
+      "type": "ability",
+      "name": "Decisive Strike",
+      "attributes": {
+        "slot": "Q",
+        "description": "Garen gains movement speed and his next attack silences the target."
+      }
+    },
+    {
+      "id": "ability_garen_w_courage",
+      "type": "ability",
+      "name": "Courage",
+      "attributes": {
+        "slot": "W",
+        "description": "Garen gains a shield and damage reduction."
+      }
+    },
+    {
+      "id": "ability_garen_e_judgment",
+      "type": "ability",
+      "name": "Judgment",
+      "attributes": {
+        "slot": "E",
+        "description": "Garen rapidly spins with his sword, striking nearby enemies."
+      }
+    },
+    {
+      "id": "ability_garen_r_demacian_justice",
+      "type": "ability",
+      "name": "Demacian Justice",
+      "attributes": {
+        "slot": "R",
+        "description": "Garen executes a champion, dealing damage based on their missing health."
+      }
+    },
+    {
+      "id": "region_demacia",
+      "type": "region",
+      "name": "Demacia"
+    },
+    {
+      "id": "faction_dauntless_vanguard",
+      "type": "faction",
+      "name": "Dauntless Vanguard"
+    },
+    {
+      "id": "region_noxus",
+      "type": "region",
+      "name": "Noxus"
+    },
+    {
+      "id": "faction_noxian_empire",
+      "type": "faction",
+      "name": "Noxian Empire"
+    }
+  ],
+  "relationships": [
+    {
+      "source": "champion_garen",
+      "relation": "has_ability",
+      "target": "ability_garen_q_decisive_strike"
+    },
+    {
+      "source": "champion_garen",
+      "relation": "has_ability",
+      "target": "ability_garen_w_courage"
+    },
+    {
+      "source": "champion_garen",
+      "relation": "has_ability",
+      "target": "ability_garen_e_judgment"
+    },
+    {
+      "source": "champion_garen",
+      "relation": "has_ability",
+      "target": "ability_garen_r_demacian_justice"
+    },
+    {
+      "source": "champion_garen",
+      "relation": "belongs_to_region",
+      "target": "region_demacia"
+    },
+    {
+      "source": "champion_garen",
+      "relation": "belongs_to_faction",
+      "target": "faction_dauntless_vanguard"
+    },
+    {
+      "source": "champion_lux",
+      "relation": "belongs_to_region",
+      "target": "region_demacia"
+    },
+    {
+      "source": "champion_lux",
+      "relation": "belongs_to_faction",
+      "target": "faction_dauntless_vanguard"
+    },
+    {
+      "source": "champion_garen",
+      "relation": "related_to",
+      "target": "champion_lux",
+      "properties": {
+        "relationship_type": "brother"
+      }
+    },
+    {
+      "source": "champion_katarina",
+      "relation": "belongs_to_region",
+      "target": "region_noxus"
+    },
+    {
+      "source": "champion_katarina",
+      "relation": "belongs_to_faction",
+      "target": "faction_noxian_empire"
+    },
+    {
+      "source": "champion_garen",
+      "relation": "related_to",
+      "target": "champion_katarina",
+      "properties": {
+        "relationship_type": "opposes"
+      }
+    }
+  ],
+  "source_reliability": {
+    "garen_-_example.txt": 0.5
+  }
+}

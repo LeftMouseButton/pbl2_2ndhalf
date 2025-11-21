@@ -131,6 +131,9 @@ def process_once(disease: str, model, prompt_content: str, example_json: str, pa
         combined_text += path.read_text(encoding="utf-8")
 
     full_prompt = f"{prompt_content}\n\nExample JSON:\n{example_json}\n\nInput Text:\n{combined_text}"
+    print("\n--- DEBUG: Prompt sent to LLM ---")
+    print(full_prompt)
+    print("--- END PROMPT ---\n")
 
     print(f"🧠 Sending extraction request for '{disease}' to {MODEL_NAME}...")
     try:

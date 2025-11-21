@@ -1,0 +1,60 @@
+Task: Perform structured entity and relationship extraction for knowledge-graph population.
+
+Input: Cleaned natural-language text mainly describing an entity/topic.
+
+Goal: Identify and organize all relevant entities and their relationships, and output as valid JSON following the provided schema.
+
+Instructions:
+- Use concise entity names (no full sentences in lists).
+- Include the main entity as a node in relationships.
+- Extract associations even if implicit.
+- Noet that edge types depend on schema.
+- If multiple files for the same entity are uploaded, merge their information.
+- Output only JSON, as a single .json file, no commentary.
+- Categorize "risk factors" as "causes".
+
+The schema JSON and natural-language text follows.
+
+
+
+You are an information extraction system that converts cleaned natural-language text 
+into a structured JSON knowledge graph format.
+
+### TASK
+Read the following text and extract:
+1. Entities (Pokemon, Moves, Abilities, Types, Items, Regions, Trainers)
+2. Relationships between them
+3. Node attribute data (stats, descriptions, effects, evolution condition, move details)
+
+### OUTPUT FORMAT
+Produce a JSON object with this structure:
+
+{
+  "entities": [
+    {
+      "id": "<unique_id>",
+      "type": "<node_type>",
+      "name": "<canonical name>",
+      "attributes": { ... }
+    }
+  ],
+  "relationships": [
+    {
+      "source": "<entity_id>",
+      "relation": "<relation_type>",
+      "target": "<entity_id>",
+      "properties": { ... }
+    }
+  ]
+}
+
+### RULES
+- Use only the node types and relation types defined in the provided schema.
+- Always normalize entity names (e.g., "fire-type" → "Fire").
+- If you detect multiple forms, treat them as separate Pokémon nodes.
+- Stats must be numeric.
+- Only include relationships explicitly supported by the schema.
+- Do not invent information not present in the text.
+- Use short canonical names.
+
+The schema JSON and natural-language text follows.

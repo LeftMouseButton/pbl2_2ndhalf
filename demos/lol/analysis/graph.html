@@ -1,0 +1,557 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 850px;
+                 background-color: #0d1117;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+
+<style id="themeStyles">
+body {
+  background-color: #0d1117;
+  color: #ddd;
+}
+#legend {
+  background: rgba(0,0,0,0.85);
+  border-color: #444;
+  color: #fff;
+}
+#searchBox {
+  background: #222;
+  color: #eee;
+  border-color: #555;
+}
+#darkLightToggle {
+  background: #222;
+  color: #eee;
+  border-color: #555;
+}
+</style>
+
+
+<h1 style="
+    text-align:center;
+    color:#ddd;
+    font-family:Arial, sans-serif;
+    margin-top:20px;
+">
+Enhanced lol Knowledge Graph
+</h1>
+
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "champion_ahri", "label": "Ahri", "physics": true, "shape": "dot", "size": 25, "title": "Ahri\u003cbr\u003etype=champion\u003cbr\u003ecommunity=0", "type": "champion", "x": 29.00962836967124, "y": 366.9582649728719}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_ahri_orb_of_deception", "label": "Orb of Deception", "physics": true, "shape": "dot", "size": 25, "title": "Orb of Deception\u003cbr\u003etype=ability\u003cbr\u003ecommunity=0", "type": "ability", "x": 91.95594624868343, "y": 458.8377460109186}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_ahri_fox_fire", "label": "Fox-Fire", "physics": true, "shape": "dot", "size": 25, "title": "Fox-Fire\u003cbr\u003etype=ability\u003cbr\u003ecommunity=0", "type": "ability", "x": -79.90941420755487, "y": 353.2789879131979}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_ahri_charm", "label": "Charm", "physics": true, "shape": "dot", "size": 25, "title": "Charm\u003cbr\u003etype=ability\u003cbr\u003ecommunity=0", "type": "ability", "x": -35.67950661539957, "y": 474.34774113072785}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_ahri_spirit_rush", "label": "Spirit Rush", "physics": true, "shape": "dot", "size": 25, "title": "Spirit Rush\u003cbr\u003etype=ability\u003cbr\u003ecommunity=0", "type": "ability", "x": 28.100070739672, "y": 495.1243753075036}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "champion_syndra", "label": "Syndra", "physics": true, "shape": "dot", "size": 25, "title": "Syndra\u003cbr\u003etype=champion\u003cbr\u003ecommunity=0", "type": "champion", "x": -81.69038440971742, "y": 426.80428814393133}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "champion_yone", "label": "Yone", "physics": true, "shape": "dot", "size": 25, "title": "Yone\u003cbr\u003etype=champion\u003cbr\u003ecommunity=0", "type": "champion", "x": 80.20502186748934, "y": 283.5727207080308}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "champion_yasuo", "label": "Yasuo", "physics": true, "shape": "dot", "size": 25, "title": "Yasuo\u003cbr\u003etype=champion\u003cbr\u003ecommunity=1", "type": "champion", "x": 142.86782860901218, "y": 205.686656341146}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "champion_garen", "label": "Garen", "physics": true, "shape": "dot", "size": 25, "title": "Garen\u003cbr\u003etype=champion\u003cbr\u003ecommunity=2", "type": "champion", "x": -304.71127823423654, "y": -451.55140445103706}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "champion_lux", "label": "Lux", "physics": true, "shape": "dot", "size": 25, "title": "Lux\u003cbr\u003etype=champion\u003cbr\u003ecommunity=2", "type": "champion", "x": -348.11492063032, "y": -345.3597915190617}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "champion_katarina", "label": "Katarina", "physics": true, "shape": "dot", "size": 25, "title": "Katarina\u003cbr\u003etype=champion\u003cbr\u003ecommunity=3", "type": "champion", "x": -186.1704821101893, "y": -574.9075307257991}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_garen_q_decisive_strike", "label": "Decisive Strike", "physics": true, "shape": "dot", "size": 25, "title": "Decisive Strike\u003cbr\u003etype=ability\u003cbr\u003ecommunity=2", "type": "ability", "x": -369.29542370551945, "y": -557.829048867543}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_garen_w_courage", "label": "Courage", "physics": true, "shape": "dot", "size": 25, "title": "Courage\u003cbr\u003etype=ability\u003cbr\u003ecommunity=2", "type": "ability", "x": -208.091516196375, "y": -431.86549178480124}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_garen_e_judgment", "label": "Judgment", "physics": true, "shape": "dot", "size": 25, "title": "Judgment\u003cbr\u003etype=ability\u003cbr\u003ecommunity=2", "type": "ability", "x": -410.5595989783949, "y": -484.4460608182902}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_garen_r_demacian_justice", "label": "Demacian Justice", "physics": true, "shape": "dot", "size": 25, "title": "Demacian Justice\u003cbr\u003etype=ability\u003cbr\u003ecommunity=2", "type": "ability", "x": -294.0209672468474, "y": -557.5785629284852}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "region_demacia", "label": "Demacia", "physics": true, "shape": "dot", "size": 25, "title": "Demacia\u003cbr\u003etype=region\u003cbr\u003ecommunity=2", "type": "region", "x": -391.26592599557404, "y": -388.6231237993278}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "faction_dauntless_vanguard", "label": "Dauntless Vanguard", "physics": true, "shape": "dot", "size": 25, "title": "Dauntless Vanguard\u003cbr\u003etype=faction\u003cbr\u003ecommunity=2", "type": "faction", "x": -288.97317332179455, "y": -346.66366945262394}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "region_noxus", "label": "Noxus", "physics": true, "shape": "dot", "size": 25, "title": "Noxus\u003cbr\u003etype=region\u003cbr\u003ecommunity=3", "type": "region", "x": -93.58987928040824, "y": -644.9803023391017}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "faction_noxian_empire", "label": "Noxian Empire", "physics": true, "shape": "dot", "size": 25, "title": "Noxian Empire\u003cbr\u003etype=faction\u003cbr\u003ecommunity=3", "type": "faction", "x": -166.2549020405604, "y": -696.7613685455719}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "champion_jinx", "label": "Jinx", "physics": true, "shape": "dot", "size": 25, "title": "Jinx\u003cbr\u003etype=champion\u003cbr\u003ecommunity=4", "type": "champion", "x": 813.406120383724, "y": 448.5902326678152}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_jinx_q_switcheroo", "label": "Switcheroo!", "physics": true, "shape": "dot", "size": 25, "title": "Switcheroo!\u003cbr\u003etype=ability\u003cbr\u003ecommunity=4", "type": "ability", "x": 712.0848656678519, "y": 424.9709910909485}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_jinx_w_zap", "label": "Zap!", "physics": true, "shape": "dot", "size": 25, "title": "Zap!\u003cbr\u003etype=ability\u003cbr\u003ecommunity=4", "type": "ability", "x": 718.7605645053811, "y": 513.9836699198177}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_jinx_e_flame_chompers", "label": "Flame Chompers!", "physics": true, "shape": "dot", "size": 25, "title": "Flame Chompers!\u003cbr\u003etype=ability\u003cbr\u003ecommunity=4", "type": "ability", "x": 829.2471721251615, "y": 582.4341290061307}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_jinx_r_super_mega_death_rocket", "label": "Super Mega Death Rocket!", "physics": true, "shape": "dot", "size": 25, "title": "Super Mega Death Rocket!\u003cbr\u003etype=ability\u003cbr\u003ecommunity=4", "type": "ability", "x": 828.5292429254455, "y": 527.0705221539572}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "champion_vi", "label": "Vi", "physics": true, "shape": "dot", "size": 25, "title": "Vi\u003cbr\u003etype=champion\u003cbr\u003ecommunity=4", "type": "champion", "x": 863.087593479929, "y": 348.3921620807097}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "champion_caitlyn", "label": "Caitlyn", "physics": true, "shape": "dot", "size": 25, "title": "Caitlyn\u003cbr\u003etype=champion\u003cbr\u003ecommunity=4", "type": "champion", "x": 936.2022321803029, "y": 402.3649758069828}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "champion_ekko", "label": "Ekko", "physics": true, "shape": "dot", "size": 25, "title": "Ekko\u003cbr\u003etype=champion\u003cbr\u003ecommunity=4", "type": "champion", "x": 945.4784849937354, "y": 469.80119241061095}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "region_zaun", "label": "Zaun", "physics": true, "shape": "dot", "size": 25, "title": "Zaun\u003cbr\u003etype=region\u003cbr\u003ecommunity=4", "type": "region", "x": 921.1536455700971, "y": 534.9325060051516}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "region_piltover", "label": "Piltover", "physics": true, "shape": "dot", "size": 25, "title": "Piltover\u003cbr\u003etype=region\u003cbr\u003ecommunity=4", "type": "region", "x": 715.9995275777769, "y": 345.4071906076152}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "champion_thresh", "label": "Thresh", "physics": true, "shape": "dot", "size": 25, "title": "Thresh\u003cbr\u003etype=champion\u003cbr\u003ecommunity=5", "type": "champion", "x": -881.5389734826557, "y": -411.549598690185}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_thresh_q_death_sentence", "label": "Death Sentence", "physics": true, "shape": "dot", "size": 25, "title": "Death Sentence\u003cbr\u003etype=ability\u003cbr\u003ecommunity=5", "type": "ability", "x": -959.5692684208252, "y": -515.0056919195034}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_thresh_w_dark_passage", "label": "Dark Passage", "physics": true, "shape": "dot", "size": 25, "title": "Dark Passage\u003cbr\u003etype=ability\u003cbr\u003ecommunity=5", "type": "ability", "x": -759.0576852483429, "y": -365.10291646034176}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_thresh_e_flay", "label": "Flay", "physics": true, "shape": "dot", "size": 25, "title": "Flay\u003cbr\u003etype=ability\u003cbr\u003ecommunity=5", "type": "ability", "x": -963.9693967231757, "y": -451.06234965759796}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_thresh_r_the_box", "label": "The Box", "physics": true, "shape": "dot", "size": 25, "title": "The Box\u003cbr\u003etype=ability\u003cbr\u003ecommunity=5", "type": "ability", "x": -1000.0, "y": -387.7566543527378}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "champion_lucian", "label": "Lucian", "physics": true, "shape": "dot", "size": 25, "title": "Lucian\u003cbr\u003etype=champion\u003cbr\u003ecommunity=5", "type": "champion", "x": -952.164206326332, "y": -325.74970963547196}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "champion_senna", "label": "Senna", "physics": true, "shape": "dot", "size": 25, "title": "Senna\u003cbr\u003etype=champion\u003cbr\u003ecommunity=5", "type": "champion", "x": -817.5243755992594, "y": -483.6812505027891}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_yasuo_q_steel_tempest", "label": "Steel Tempest", "physics": true, "shape": "dot", "size": 25, "title": "Steel Tempest\u003cbr\u003etype=ability\u003cbr\u003ecommunity=1", "type": "ability", "x": 150.0356523799876, "y": 95.1528838354505}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_yasuo_w_wind_wall", "label": "Wind Wall", "physics": true, "shape": "dot", "size": 25, "title": "Wind Wall\u003cbr\u003etype=ability\u003cbr\u003ecommunity=1", "type": "ability", "x": 233.5905471978939, "y": 255.45226494866523}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_yasuo_e_sweeping_blade", "label": "Sweeping Blade", "physics": true, "shape": "dot", "size": 25, "title": "Sweeping Blade\u003cbr\u003etype=ability\u003cbr\u003ecommunity=1", "type": "ability", "x": 221.43106162617266, "y": 108.09023999724957}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "ability_yasuo_r_last_breath", "label": "Last Breath", "physics": true, "shape": "dot", "size": 25, "title": "Last Breath\u003cbr\u003etype=ability\u003cbr\u003ecommunity=1", "type": "ability", "x": 75.71115252419561, "y": 126.76556126057974}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "champion_riven", "label": "Riven", "physics": true, "shape": "dot", "size": 25, "title": "Riven\u003cbr\u003etype=champion\u003cbr\u003ecommunity=1", "type": "champion", "x": 255.29491980129998, "y": 172.45522413025665}]);
+                  edges = new vis.DataSet([{"color": "#888888", "from": "champion_ahri", "title": "has_ability", "to": "ability_ahri_orb_of_deception", "width": 2}, {"color": "#888888", "from": "champion_ahri", "title": "has_ability", "to": "ability_ahri_fox_fire", "width": 2}, {"color": "#888888", "from": "champion_ahri", "title": "has_ability", "to": "ability_ahri_charm", "width": 2}, {"color": "#888888", "from": "champion_ahri", "title": "has_ability", "to": "ability_ahri_spirit_rush", "width": 2}, {"color": "#888888", "from": "champion_ahri", "title": "related_to", "to": "champion_syndra", "width": 2}, {"color": "#888888", "from": "champion_ahri", "title": "related_to", "to": "champion_yone", "width": 2}, {"color": "#888888", "from": "champion_ahri", "title": "related_to", "to": "champion_yasuo", "width": 2}, {"color": "#888888", "from": "champion_yone", "title": "related_to", "to": "champion_yasuo", "width": 2}, {"color": "#888888", "from": "champion_yasuo", "title": "has_ability", "to": "ability_yasuo_q_steel_tempest", "width": 2}, {"color": "#888888", "from": "champion_yasuo", "title": "has_ability", "to": "ability_yasuo_w_wind_wall", "width": 2}, {"color": "#888888", "from": "champion_yasuo", "title": "has_ability", "to": "ability_yasuo_e_sweeping_blade", "width": 2}, {"color": "#888888", "from": "champion_yasuo", "title": "has_ability", "to": "ability_yasuo_r_last_breath", "width": 2}, {"color": "#888888", "from": "champion_yasuo", "title": "related_to", "to": "champion_riven", "width": 2}, {"color": "#888888", "from": "champion_garen", "title": "has_ability", "to": "ability_garen_q_decisive_strike", "width": 2}, {"color": "#888888", "from": "champion_garen", "title": "has_ability", "to": "ability_garen_w_courage", "width": 2}, {"color": "#888888", "from": "champion_garen", "title": "has_ability", "to": "ability_garen_e_judgment", "width": 2}, {"color": "#888888", "from": "champion_garen", "title": "has_ability", "to": "ability_garen_r_demacian_justice", "width": 2}, {"color": "#888888", "from": "champion_garen", "title": "belongs_to_region", "to": "region_demacia", "width": 2}, {"color": "#888888", "from": "champion_garen", "title": "belongs_to_faction", "to": "faction_dauntless_vanguard", "width": 2}, {"color": "#888888", "from": "champion_garen", "title": "related_to", "to": "champion_lux", "width": 2}, {"color": "#888888", "from": "champion_garen", "title": "related_to", "to": "champion_katarina", "width": 2}, {"color": "#888888", "from": "champion_lux", "title": "belongs_to_region", "to": "region_demacia", "width": 2}, {"color": "#888888", "from": "champion_lux", "title": "belongs_to_faction", "to": "faction_dauntless_vanguard", "width": 2}, {"color": "#888888", "from": "champion_katarina", "title": "belongs_to_region", "to": "region_noxus", "width": 2}, {"color": "#888888", "from": "champion_katarina", "title": "belongs_to_faction", "to": "faction_noxian_empire", "width": 2}, {"color": "#888888", "from": "champion_jinx", "title": "has_ability", "to": "ability_jinx_q_switcheroo", "width": 2}, {"color": "#888888", "from": "champion_jinx", "title": "has_ability", "to": "ability_jinx_w_zap", "width": 2}, {"color": "#888888", "from": "champion_jinx", "title": "has_ability", "to": "ability_jinx_e_flame_chompers", "width": 2}, {"color": "#888888", "from": "champion_jinx", "title": "has_ability", "to": "ability_jinx_r_super_mega_death_rocket", "width": 2}, {"color": "#888888", "from": "champion_jinx", "title": "belongs_to_region", "to": "region_zaun", "width": 2}, {"color": "#888888", "from": "champion_jinx", "title": "related_to", "to": "champion_vi", "width": 2}, {"color": "#888888", "from": "champion_jinx", "title": "related_to", "to": "champion_caitlyn", "width": 2}, {"color": "#888888", "from": "champion_jinx", "title": "related_to", "to": "champion_ekko", "width": 2}, {"color": "#888888", "from": "champion_jinx", "title": "belongs_to_region", "to": "region_piltover", "width": 2}, {"color": "#888888", "from": "champion_thresh", "title": "has_ability", "to": "ability_thresh_q_death_sentence", "width": 2}, {"color": "#888888", "from": "champion_thresh", "title": "has_ability", "to": "ability_thresh_w_dark_passage", "width": 2}, {"color": "#888888", "from": "champion_thresh", "title": "has_ability", "to": "ability_thresh_e_flay", "width": 2}, {"color": "#888888", "from": "champion_thresh", "title": "has_ability", "to": "ability_thresh_r_the_box", "width": 2}, {"color": "#888888", "from": "champion_thresh", "title": "related_to", "to": "champion_lucian", "width": 2}, {"color": "#888888", "from": "champion_thresh", "title": "related_to", "to": "champion_senna", "width": 2}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"physics": {"enabled": true, "barnesHut": {"gravitationalConstant": -5000, "centralGravity": 0.2, "springLength": 130, "springConstant": 0.02, "damping": 0.09, "avoidOverlap": 0}, "stabilization": {"enabled": true, "iterations": 300}}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+<!-- Dark/Light Toggle Button -->
+<button id="darkLightToggle" style="
+    position: fixed;
+    top: 15px;
+    right: 20px;
+    z-index: 9999;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #222;
+    color: #eee;
+    border: 1px solid #555;
+">🌙 Dark</button>
+
+<div id="legend" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 0;
+    background: rgba(0,0,0,0.85);
+    border: 2px solid #444;
+    border-radius: 10px;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    min-width: 260px;
+    z-index: 9999;
+    max-height: 450px;
+">
+
+    <div id="legendDragHandle" style="
+        width: 100%;
+        padding: 8px;
+        background: rgba(255,255,255,0.05);
+        border-bottom: 1px solid #555;
+        cursor: grab;
+        font-weight: bold;
+        user-select: none;
+    ">Legend</div>
+
+    <div id="legendContent" style="padding:15px; max-height:380px; overflow:auto;">
+
+        <div style="font-weight:bold; margin-bottom:10px;">Search Node</div>
+        <input id="searchBox" placeholder="Type name…" style="
+            width:95%;
+            padding:6px;
+            margin-bottom:12px;
+            border-radius:5px;
+            border:1px solid #555;
+            background:#222;
+            color:#eee;
+        ">
+
+        <div style="font-weight:bold; margin-bottom:10px;">Physics</div>
+        <label style="display:block;margin-bottom:12px;cursor:pointer;">
+            <input type="checkbox" id="physicsToggle" checked style="margin-right:6px;">
+            <span>Enable physics (layout updates)</span>
+        </label>
+
+        <div style="font-weight:bold; margin-bottom:10px;">Node Types (Toggle)</div>
+        <div id="nodeTypeControls"></div>
+
+        <hr style="border-color:#666; margin:10px 0;">
+        <div style="font-weight:bold; margin-bottom:10px;">Edge Types (Toggle)</div>
+        <div id="edgeTypeControls"></div>
+    </div>
+
+    <div id="legendResizeHandle" style="
+        position:absolute;
+        width:14px;
+        height:14px;
+        bottom:2px;
+        right:2px;
+        cursor:se-resize;
+        background:rgba(255,255,255,0.2);
+        border-radius:3px;
+    "></div>
+</div>
+
+<script>
+// Helper: set canvas background to match theme
+function applyGraphBackground(isDark) {
+    var bg = isDark ? "#0d1117" : "#ffffff";
+    var canvas = document.querySelector("canvas");
+    if (canvas) {
+        canvas.style.background = bg;
+    }
+}
+
+// ======================================================================
+// Node-type Filters (hide/show nodes only)
+// ======================================================================
+function addLegendControls() {
+    if (typeof network === 'undefined') return setTimeout(addLegendControls, 200);
+
+    var container = document.getElementById('nodeTypeControls');
+    var allNodes = network.body.nodes;
+    var typeColors = {};
+
+    Object.values(allNodes).forEach(function(n) {
+        var t = n.options.type || '';
+        if (!typeColors[t]) {
+            var col = (n.options.color && n.options.color.background)
+                ? n.options.color.background
+                : '#cccccc';
+            typeColors[t] = col;
+        }
+    });
+
+    Object.keys(typeColors).forEach(function(t) {
+        var col = typeColors[t];
+        var id = "toggle_" + t.replace(/[^a-zA-Z0-9]/g, '_');
+
+        container.innerHTML += ''
+            + '<label style="display:block;margin-bottom:6px;cursor:pointer;">'
+            +   '<input type="checkbox" id="' + id + '" checked style="margin-right:6px;">'
+            +   '<span style="color:' + col + '">' + t.replace(/_/g,' ') + '</span>'
+            + '</label>';
+
+        setTimeout(function() {
+            var cb = document.getElementById(id);
+            if (!cb) return;
+            cb.onchange = function() {
+                var visible = cb.checked;
+                var nodeDS = network.body.data.nodes;
+                var updates = [];
+
+                // Batch updates to avoid repeated heavy work
+                Object.values(network.body.nodes).forEach(function(n) {
+                    if ((n.options.type || '') === t) {
+                        updates.push({ id: n.id, hidden: !visible });
+                    }
+                });
+
+                if (updates.length > 0) {
+                    nodeDS.update(updates);
+                }
+                // No explicit redraw() here – vis handles it efficiently
+            };
+        }, 50);
+    });
+}
+setTimeout(addLegendControls, 300);
+
+
+// ======================================================================
+// Edge-type Filters (hide/show edges by type)
+// ======================================================================
+function addEdgeFilters() {
+    if (typeof network === 'undefined') return setTimeout(addEdgeFilters, 200);
+
+    var container = document.getElementById('edgeTypeControls');
+    var allEdges = network.body.edges;
+    var typeColors = {};
+
+    Object.values(allEdges).forEach(function(e) {
+        var t = e.options.title || '';
+        if (!typeColors[t]) {
+            var col = e.options.color || '#cccccc';
+            var colStr = (typeof col === 'string') ? col : (col.color || '#cccccc');
+            typeColors[t] = colStr;
+        }
+    });
+
+    Object.keys(typeColors).forEach(function(etype) {
+        var color = typeColors[etype];
+        var id = "edge_toggle_" + etype.replace(/[^a-zA-Z0-9]/g, '_');
+
+        container.innerHTML += ''
+            + '<label style="display:block;margin-bottom:6px;cursor:pointer;">'
+            +   '<input type="checkbox" id="' + id + '" checked style="margin-right:6px;">'
+            +   '<span style="color:' + color + '">' + etype.replace(/_/g,' ') + '</span>'
+            + '</label>';
+
+        setTimeout(function() {
+            var cb = document.getElementById(id);
+            if (!cb) return;
+            cb.onchange = function() {
+                var visible = cb.checked;
+                var edgeDS = network.body.data.edges;
+                var updates = [];
+
+                Object.values(allEdges).forEach(function(edge) {
+                    if ((edge.options.title || '') === etype) {
+                        updates.push({ id: edge.id, hidden: !visible });
+                    }
+                });
+
+                if (updates.length > 0) {
+                    edgeDS.update(updates);
+                }
+                // Again, rely on internal redraw
+            };
+        }, 50);
+    });
+}
+setTimeout(addEdgeFilters, 350);
+
+
+// ======================================================================
+// Search Bar with highlight + auto-zoom
+// ======================================================================
+function setupSearchBar() {
+    if (typeof network === 'undefined') return setTimeout(setupSearchBar, 200);
+
+    var box = document.getElementById("searchBox");
+    var allNodes = network.body.nodes;
+
+    box.addEventListener("input", function() {
+        var q = box.value.trim().toLowerCase();
+
+        if (q === "") {
+            Object.values(allNodes).forEach(function(n) {
+                var orig = n.options._origColor || n.options.color;
+                n.setOptions({ color: orig });
+            });
+            return;
+        }
+
+        var found = null;
+
+        Object.values(allNodes).forEach(function(n) {
+            var label = (n.options.label || "").toLowerCase();
+            var idStr = String(n.id).toLowerCase();
+
+            if (label.includes(q) || idStr.includes(q)) {
+                found = n;
+                n.setOptions({
+                    _origColor: n.options.color,
+                    color: { background:"#ffcc00", border:"#ffaa00" }
+                });
+            } else {
+                n.setOptions({
+                    _origColor: n.options.color,
+                    color: { background:"#444", border:"#222" }
+                });
+            }
+        });
+
+        if (found) {
+            network.focus(found.id, {
+                scale: 1.2,
+                animation: { duration: 500, easingFunction: "easeInOutQuad" }
+            });
+        }
+    });
+}
+setTimeout(setupSearchBar, 300);
+
+
+// ======================================================================
+// Dark/Light Mode Toggle (including canvas background)
+// ======================================================================
+function setupDarkLightToggle() {
+    var btn = document.getElementById("darkLightToggle");
+    var styleTag = document.getElementById("themeStyles");
+    var mode = "dark";
+
+    // ensure initial canvas matches dark theme
+    applyGraphBackground(true);
+
+    btn.onclick = function() {
+        if (mode === "dark") {
+            mode = "light";
+            btn.textContent = "☀️ Light";
+            styleTag.innerHTML = ''
+                + 'body { background:#f4f4f4; color:#222; }'
+                + '#legend { background:rgba(255,255,255,0.85);color:#222;border-color:#bbb; }'
+                + '#searchBox { background:#fff;color:#000;border-color:#aaa; }'
+                + '#darkLightToggle { background:#fff;color:#000;border-color:#aaa; }';
+            applyGraphBackground(false);
+        } else {
+            mode = "dark";
+            btn.textContent = "🌙 Dark";
+            styleTag.innerHTML = ''
+                + 'body { background:#0d1117; color:#ddd; }'
+                + '#legend { background:rgba(0,0,0,0.85);color:#fff;border-color:#444; }'
+                + '#searchBox { background:#222;color:#eee;border-color:#555; }'
+                + '#darkLightToggle { background:#222;color:#eee;border-color:#555; }';
+            applyGraphBackground(true);
+        }
+    };
+}
+setTimeout(setupDarkLightToggle, 300);
+
+
+// ======================================================================
+// Physics Toggle Checkbox
+// ======================================================================
+function setupPhysicsToggle() {
+    if (typeof network === 'undefined') return setTimeout(setupPhysicsToggle, 200);
+    var cb = document.getElementById("physicsToggle");
+    if (!cb) return;
+
+    cb.onchange = function() {
+        var enable = cb.checked;
+        network.setOptions({ physics: { enabled: enable } });
+    };
+}
+setTimeout(setupPhysicsToggle, 350);
+
+
+// ======================================================================
+// Disable physics after initial stabilization
+// ======================================================================
+function disablePhysicsAfterStabilization() {
+    if (typeof network === 'undefined') {
+        setTimeout(disablePhysicsAfterStabilization, 200);
+        return;
+    }
+    network.once("stabilizationIterationsDone", function () {
+        network.setOptions({ physics: { enabled: false } });
+        var cb = document.getElementById("physicsToggle");
+        if (cb) cb.checked = false;
+    });
+}
+disablePhysicsAfterStabilization();
+
+
+// ======================================================================
+// DRAGGABLE + RESIZABLE LEGEND (with boundaries)
+// ======================================================================
+function setupLegendDragResize() {
+    var legend = document.getElementById("legend");
+    var handle = document.getElementById("legendDragHandle");
+    var resize = document.getElementById("legendResizeHandle");
+    if (!legend || !handle || !resize) return;
+
+    // Dragging
+    var dragging = false, offsetX = 0, offsetY = 0;
+
+    handle.addEventListener("mousedown", function(e) {
+        dragging = true;
+        handle.style.cursor = "grabbing";
+        var rect = legend.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+    });
+
+    document.addEventListener("mousemove", function(e) {
+        if (!dragging) return;
+        var vw = window.innerWidth;
+        var vh = window.innerHeight;
+        var rect = legend.getBoundingClientRect();
+
+        var left = e.clientX - offsetX;
+        var top = e.clientY - offsetY;
+
+        left = Math.max(0, Math.min(left, vw - rect.width));
+        top = Math.max(0, Math.min(top, vh - rect.height));
+
+        legend.style.left = left + "px";
+        legend.style.top = top + "px";
+        legend.style.right = "auto";
+        legend.style.bottom = "auto";
+        legend.style.position = "fixed";
+    });
+
+    document.addEventListener("mouseup", function() {
+        dragging = false;  // FIX: JS boolean
+        handle.style.cursor = "grab";
+    });
+
+    // Resizing
+    var resizing = false, startW = 0, startH = 0, startX = 0, startY = 0;
+
+    resize.addEventListener("mousedown", function(e) {
+        e.preventDefault();
+        resizing = true;
+        var rect = legend.getBoundingClientRect();
+        startW = rect.width;
+        startH = rect.height;
+        startX = e.clientX;
+        startY = e.clientY;
+    });
+
+    document.addEventListener("mousemove", function(e) {
+        if (!resizing) return;
+
+        var newW = Math.max(260, startW + (e.clientX - startX));
+        var newH = Math.max(220, startH + (e.clientY - startY));
+
+        legend.style.width = newW + "px";
+        legend.style.height = newH + "px";
+
+        var inner = document.getElementById("legendContent");
+        inner.style.maxHeight = (newH - 60) + "px";
+    });
+
+    document.addEventListener("mouseup", function() {
+        resizing = false;
+    });
+}
+setTimeout(setupLegendDragResize, 400);
+</script>
+
+</body>
+</html>

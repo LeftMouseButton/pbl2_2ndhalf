@@ -1,0 +1,137 @@
+{
+  "entities": [
+    {
+      "id": "pokemon_pikachu",
+      "type": "pokemon",
+      "name": "Pikachu",
+      "attributes": {
+        "pokedex_number": 25,
+        "types": [
+          "Electric"
+        ],
+        "abilities": [
+          "Static",
+          "Lightning Rod"
+        ],
+        "description": "Pikachu stores electricity in its cheeks. It releases electric discharges when threatened or excited. Pikachu live in small groups and communicate by tail signals."
+      }
+    },
+    {
+      "id": "pokemon_pichu",
+      "type": "pokemon",
+      "name": "Pichu",
+      "attributes": {}
+    },
+    {
+      "id": "pokemon_raichu",
+      "type": "pokemon",
+      "name": "Raichu",
+      "attributes": {}
+    },
+    {
+      "id": "pokemon_alolan_raichu",
+      "type": "pokemon",
+      "name": "Alolan Raichu",
+      "attributes": {}
+    },
+    {
+      "id": "move_thunder_shock",
+      "type": "move",
+      "name": "Thunder Shock",
+      "attributes": {
+        "move_type": "Electric"
+      }
+    },
+    {
+      "id": "move_thunderbolt",
+      "type": "move",
+      "name": "Thunderbolt",
+      "attributes": {
+        "move_type": "Electric"
+      }
+    },
+    {
+      "id": "item_thunder_stone",
+      "type": "item",
+      "name": "Thunder Stone",
+      "attributes": {}
+    },
+    {
+      "id": "region_alola",
+      "type": "region",
+      "name": "Alola",
+      "attributes": {}
+    },
+    {
+      "id": "type_electric",
+      "type": "type",
+      "name": "Electric",
+      "attributes": {}
+    }
+  ],
+  "relationships": [
+    {
+      "source": "pokemon_pichu",
+      "relation": "evolves_to",
+      "target": "pokemon_pikachu",
+      "properties": {
+        "condition": "High friendship"
+      }
+    },
+    {
+      "source": "pokemon_pikachu",
+      "relation": "evolves_to",
+      "target": "pokemon_raichu",
+      "properties": {
+        "condition": "Exposure to Thunder Stone"
+      }
+    },
+    {
+      "source": "pokemon_pikachu",
+      "relation": "evolves_to",
+      "target": "pokemon_alolan_raichu",
+      "properties": {
+        "condition": "Exposure to Thunder Stone in Alola region"
+      }
+    },
+    {
+      "source": "pokemon_pikachu",
+      "relation": "has_type",
+      "target": "type_electric"
+    },
+    {
+      "source": "pokemon_pikachu",
+      "relation": "has_ability",
+      "target": "Static"
+    },
+    {
+      "source": "pokemon_pikachu",
+      "relation": "has_ability",
+      "target": "Lightning Rod"
+    },
+    {
+      "source": "pokemon_pikachu",
+      "relation": "learns_move",
+      "target": "move_thunder_shock",
+      "properties": {
+        "method": "TM"
+      }
+    },
+    {
+      "source": "pokemon_pikachu",
+      "relation": "learns_move",
+      "target": "move_thunderbolt",
+      "properties": {
+        "method": "TM"
+      }
+    },
+    {
+      "source": "pokemon_alolan_raichu",
+      "relation": "found_in_region",
+      "target": "region_alola"
+    }
+  ],
+  "source_reliability": {
+    "pikachu_-_example.txt": 0.5
+  }
+}
