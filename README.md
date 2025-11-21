@@ -51,11 +51,11 @@ Module 3 -- Major issues
 
 OR
 
-1) python -m src.kg.module1_crawler.crawler --data-location data/cancer --sources wikipedia medlineplus
+1) python -m src.kg.module1_crawler.crawler --graph-name cancer --sources wikipedia medlineplus
 2) python -m src.kg.module2_clean.clean --data-location data/cancer
 3) python -m src.kg.module3_extraction_entity_relationship.extraction_entity_relationship --data-location data/cancer --all
 4) python -m src.kg.module4_validate_json.validate_json --data-location data/cancer
-5) opic-agnostic knowledge graph
+5) python -m src.kg.module5_prepare_for_analysis.combine_json_files --data-location data/cancer
 6) python -m src.kg.module6_analysis.analyse --data-location data/cancer --validation --enhanced-viz --memory-monitor --seed "lung cancer" --seed "liver cancer"
 
 OR
@@ -68,19 +68,24 @@ Re-analyse a frozen demo, writing data somewhere else:
 ## Modules/Steps:
 ### 1) Module 1 – Web Crawler
 -----------------------------------
-Collects raw natural-language content (HTML or plain text).
+Collects raw natural-language content (HTML or plain text). Sources are plugin-based and auto-discovered from `src/kg/module1_crawler/sources` using a registry. No sources are enabled by default; specify `--sources` explicitly.
 
-Current Targets: 
-
+Examples:
 - Wikipedia (REST API)
-- MedlinePlus (HTML via XML search API).
+- MedlinePlus (HTML via XML search API)
 
-Saves results under data/raw/ with provenance metadata (for Module 2 cleaning).
+Enable sources explicitly:
+```
+python -m src.kg.module1_crawler.crawler --graph-name pokemon --sources wikipedia
+python -m src.kg.module1_crawler.crawler --graph-name cancer --sources wikipedia medlineplus
+```
+
+Saves results under `data/<graph>/raw/` with provenance metadata (for Module 2 cleaning).
 
 ```
 Output:
-    data/raw/{slug}_{source}.{ext}
-    data/raw/metadata.jsonl    # one JSON record per fetched resource
+    data/<graph>/raw/{slug}_{source}.{ext}
+    data/<graph>/raw/metadata.jsonl    # one JSON record per fetched resource
 ```
 
 ### 2) Module 2 – Cleaning / Preprocessing
