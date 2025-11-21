@@ -1,8 +1,8 @@
 node,degree,betweenness,eigenvector
-ability_ahri_charm,0.025,0.0,0.17053526602071012
-ability_ahri_fox_fire,0.025,0.0,0.17053526602071012
-ability_ahri_orb_of_deception,0.025,0.0,0.17053526602071012
-ability_ahri_spirit_rush,0.025,0.0,0.17053526602071012
+ability_ahri_charm,0.025,0.0,0.17053526602071015
+ability_ahri_fox_fire,0.025,0.0,0.17053526602071015
+ability_ahri_orb_of_deception,0.025,0.0,0.17053526602071015
+ability_ahri_spirit_rush,0.025,0.0,0.17053526602071015
 ability_garen_e_judgment,0.025,0.0,0.0
 ability_garen_q_decisive_strike,0.025,0.0,0.0
 ability_garen_r_demacian_justice,0.025,0.0,0.0
@@ -29,7 +29,7 @@ champion_lucian,0.025,0.0,0.0
 champion_lux,0.075,0.000641025641025641,0.0
 champion_riven,0.025,0.0,0.17053526602071012
 champion_senna,0.025,0.0,0.0
-champion_syndra,0.025,0.0,0.17053526602071012
+champion_syndra,0.025,0.0,0.17053526602071015
 champion_thresh,0.15,0.019230769230769232,0.0
 champion_vi,0.025,0.0,0.0
 champion_yasuo,0.175,0.057692307692307696,0.5444484151548965

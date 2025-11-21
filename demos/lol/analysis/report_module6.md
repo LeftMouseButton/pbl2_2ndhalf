@@ -81,11 +81,11 @@
 | Ahri | champion | 0.5444484151548965 |
 | Yasuo | champion | 0.5444484151548965 |
 | Yone | champion | 0.3410704867078057 |
-| Orb of Deception | ability | 0.17053526602071012 |
-| Fox-Fire | ability | 0.17053526602071012 |
-| Charm | ability | 0.17053526602071012 |
-| Spirit Rush | ability | 0.17053526602071012 |
-| Syndra | champion | 0.17053526602071012 |
+| Orb of Deception | ability | 0.17053526602071015 |
+| Fox-Fire | ability | 0.17053526602071015 |
+| Charm | ability | 0.17053526602071015 |
+| Spirit Rush | ability | 0.17053526602071015 |
+| Syndra | champion | 0.17053526602071015 |
 | Steel Tempest | ability | 0.17053526602071012 |
 | Wind Wall | ability | 0.17053526602071012 |
 | Sweeping Blade | ability | 0.17053526602071012 |
@@ -153,11 +153,11 @@
 | Ahri | champion | 0.5444484151548965 |
 | Yasuo | champion | 0.5444484151548965 |
 | Yone | champion | 0.3410704867078057 |
-| Orb of Deception | ability | 0.17053526602071012 |
-| Fox-Fire | ability | 0.17053526602071012 |
-| Charm | ability | 0.17053526602071012 |
-| Spirit Rush | ability | 0.17053526602071012 |
-| Syndra | champion | 0.17053526602071012 |
+| Orb of Deception | ability | 0.17053526602071015 |
+| Fox-Fire | ability | 0.17053526602071015 |
+| Charm | ability | 0.17053526602071015 |
+| Spirit Rush | ability | 0.17053526602071015 |
+| Syndra | champion | 0.17053526602071015 |
 | Steel Tempest | ability | 0.17053526602071012 |
 | Wind Wall | ability | 0.17053526602071012 |
 | Sweeping Blade | ability | 0.17053526602071012 |
@@ -177,9 +177,9 @@
 ## Statistical Validation
 - Degree distribution is **more consistent with a power-law** than a simple exponential (AIC comparison).
 - Spearman correlation (degree vs betweenness): **r = 0.866**, p = 2.5e-13
-- Spearman correlation (degree vs eigenvector): **r = 0.072**, p = 0.655
+- Spearman correlation (degree vs eigenvector): **r = 0.071**, p = 0.658
 - Weighted Spearman (degree vs betweenness): **r = 0.866**, p = 2.5e-13
-- Weighted Spearman (degree vs eigenvector): **r = 0.072**, p = 0.655
+- Weighted Spearman (degree vs eigenvector): **r = 0.071**, p = 0.658
 
 ## Node Property Prediction
 - Neighbor-majority accuracy: **50.00%** on 4 hidden nodes.
@@ -187,19 +187,26 @@
 ## Traversal & Shortest Paths
 ### BFS (depth ≤ 3) from seeds
 ```text
-[seed missing] Yasuo
+Seed: champion_yasuo
+  Yasuo → Ahri → Steel Tempest → Wind Wall → Sweeping Blade → Last Breath → Yone → Riven → Orb of Deception → Fox-Fire → Charm → Spirit Rush → Syndra
 
-[seed missing] Ahri
+Seed: champion_ahri
+  Ahri → Orb of Deception → Fox-Fire → Charm → Spirit Rush → Syndra → Yone → Yasuo → Steel Tempest → Wind Wall → Sweeping Blade → Last Breath → Riven
 ```
 
 ### DFS (preorder) from seeds
 ```text
-[seed missing] Yasuo
+Seed: champion_yasuo
+  Yasuo → Ahri → Orb of Deception → Fox-Fire → Charm → Spirit Rush → Syndra → Yone → Steel Tempest → Wind Wall → Sweeping Blade → Last Breath → Riven
 
-[seed missing] Ahri
+Seed: champion_ahri
+  Ahri → Orb of Deception → Fox-Fire → Charm → Spirit Rush → Syndra → Yone → Yasuo → Steel Tempest → Wind Wall → Sweeping Blade → Last Breath → Riven
 ```
 
-_No valid seed pairs or no paths found._
+### Shortest paths among seeds
+```text
+Yasuo → Ahri
+```
 
 ## Interpretation (High-Level)
 - Multiple sizable components suggest distinct subnetworks that may reflect different themes, domains, or disconnected data sources.
