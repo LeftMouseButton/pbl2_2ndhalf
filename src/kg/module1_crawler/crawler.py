@@ -1,7 +1,7 @@
 """
 Module 1 – Web Crawler (Improved for Scientific Reliability)
 ------------------------------------------------------------
-Collects raw natural-language content (HTML or plain text) for diseases.
+Collects raw natural-language content (HTML or plain text) for entities.
 
 Current Targets (configurable):
     - Wikipedia (API)
@@ -14,13 +14,13 @@ Key improvements:
     - Structured capture of Wikipedia sections (where possible)
     - Future-ready hooks for additional sources (NCBI, NCI, etc.)
 
-Outputs
--------
+Outputs (scoped per graph/topic)
+-------------------------------
 Content:
-    data/raw/{slug}_{source}.{ext}
+    data/{graph_name}/raw/{slug}_{source}.{ext}
 
 Metadata (one JSON per line):
-    data/raw/metadata.jsonl
+    data/{graph_name}/raw/metadata.jsonl
 
 Each metadata record includes:
     - disease
@@ -37,8 +37,9 @@ Each metadata record includes:
 
 from __future__ import annotations
 
+import argparse
 from dataclasses import dataclass, asdict
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -51,6 +52,8 @@ import xml.etree.ElementTree as ET
 
 import requests
 
+from src.kg.utils.paths import resolve_base_dir
+
 # =============================================================================
 # Configuration
 # =============================================================================
@@ -59,9 +62,10 @@ import requests
 @dataclass
 class CrawlerConfig:
     # I/O
-    raw_dir: Path = Path("data/raw")
-    disease_file: Path = Path("disease_names.txt")
-    metadata_path: Path = Path("data/raw/metadata.jsonl")
+    base_dir: Path
+    raw_dir: Path
+    names_file: Path
+    metadata_path: Path
 
     # HTTP
     user_agent: str = "DSGT-KG-Crawler/2.0 (+https://example.org)"
@@ -73,7 +77,7 @@ class CrawlerConfig:
     # Courtesy / throttling
     sleep_between_requests: float = 1.0
 
-    # Feature flags
+    # Feature flags (sources)
     enable_wikipedia: bool = True
     enable_medlineplus: bool = True
 
@@ -81,12 +85,8 @@ class CrawlerConfig:
     # enable_ncbi_gene: bool = False
     # enable_nci_pdq: bool = False
 
-
-CONFIG = CrawlerConfig()
-CONFIG.raw_dir.mkdir(parents=True, exist_ok=True)
-
-SESSION = requests.Session()
-SESSION.headers.update({"User-Agent": CONFIG.user_agent})
+CONFIG: CrawlerConfig | None = None
+SESSION: requests.Session | None = None
 
 # Reliability labels for downstream edge weighting
 SOURCE_RELIABILITY = {
@@ -102,7 +102,7 @@ SOURCE_RELIABILITY = {
 
 def log(msg: str) -> None:
     """Lightweight, timestamped logger (stdout)."""
-    ts = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     print(f"[{ts}] {msg}")
 
 
@@ -115,14 +115,20 @@ def checksum(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
-def load_diseases(path: Path) -> List[str]:
+def require_config() -> CrawlerConfig:
+    if CONFIG is None:
+        raise RuntimeError("Crawler config not initialized. Did you call main()?")
+    return CONFIG
+
+
+def load_names(path: Path) -> List[str]:
     if not path.exists():
         raise FileNotFoundError(f"{path} not found")
     with path.open("r", encoding="utf-8") as f:
-        diseases = [line.strip() for line in f if line.strip()]
-    if not diseases:
-        raise ValueError(f"No disease names found in {path}")
-    return diseases
+        entries = [line.strip() for line in f if line.strip()]
+    if not entries:
+        raise ValueError(f"No names found in {path}")
+    return entries
 
 
 def slugify_name(name: str) -> str:
@@ -135,8 +141,10 @@ def slugify_name(name: str) -> str:
     return s or "unknown"
 
 
-def write_metadata(record: Dict[str, Any], meta_path: Path = CONFIG.metadata_path) -> None:
-    with meta_path.open("a", encoding="utf-8") as f:
+def write_metadata(record: Dict[str, Any], meta_path: Optional[Path] = None) -> None:
+    cfg = require_config()
+    target = meta_path or cfg.metadata_path
+    with target.open("a", encoding="utf-8") as f:
         f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
@@ -149,20 +157,26 @@ def http_get_with_retries(
     url: str,
     *,
     params: Optional[Dict[str, Any]] = None,
-    timeout: int = CONFIG.timeout,
-    max_retries: int = CONFIG.max_retries,
-    backoff_initial: float = CONFIG.backoff_initial,
-    backoff_factor: float = CONFIG.backoff_factor,
+    timeout: Optional[int] = None,
+    max_retries: Optional[int] = None,
+    backoff_initial: Optional[float] = None,
+    backoff_factor: Optional[float] = None,
 ) -> Tuple[Optional[requests.Response], Optional[int]]:
     """
     GET with basic retry & exponential backoff.
     Returns (response, final_status_code).
     """
-    delay = backoff_initial
+    cfg = require_config()
+    delay = backoff_initial or cfg.backoff_initial
+    max_retries = max_retries or cfg.max_retries
+    timeout = timeout or cfg.timeout
+    backoff_factor = backoff_factor or cfg.backoff_factor
     last_status = None
 
     for attempt in range(1, max_retries + 1):
         try:
+            if SESSION is None:
+                raise RuntimeError("HTTP session not initialized.")
             r = SESSION.get(url, params=params, timeout=timeout)
             last_status = r.status_code
             # Retry on 5xx; accept 2xx/3xx/4xx as final
@@ -421,32 +435,33 @@ def fetch_medlineplus_html(url: str) -> Tuple[str, Optional[int]]:
 # =============================================================================
 
 
-def crawl_wikipedia_for_disease(disease_name: str) -> None:
-    if not CONFIG.enable_wikipedia:
+def crawl_wikipedia_for_name(entity_name: str) -> None:
+    cfg = require_config()
+    if not cfg.enable_wikipedia:
         return
 
-    slug = slugify_name(disease_name)
-    out_path = CONFIG.raw_dir / f"{slug}_wikipedia.txt"
+    slug = slugify_name(entity_name)
+    out_path = cfg.raw_dir / f"{slug}_wikipedia.txt"
 
     if out_path.exists():
         log(f"[SKIP] Wikipedia already exists: {out_path}")
         return
 
-    text, details = fetch_wikipedia_page(disease_name)
+    text, details = fetch_wikipedia_page(entity_name)
     if not text:
-        log(f"[WARN] No Wikipedia extract for '{disease_name}'")
+        log(f"[WARN] No Wikipedia extract for '{entity_name}'")
         return
 
     save_file(text, out_path)
 
     meta = {
-        "disease": disease_name,
+        "name": entity_name,
         "slug": slug,
         "source_type": "wikipedia",
         "source_reliability": SOURCE_RELIABILITY.get("wikipedia", 0.6),
-        "url": f"https://en.wikipedia.org/wiki/{disease_name.replace(' ', '_')}",
+        "url": f"https://en.wikipedia.org/wiki/{entity_name.replace(' ', '_')}",
         "path": str(out_path),
-        "crawl_timestamp": datetime.utcnow().isoformat() + "Z",
+        "crawl_timestamp": datetime.now(timezone.utc).isoformat(),
         "checksum": checksum(text),
         "http_status": details.get("http_status"),
         "n_bytes": len(text.encode("utf-8")),
@@ -458,21 +473,22 @@ def crawl_wikipedia_for_disease(disease_name: str) -> None:
     }
     write_metadata(meta)
 
-    time.sleep(CONFIG.sleep_between_requests)
+    time.sleep(cfg.sleep_between_requests)
 
 
-def crawl_medlineplus_for_disease(disease_name: str) -> None:
-    if not CONFIG.enable_medlineplus:
+def crawl_medlineplus_for_name(entity_name: str) -> None:
+    cfg = require_config()
+    if not cfg.enable_medlineplus:
         return
 
-    slug = slugify_name(disease_name)
-    out_path = CONFIG.raw_dir / f"{slug}_medlineplus.html"
+    slug = slugify_name(entity_name)
+    out_path = cfg.raw_dir / f"{slug}_medlineplus.html"
 
     if out_path.exists():
         log(f"[SKIP] MedlinePlus already exists: {out_path}")
         return
 
-    best = medlineplus_search(disease_name)
+    best = medlineplus_search(entity_name)
     if not best or not best.get("url"):
         return
 
@@ -483,13 +499,13 @@ def crawl_medlineplus_for_disease(disease_name: str) -> None:
     save_file(html_doc, out_path)
 
     meta = {
-        "disease": disease_name,
+        "name": entity_name,
         "slug": slug,
         "source_type": "medlineplus",
         "source_reliability": SOURCE_RELIABILITY.get("medlineplus", 0.8),
         "url": best["url"],
         "path": str(out_path),
-        "crawl_timestamp": datetime.utcnow().isoformat() + "Z",
+        "crawl_timestamp": datetime.now(timezone.utc).isoformat(),
         "checksum": checksum(html_doc),
         "http_status": status,
         "n_bytes": len(html_doc.encode("utf-8")),
@@ -504,27 +520,77 @@ def crawl_medlineplus_for_disease(disease_name: str) -> None:
     }
     write_metadata(meta)
 
-    time.sleep(CONFIG.sleep_between_requests)
+    time.sleep(cfg.sleep_between_requests)
 
 
 def crawl_all() -> None:
-    diseases = load_diseases(CONFIG.disease_file)
-    log(f"Loaded {len(diseases)} diseases from {CONFIG.disease_file}")
+    cfg = require_config()
+    names = load_names(cfg.names_file)
+    log(f"Loaded {len(names)} names from {cfg.names_file}")
 
-    for disease_name in diseases:
-        log(f"=== Processing disease: {disease_name} ===")
+    for name in names:
+        log(f"=== Processing entry: {name} ===")
         try:
-            crawl_wikipedia_for_disease(disease_name)
+            crawl_wikipedia_for_name(name)
         except Exception as e:
-            log(f"[ERROR] Wikipedia crawl failed for '{disease_name}': {e}")
+            log(f"[ERROR] Wikipedia crawl failed for '{name}': {e}")
 
         try:
-            crawl_medlineplus_for_disease(disease_name)
+            crawl_medlineplus_for_name(name)
         except Exception as e:
-            log(f"[ERROR] MedlinePlus crawl failed for '{disease_name}': {e}")
+            log(f"[ERROR] MedlinePlus crawl failed for '{name}': {e}")
 
     log("Crawl complete.")
 
 
+def parse_args() -> argparse.Namespace:
+    p = argparse.ArgumentParser(description="Module 1 – topic-agnostic web crawler.")
+    p.add_argument(
+        "--graph-name",
+        help="Name of the graph/topic (uses data/{graph-name} as base).",
+    )
+    p.add_argument(
+        "--data-location",
+        help="Explicit data directory (takes precedence over --graph-name).",
+    )
+    p.add_argument(
+        "--names-file",
+        help="Optional override for the names.txt file (defaults to {base}/names.txt).",
+    )
+    p.add_argument(
+        "--sources",
+        nargs="+",
+        choices=["wikipedia", "medlineplus"],
+        default=["wikipedia", "medlineplus"],
+        help="Sources to crawl for this topic.",
+    )
+    return p.parse_args()
+
+
+def initialize_config(args: argparse.Namespace) -> None:
+    global CONFIG, SESSION
+
+    base_dir = resolve_base_dir(args.graph_name, args.data_location, create=True)
+    raw_dir = base_dir / "raw"
+    raw_dir.mkdir(parents=True, exist_ok=True)
+
+    names_path = Path(args.names_file) if args.names_file else base_dir / "names.txt"
+    metadata_path = raw_dir / "metadata.jsonl"
+
+    CONFIG = CrawlerConfig(
+        base_dir=base_dir,
+        raw_dir=raw_dir,
+        names_file=names_path,
+        metadata_path=metadata_path,
+        enable_wikipedia="wikipedia" in args.sources,
+        enable_medlineplus="medlineplus" in args.sources,
+    )
+
+    SESSION = requests.Session()
+    SESSION.headers.update({"User-Agent": CONFIG.user_agent})
+
+
 if __name__ == "__main__":
+    args = parse_args()
+    initialize_config(args)
     crawl_all()

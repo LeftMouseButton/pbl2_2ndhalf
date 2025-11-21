@@ -11,6 +11,7 @@ with the authoritative schema file.
 """
 
 from __future__ import annotations
+import os
 import json
 from pathlib import Path
 
@@ -34,12 +35,27 @@ def _load_schema_keys() -> list[str]:
     JSONDecodeError
     ValueError
     """
-    schema_path = Path("schema/schema_keys.json")  # project-relative path
+    # Resolution order (aligned with other modules):
+    #   1) Explicit env var KG_SCHEMA_PATH
+    #   2) Env var KG_GRAPH_NAME -> data/{graph}/schema/schema_keys.json
+    #   3) Direct path at data/{graph}/schema/schema_keys.json if KG_GRAPH_NAME unset and cwd encodes it
+    env_path = os.getenv("KG_SCHEMA_PATH")
+    graph_name = os.getenv("KG_GRAPH_NAME")
 
-    if not schema_path.exists():
+    candidates = []
+    if env_path:
+        candidates.append(Path(env_path))
+    if graph_name:
+        candidates.append(Path("data") / graph_name / "schema" / "schema_keys.json")
+
+    # If neither env var is set, rely on the conventional relative path used elsewhere.
+    candidates.append(Path("data") / graph_name / "schema" / "schema_keys.json" if graph_name else Path("data") / "cancer" / "schema" / "schema_keys.json")
+
+    schema_path = next((p for p in candidates if p and p.exists()), None)
+    if schema_path is None:
         raise FileNotFoundError(
-            f"Schema file not found at: {schema_path}. "
-            "Expected project structure: schema/schema_keys.json"
+            "Schema file not found. Set KG_SCHEMA_PATH or KG_GRAPH_NAME, "
+            "or ensure data/{graph_name}/schema/schema_keys.json exists."
         )
 
     data = json.loads(schema_path.read_text(encoding="utf-8"))

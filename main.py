@@ -12,9 +12,11 @@ Runs sequentially:
 7. Module 6 – Read combined JSON file, analyse, export results.
 """
 
+import argparse
 import subprocess
 import sys
 import datetime
+from pathlib import Path
 
 
 def run_step(description: str, command: list[str]):
@@ -39,14 +41,42 @@ def run_step(description: str, command: list[str]):
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Knowledge graph pipeline launcher.")
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("--graph-name", help="Graph/topic name (uses data/{graph-name} as base).")
+    group.add_argument("--data-location", help="Explicit data directory (overrides --graph-name).")
+    parser.add_argument(
+        "--sources",
+        nargs="+",
+        choices=["wikipedia", "medlineplus"],
+        default=["wikipedia", "medlineplus"],
+        help="Sources to use in the crawler.",
+    )
+    args = parser.parse_args()
+
+    base_dir = Path(args.data_location) if args.data_location else Path("data") / args.graph_name
+    base_dir = base_dir.resolve()
+    base_dir.mkdir(parents=True, exist_ok=True)
+
+    combined_dir = base_dir / "combined"
+    analysis_dir = base_dir / "analysis"
+
     steps = [
         (
             "Module 1: Crawler",
-            ["python", "-m", "src.kg.module1_crawler.crawler"],
+            [
+                "python",
+                "-m",
+                "src.kg.module1_crawler.crawler",
+                "--data-location",
+                str(base_dir),
+                "--sources",
+                *args.sources,
+            ],
         ),
         (
             "Module 2: Clean",
-            ["python", "-m", "src.kg.module2_clean.clean"],
+            ["python", "-m", "src.kg.module2_clean.clean", "--data-location", str(base_dir)],
         ),
         (
             "Module 3: Entity & Relationship Extraction",
@@ -54,12 +84,20 @@ def main():
                 "python",
                 "-m",
                 "src.kg.module3_extraction_entity_relationship.extraction_entity_relationship",
+                "--data-location",
+                str(base_dir),
                 "--all",
             ],
         ),
         (
             "Module 4: Validate Extracted JSON",
-            ["python", "-m", "src.kg.module4_validate_json.validate_json", "data/json/"],
+            [
+                "python",
+                "-m",
+                "src.kg.module4_validate_json.validate_json",
+                "--data-location",
+                str(base_dir),
+            ],
         ),
         (
             "Module 5: Combine JSON Files for Analysis",
@@ -67,11 +105,19 @@ def main():
                 "python",
                 "-m",
                 "src.kg.module5_prepare_for_analysis.combine_json_files",
+                "--data-location",
+                str(base_dir),
             ],
         ),
         (
             "Utilities: Predict Token Count",
-            ["python", "-m", "src.kg.utils.tokencount_predictor", "--input_path", "data/combined/all_diseases.json"],
+            [
+                "python",
+                "-m",
+                "src.kg.utils.tokencount_predictor",
+                "--input_path",
+                str(combined_dir / "all_entities.json"),
+            ],
         ),
         (
             "Module 6: Graph Construction & Analysis",
@@ -79,10 +125,10 @@ def main():
                 "python",
                 "-m",
                 "src.kg.module6_analysis.analyse",
-                "--input",
-                "data/combined/all_diseases_matched.json",
+                "--data-location",
+                str(base_dir),
                 "--outdir",
-                "data/analysis",
+                str(analysis_dir),
                 "--validation",
                 "--enhanced-viz",
                 "--memory-monitor",
@@ -103,4 +149,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

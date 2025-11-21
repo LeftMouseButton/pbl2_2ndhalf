@@ -21,6 +21,7 @@ Outputs:
 
 from __future__ import annotations
 
+import argparse
 from pathlib import Path
 from typing import Dict, Any
 
@@ -33,15 +34,36 @@ import time
 from bs4 import BeautifulSoup
 from slugify import slugify
 
+from src.kg.utils.paths import resolve_base_dir
+
 # ---------------------------------------------------------------------------
-# Paths
+# Paths (configured at runtime)
 # ---------------------------------------------------------------------------
 
-RAW_DIR = Path("data/raw")
-RAW_META_PATH = RAW_DIR / "metadata.jsonl"
-OUT_DIR = Path("data/processed")
-OUT_DIR.mkdir(parents=True, exist_ok=True)
-META_PATH = OUT_DIR / "metadata.jsonl"
+BASE_DIR: Path | None = None
+RAW_DIR: Path | None = None
+RAW_META_PATH: Path | None = None
+OUT_DIR: Path | None = None
+META_PATH: Path | None = None
+
+
+def configure_paths(base_dir: Path) -> None:
+    """Initialize module-level paths for the selected graph/topic."""
+    global BASE_DIR, RAW_DIR, RAW_META_PATH, OUT_DIR, META_PATH
+    BASE_DIR = base_dir
+    RAW_DIR = BASE_DIR / "raw"
+    RAW_META_PATH = RAW_DIR / "metadata.jsonl"
+    OUT_DIR = BASE_DIR / "processed"
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    META_PATH = OUT_DIR / "metadata.jsonl"
+
+
+def require_paths() -> tuple[Path, Path, Path, Path]:
+    """Return configured paths or raise if unset."""
+    if not all([BASE_DIR, RAW_DIR, RAW_META_PATH, OUT_DIR, META_PATH]):
+        raise RuntimeError("Paths not configured. Call configure_paths(...) first.")
+    # TYPE CHECK: mypy ignore; runtime ensures non-None
+    return RAW_DIR, RAW_META_PATH, OUT_DIR, META_PATH  # type: ignore
 
 # ---------------------------------------------------------------------------
 # Normalization & boilerplate removal utilities
@@ -255,9 +277,9 @@ def apply_global_trimming_rules(text: str) -> str:
 # File-level processing
 # ---------------------------------------------------------------------------
 
-def derive_disease_and_source(stem: str) -> (str, str):
+def derive_name_and_source(stem: str) -> (str, str):
     """
-    Derive disease prefix and source suffix from filename stem.
+    Derive entity prefix and source suffix from filename stem.
 
     Expected pattern from Module 1:
         {slug}_{source}
@@ -270,22 +292,23 @@ def derive_disease_and_source(stem: str) -> (str, str):
     else:
         disease_part, source_part = s, "unknown"
 
-    disease = slugify(disease_part) or "unknown"
+    entity = slugify(disease_part) or "unknown"
     source = slugify(source_part) or "unknown"
-    return disease, source
+    return entity, source
 
 def lookup_source_reliability(source_slug: str) -> float:
     """
     Look up source reliability from raw metadata or default heuristics.
     """
+    _, raw_meta_path, _, _ = require_paths()
     default_map = {
         "wikipedia": 0.6,
         "medlineplus": 0.8,
         "pubmed": 1.0,
     }
-    if RAW_META_PATH.exists():
+    if raw_meta_path.exists():
         try:
-            for line in RAW_META_PATH.read_text(encoding="utf-8").splitlines():
+            for line in raw_meta_path.read_text(encoding="utf-8").splitlines():
                 rec = json.loads(line)
                 if slugify(rec.get("source_type", "")) == source_slug:
                     return float(rec.get("source_reliability", default_map.get(source_slug, 0.5)))
@@ -298,6 +321,7 @@ def process_file(raw_path: Path) -> Dict[str, Any]:
     """
     Process a single raw file into cleaned text and write metadata.
     """
+    _, _, out_dir, meta_path = require_paths()
     try:
         raw_content = raw_path.read_text(encoding="utf-8", errors="replace")
     except Exception as e:
@@ -312,9 +336,9 @@ def process_file(raw_path: Path) -> Dict[str, Any]:
     else:
         cleaned = clean_plain_text(raw_content)
 
-    disease, source = derive_disease_and_source(raw_path.stem)
-    out_name = f"{disease}_-_{source}.txt"
-    out_path = OUT_DIR / out_name
+    entity, source = derive_name_and_source(raw_path.stem)
+    out_name = f"{entity}_-_{source}.txt"
+    out_path = out_dir / out_name
 
     try:
         out_path.write_text(cleaned, encoding="utf-8")
@@ -329,7 +353,7 @@ def process_file(raw_path: Path) -> Dict[str, Any]:
     record: Dict[str, Any] = {
         "source_filename": raw_path.name,
         "processed_filename": out_name,
-        "disease_slug": disease,
+        "entity_slug": entity,
         "source_slug": source,
         "raw_checksum": checksum(raw_content),
         "clean_checksum": checksum(cleaned),
@@ -339,7 +363,7 @@ def process_file(raw_path: Path) -> Dict[str, Any]:
     }
 
     try:
-        with META_PATH.open("a", encoding="utf-8") as f:
+        with meta_path.open("a", encoding="utf-8") as f:
             f.write(json.dumps(record, ensure_ascii=False) + "\n")
     except Exception as e:
         log(f"[WARN] Failed to append metadata for {raw_path.name}: {e}")
@@ -348,8 +372,10 @@ def process_file(raw_path: Path) -> Dict[str, Any]:
     return record
 
 
-def process_all(raw_dir: Path = RAW_DIR) -> None:
+def process_all(raw_dir: Path | None = None) -> None:
     """Iterate through all files in raw_dir and clean them."""
+    if raw_dir is None:
+        raw_dir = require_paths()[0]
     if not raw_dir.exists():
         log(f"[ERROR] Raw directory not found: {raw_dir}")
         return
@@ -372,5 +398,21 @@ def process_all(raw_dir: Path = RAW_DIR) -> None:
     log(f"[INFO] Cleaning complete. Processed {n_processed}/{n_total} files.")
 
 
+def parse_args() -> argparse.Namespace:
+    p = argparse.ArgumentParser(description="Module 2 – clean/preprocess raw text for any graph topic.")
+    p.add_argument(
+        "--graph-name",
+        help="Name of the graph/topic (uses data/{graph-name} as base).",
+    )
+    p.add_argument(
+        "--data-location",
+        help="Explicit data directory (takes precedence over --graph-name).",
+    )
+    return p.parse_args()
+
+
 if __name__ == "__main__":
+    args = parse_args()
+    base = resolve_base_dir(args.graph_name, args.data_location, create=True)
+    configure_paths(base)
     process_all()

@@ -80,7 +80,7 @@ def build_graph(records: List[Dict[str, Any]]) -> Tuple[nx.Graph, BuildStats]:
     G = nx.Graph()
 
     for rec in records:
-        disease = (rec.get("disease_name") or "").strip()
+        disease = (rec.get("disease_name") or rec.get("name") or "").strip()
         if not disease:
             continue
         edge_weights = rec.get("_edge_weights", {})

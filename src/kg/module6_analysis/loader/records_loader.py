@@ -3,11 +3,11 @@
 """
 Record loading utilities for Module 6.
 
-This module loads disease records from either:
-1. A combined JSON file with a top-level "diseases" list.
-2. A directory of individual JSON files (one per disease).
+This module loads records from either:
+1. A combined JSON file with a top-level "records" (preferred) or "diseases" list.
+2. A directory of individual JSON files (one per entity).
 
-Each JSON object must contain at least "disease_name".
+Each JSON object must contain at least "disease_name" or "name".
 """
 
 from __future__ import annotations
@@ -18,24 +18,40 @@ from typing import List, Dict
 
 def _load_combined(path: Path) -> List[Dict]:
     """
-    Load a combined JSON file containing: {"diseases": [ ... ]}.
+    Load a combined JSON file containing: {"records": [ ... ]} (preferred) or {"diseases": [...]}.
     """
     data = json.loads(path.read_text(encoding="utf-8"))
-    if isinstance(data, dict) and "diseases" in data:
-        return list(data["diseases"])
-    raise ValueError("Combined file must contain a top-level 'diseases' list.")
+    records = None
+    if isinstance(data, dict) and "records" in data:
+        records = data["records"]
+    elif isinstance(data, dict) and "diseases" in data:
+        records = data["diseases"]
+    if isinstance(records, list):
+        normalized = []
+        for rec in records:
+            if isinstance(rec, dict):
+                if "disease_name" not in rec and "name" in rec:
+                    rec["disease_name"] = rec.get("name")
+                normalized.append(rec)
+        return normalized
+    raise ValueError("Combined file must contain a top-level 'records' or 'diseases' list.")
 
 
 def _load_dir(path: Path) -> List[Dict]:
     """
-    Load multiple disease JSON files from a directory.
+    Load multiple JSON files from a directory.
     """
     records: List[Dict] = []
 
     for p in sorted(path.glob("*.json")):
         try:
             obj = json.loads(p.read_text(encoding="utf-8"))
-            if isinstance(obj, dict) and obj.get("disease_name"):
+            if isinstance(obj, dict):
+                if "disease_name" not in obj and obj.get("name"):
+                    obj["disease_name"] = obj.get("name")
+                if obj.get("disease_name"):
+                    records.append(obj)
+            else:
                 records.append(obj)
         except json.JSONDecodeError:
             print(f"[WARN] Skipping invalid JSON: {p}")

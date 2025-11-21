@@ -1,8 +1,9 @@
 # Knowledge Graph Pipeline
 
-Builds and analyses a knowledge graph.
+Builds and analyses a topic-agnostic knowledge graph (cancer, Pokémon, League of Legends, etc.).
 
-Modular design; each step is independently executable and may be reused for other tasks.
+Modular design; each step is independently executable and may be reused for other tasks. 
+Working data under `data/{graph_name}/`, frozen demonstration runs (used for papers) live under `demos/`.
 
 ## Dependencies
 ```
@@ -26,7 +27,7 @@ Module 3 -- Major issues
 ...
 ```
 
-## Ontology Sources:
+## Cancer Ontology Sources:
 ```
 
     https://raw.githubusercontent.com/DiseaseOntology/HumanDiseaseOntology/main/src/ontology/doid.obo
@@ -35,26 +36,39 @@ Module 3 -- Major issues
 
 ```
 
+
 ## Usage
 
-The `for_demo/` folder contains a single full run of the pipeline that supports the paper’s claims; analysis there uses `for_demo/combined/all_diseases_matched.json` to restrict to ontology-matched entries (see `for_demo/combined/normalization_stats.json` for match rates). To regenerate on new data, edit `disease_names.txt` as desired, then:
+### Per-graph inputs (user supplied -- edit these before running)
+- `data/{graph_name}/names.txt` – list of entities (eg: wikipedia page titles) to crawl.
+- `data/{graph_name}/schema/schema_keys.json` – schema tailored to the topic.
+- `data/{graph_name}/schema/example_entity_extraction.json` – example for the LLM (Module 3).
+- `data/{graph_name}/schema/prompt.txt` – prompt template (schema appended automatically).
+- `data/{graph_name}/ontologies/` - Optional ontologies.
+
 ```
-1) python main.py
+1) python main.py --graph-name cancer
 
 OR
 
-1) python -m src.kg.module1_crawler.crawler
-2) python -m src.kg.module2_clean.clean
-3) python -m src.kg.module3_extraction_entity_relationship.extraction_entity_relationship --all
-4) python -m src.kg.module4_validate_json.validate_json data/json/
-5) python -m src.kg.module5_prepare_for_analysis.combine_json_files
-6) python -m src.kg.module6_analysis.analyse   --input data/combined/all_diseases_matched.json   --outdir data/analysis   --validation   --enhanced-viz   --memory-monitor --seed "lung cancer" --seed "liver cancer"
+1) python -m src.kg.module1_crawler.crawler --data-location data/cancer --sources wikipedia medlineplus
+2) python -m src.kg.module2_clean.clean --data-location data/cancer
+3) python -m src.kg.module3_extraction_entity_relationship.extraction_entity_relationship --data-location data/cancer --all
+4) python -m src.kg.module4_validate_json.validate_json --data-location data/cancer
+5) python -m src.kg.module5_prepare_for_analysis.combine_json_files --data-location data/cancer
+6) python -m src.kg.module6_analysis.analyse --data-location data/cancer --validation --enhanced-viz --memory-monitor --seed "lung cancer" --seed "liver cancer"
 
+OR
+
+Re-analyse a frozen demo, writing data somewhere else:
+1) python -m src.kg.module6_analysis.analyse --data-location demos/pokemon --outdir data/pokemon/analysis
 ```
+
+
 ## Modules/Steps:
 ### 1) Module 1 – Web Crawler
 -----------------------------------
-Collects raw natural-language content (HTML or plain text) for diseases.
+Collects raw natural-language content (HTML or plain text).
 
 Current Targets: 
 

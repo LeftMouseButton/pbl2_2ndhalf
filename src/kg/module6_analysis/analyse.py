@@ -21,11 +21,13 @@ from __future__ import annotations
 
 import argparse
 import gc
+import sys
 import time
 from pathlib import Path
 from typing import Any, Dict, List
 
 import networkx as nx
+from src.kg.utils.paths import resolve_base_dir
 
 # Optional memory monitoring
 try:  # pragma: no cover
@@ -67,13 +69,19 @@ def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Module 6 – Build and analyse the cancer knowledge graph.")
     p.add_argument(
         "--input",
-        required=True,
-        help="Path to combined JSON (top-level 'diseases') OR a directory of per-disease JSONs",
+        help="Path to combined JSON (top-level list) OR a directory of per-entity JSONs. If omitted, defaults to {base}/combined/all_entities_matched.json (or all_diseases_matched.json) when --graph-name/--data-location is provided.",
+    )
+    p.add_argument(
+        "--graph-name",
+        help="Graph/topic name (uses data/{graph-name} as base when --input not given).",
+    )
+    p.add_argument(
+        "--data-location",
+        help="Explicit data directory (overrides --graph-name).",
     )
     p.add_argument(
         "--outdir",
-        default="data/analysis",
-        help="Output directory (default: data/analysis)",
+        help="Output directory (default: {base}/analysis when graph/data specified, else data/analysis)",
     )
     p.add_argument(
         "--viz-html",
@@ -154,13 +162,36 @@ def optimize_memory() -> None:
 
 def main() -> None:
     args = parse_args()
-    outdir = Path(args.outdir)
+    base_dir: Path | None = None
+    if args.graph_name or args.data_location:
+        base_dir = resolve_base_dir(args.graph_name, args.data_location, create=True)
+
+    if args.input:
+        input_path = Path(args.input)
+    else:
+        if base_dir is None:
+            raise SystemExit("Please provide --input or --graph-name/--data-location to locate the dataset.")
+        combined_dir = base_dir / "combined"
+        candidates = [
+            combined_dir / "all_entities_matched.json",
+            combined_dir / "all_diseases_matched.json",
+            combined_dir / "all_entities.json",
+            combined_dir / "all_diseases.json",
+        ]
+        input_path = next((p for p in candidates if p.exists()), None)
+        if input_path is None:
+            raise SystemExit(f"Could not find a combined JSON file in {combined_dir}.")
+
+    outdir = Path(args.outdir) if args.outdir else (base_dir / "analysis" if base_dir else Path("data/analysis"))
     outdir.mkdir(parents=True, exist_ok=True)
+
+    graph_label = args.graph_name or (base_dir.name if base_dir else input_path.stem)
 
     start_time = time.time()
 
+    print(f"📥 Loading records from {input_path}")
     print("📥 Loading records …")
-    records = load_records(args.input)
+    records = load_records(str(input_path))
 
     if args.max_nodes > 0:
         records = records[: args.max_nodes]
@@ -272,7 +303,7 @@ def main() -> None:
             html_path,
             centrality=cent,
             node2comm=node2comm,
-            title="Enhanced Cancer Knowledge Graph",
+            title=f"Enhanced {graph_label} Knowledge Graph",
         )
     else:
         export_pyvis_with_legend(G, html_path, node2comm=node2comm)
@@ -322,7 +353,7 @@ def main() -> None:
         top_k=args.topk,
         npp_result=npp,
         validation_results=validation_results,
-        title="Enhanced Cancer Knowledge Graph Analysis Report",
+        title=f"Enhanced {graph_label} Knowledge Graph Analysis Report",
     )
 
     report_path = outdir / "report_module6.md"

@@ -10,32 +10,35 @@ Usage:
 """
 
 from __future__ import annotations
+import argparse
 from pathlib import Path
 from typing import List, Dict, Any
 import sys, json, datetime, pydantic
 
-# ---------------------------------------------------------------------
-# Load Schema from schema/schema_keys.json
-# ---------------------------------------------------------------------
-SCHEMA_PATH = Path("schema/schema_keys.json")
+from src.kg.utils.paths import resolve_base_dir
 
-def load_schema() -> dict:
+# ---------------------------------------------------------------------
+# Load Schema (runtime-configurable)
+# ---------------------------------------------------------------------
+
+SCHEMA_DEFAULTS: Dict[str, Any] | None = None
+
+# ---------------------------------------------------------------------
+# Dynamic Pydantic Model Creation
+# ---------------------------------------------------------------------
+def load_schema(schema_path: Path) -> dict:
     """Load and return the JSON schema for validation."""
-    if not SCHEMA_PATH.exists():
-        sys.exit(f"❌ Schema file not found at {SCHEMA_PATH}")
+    if not schema_path.exists():
+        sys.exit(f"❌ Schema file not found at {schema_path}")
     try:
-        schema_json = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+        schema_json = json.loads(schema_path.read_text(encoding="utf-8"))
         if not isinstance(schema_json, dict):
             sys.exit("❌ Schema file must contain a JSON object at the root level.")
         return schema_json
     except json.JSONDecodeError as e:
         sys.exit(f"❌ Failed to parse schema JSON: {e}")
 
-SCHEMA_DEFAULTS = load_schema()
 
-# ---------------------------------------------------------------------
-# Dynamic Pydantic Model Creation
-# ---------------------------------------------------------------------
 def create_model_from_schema(schema: dict):
     """Dynamically create a Pydantic model from the schema dictionary."""
     fields = {}
@@ -50,14 +53,34 @@ def create_model_from_schema(schema: dict):
             fields[key] = (str, "")
     return pydantic.create_model("ExtractDoc", **fields)
 
-ExtractDoc = create_model_from_schema(SCHEMA_DEFAULTS)
+ExtractDoc = None
+
+
+def configure_schema(schema_path: Path) -> None:
+    """Load schema file and build the validation model."""
+    global SCHEMA_DEFAULTS, ExtractDoc
+    SCHEMA_DEFAULTS = load_schema(schema_path)
+    ExtractDoc = create_model_from_schema(SCHEMA_DEFAULTS)
+
+
+def require_schema_defaults() -> dict:
+    if SCHEMA_DEFAULTS is None:
+        raise RuntimeError("Schema not configured.")
+    return SCHEMA_DEFAULTS
+
+
+def require_model():
+    if ExtractDoc is None:
+        raise RuntimeError("Schema model not configured.")
+    return ExtractDoc
 
 # ---------------------------------------------------------------------
 # Validation + Auto-repair
 # ---------------------------------------------------------------------
 def repair_missing_keys(data: dict) -> dict:
     """Ensure all keys exist with proper types, using schema defaults."""
-    for key, default in SCHEMA_DEFAULTS.items():
+    schema_defaults = require_schema_defaults()
+    for key, default in schema_defaults.items():
         if key not in data or data[key] is None:
             data[key] = default
         # Convert to list if default is a list
@@ -78,6 +101,7 @@ def dump_json_compatible(model: pydantic.BaseModel) -> str:
 
 def validate_file(path: Path):
     print(f"🔍 Validating {path.name}...")
+    model = require_model()
     try:
         text = path.read_text(encoding="utf-8")
         data = json.loads(text)
@@ -88,12 +112,12 @@ def validate_file(path: Path):
     data = repair_missing_keys(data)
 
     try:
-        doc = ExtractDoc.parse_obj(data)
+        doc = model.parse_obj(data)
     except pydantic.ValidationError as e:
         print(f"⚠️ {path.name}: Schema mismatch, attempting repair…")
         data = repair_missing_keys(data)
         try:
-            doc = ExtractDoc.parse_obj(data)
+            doc = model.parse_obj(data)
         except Exception as e2:
             print(f"❌ {path.name}: Could not repair: {e2}")
             return False
@@ -126,13 +150,30 @@ def validate_all(target: Path):
 # ---------------------------------------------------------------------
 # CLI Entry
 # ---------------------------------------------------------------------
+
+
+def parse_args() -> argparse.Namespace:
+    p = argparse.ArgumentParser(description="Validate and auto-repair extracted JSON files.")
+    p.add_argument(
+        "target",
+        nargs="?",
+        help="File or directory to validate (default: {base}/json).",
+    )
+    p.add_argument("--graph-name", help="Graph/topic name (uses data/{graph} as base).")
+    p.add_argument("--data-location", help="Explicit data directory (overrides --graph-name).")
+    p.add_argument("--schema-path", help="Path to schema_keys.json (default: {base}/schema/schema_keys.json).")
+    return p.parse_args()
+
+
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python validate_json.py <file_or_dir>")
-        sys.exit(1)
+    args = parse_args()
+    base_dir = resolve_base_dir(args.graph_name, args.data_location, create=True)
+    schema_path = Path(args.schema_path) if args.schema_path else base_dir / "schema" / "schema_keys.json"
+    target_path = Path(args.target) if args.target else base_dir / "json"
+
+    configure_schema(schema_path)
 
     start = datetime.datetime.now()
-    path = Path(sys.argv[1])
-    ok = validate_all(path)
+    ok = validate_all(target_path)
     print(f"\nCompleted in {(datetime.datetime.now() - start).total_seconds():.2f}s")
     sys.exit(0 if ok else 1)

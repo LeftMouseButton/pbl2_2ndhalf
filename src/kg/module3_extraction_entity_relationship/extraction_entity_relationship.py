@@ -19,65 +19,74 @@ import json
 import os
 import sys
 import time
+from dataclasses import dataclass
 from pathlib import Path
+
 import google.generativeai as genai
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
+
+from src.kg.utils.paths import resolve_base_dir
 
 # ────────────────────────────────────────────────────────────────────────────── #
 # CONFIGURATION
 # ────────────────────────────────────────────────────────────────────────────── #
 
 MODEL_NAME = "gemini-2.5-flash-lite"
-DATA_PROCESSED_DIR = Path("data/processed")
-EXAMPLE_JSON_PATH = Path("src/kg/module3_extraction_entity_relationship/example_entity_extraction.json")
-SCHEMA_PATH = Path("schema/schema_keys.json")
-OUTPUT_DIR = Path("data/json")
 MAX_RETRIES = 3
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+
+@dataclass
+class ExtractionPaths:
+    base_dir: Path
+    processed_dir: Path
+    output_dir: Path
+    schema_path: Path
+    example_json_path: Path
+    prompt_path: Path
+
+
+PATHS: ExtractionPaths | None = None
+
+
+def require_paths() -> ExtractionPaths:
+    if PATHS is None:
+        raise RuntimeError("Paths not initialized. Call main() to configure.")
+    return PATHS
 
 # ────────────────────────────────────────────────────────────────────────────── #
-# LOAD SCHEMA
+# LOAD CONFIG / SCHEMA / PROMPT
 # ────────────────────────────────────────────────────────────────────────────── #
 
-def load_schema():
-    if not SCHEMA_PATH.exists():
-        sys.exit(f"❌ Schema file not found at {SCHEMA_PATH}")
+def load_schema(schema_path: Path) -> str:
+    if not schema_path.exists():
+        sys.exit(f"❌ Schema file not found at {schema_path}")
     try:
-        schema_json = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+        schema_json = json.loads(schema_path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as e:
         sys.exit(f"❌ Failed to parse schema JSON: {e}")
     return json.dumps(schema_json, indent=2, ensure_ascii=False)
 
-# ────────────────────────────────────────────────────────────────────────────── #
-# PROMPT CONTENT
-# ────────────────────────────────────────────────────────────────────────────── #
 
-SCHEMA_CONTENT = load_schema()
+def load_prompt(prompt_path: Path, schema_content: str) -> str:
+    if not prompt_path.exists():
+        sys.exit(f"❌ Prompt file not found at {prompt_path}")
+    prompt_text = prompt_path.read_text(encoding="utf-8").strip()
+    if "{SCHEMA_JSON}" in prompt_text:
+        return prompt_text.replace("{SCHEMA_JSON}", schema_content)
+    return f"{prompt_text}\n\nSchema:\n{schema_content}"
 
-PROMPT_CONTENT = f'''Task: Perform structured entity and relationship extraction for knowledge-graph population.
 
-Input: The uploaded file(s) contain cleaned natural-language text describing a single disease.
-
-Goal: Identify and organize all relevant biomedical entities and their relationships, and output as valid JSON following the schema below.
-
-Schema:
-{SCHEMA_CONTENT}
-
-Instructions:
-Use concise entity names (no full sentences in lists).
-Include diseases as nodes in relationships.
-Extract gene associations, treatments, and symptoms even if implicit.
-Include at least 5 relationships connecting main entities (has_symptom, has_cause, has_risk_factor, treated_with, associated_gene, etc.).
-If multiple files for the same disease are uploaded, merge their information.
-Output only JSON, as a single .json file, no commentary.
-'''
+def load_example(example_path: Path) -> str:
+    if not example_path.exists():
+        sys.exit(f"❌ Example JSON missing: {example_path}")
+    return example_path.read_text(encoding="utf-8")
 
 # ────────────────────────────────────────────────────────────────────────────── #
 # HELPERS
 # ────────────────────────────────────────────────────────────────────────────── #
 
-def find_related_files(disease: str):
-    files = [f for f in DATA_PROCESSED_DIR.glob(f"{disease}_-*.txt")]
+def find_related_files(disease: str, processed_dir: Path):
+    files = [f for f in processed_dir.glob(f"{disease}_-*.txt")]
     if not files:
         print(f"⚠️ No matching files found for prefix '{disease}_-'. Skipping.")
     return files
@@ -91,25 +100,22 @@ def upload_files(files):
     return uploaded
 
 
-def extract_prefixes():
-    """Collect unique prefixes (disease names) from data/processed/."""
-    names = {p.name.split("_-_")[0] for p in DATA_PROCESSED_DIR.glob("*.txt") if "_-_" in p.name}
+def extract_prefixes(processed_dir: Path):
+    """Collect unique prefixes (entity names) from processed text folder."""
+    names = {p.name.split("_-_")[0] for p in processed_dir.glob("*.txt") if "_-_" in p.name}
     return sorted(names)
 
 
-def process_once(disease, model):
-    disease_files = find_related_files(disease)
+def process_once(disease: str, model, prompt_content: str, example_json: str, paths: ExtractionPaths):
+    disease_files = find_related_files(disease, paths.processed_dir)
     if not disease_files:
-        return False
-    if not EXAMPLE_JSON_PATH.exists():
-        print(f"❌ Example JSON missing: {EXAMPLE_JSON_PATH}")
         return False
 
     combined_text = ""
     reliability_map = {}
     for path in disease_files:
         reliability = 0.5
-        meta_path = DATA_PROCESSED_DIR / "metadata.jsonl"
+        meta_path = paths.processed_dir / "metadata.jsonl"
         if meta_path.exists():
             try:
                 for line in meta_path.read_text(encoding="utf-8").splitlines():
@@ -124,9 +130,7 @@ def process_once(disease, model):
         combined_text += f"\n\n--- SOURCE: {path.name} ---\n"
         combined_text += path.read_text(encoding="utf-8")
 
-    example_json = EXAMPLE_JSON_PATH.read_text(encoding="utf-8")
-
-    full_prompt = f"{PROMPT_CONTENT}\n\nExample JSON:\n{example_json}\n\nInput Text:\n{combined_text}"
+    full_prompt = f"{prompt_content}\n\nExample JSON:\n{example_json}\n\nInput Text:\n{combined_text}"
 
     print(f"🧠 Sending extraction request for '{disease}' to {MODEL_NAME}...")
     try:
@@ -157,16 +161,16 @@ def process_once(disease, model):
     if isinstance(data, dict):
         data["source_reliability"] = reliability_map
 
-    out_path = OUTPUT_DIR / f"{disease}.json"
+    out_path = paths.output_dir / f"{disease}.json"
     out_path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
     print(f"✅ Saved extraction: {out_path}")
     return True
 
 
-def process_with_retry(disease, model):
+def process_with_retry(disease: str, model, prompt_content: str, example_json: str, paths: ExtractionPaths):
     for attempt in range(1, MAX_RETRIES + 1):
         print(f"\n🔄 Attempt {attempt}/{MAX_RETRIES} for {disease}")
-        ok = process_once(disease, model)
+        ok = process_once(disease, model, prompt_content, example_json, paths)
         if ok:
             return True, attempt
         if attempt < MAX_RETRIES:
@@ -179,13 +183,50 @@ def process_with_retry(disease, model):
 # MAIN
 # ────────────────────────────────────────────────────────────────────────────── #
 
-def main():
-    p = argparse.ArgumentParser(description="Entity and relationship extraction using Gemini.")
+
+def parse_args() -> argparse.Namespace:
+    p = argparse.ArgumentParser(description="Entity/relationship extraction for any graph topic.")
     g = p.add_mutually_exclusive_group(required=True)
-    g.add_argument("--disease", help="Disease prefix (before '_-').")
-    g.add_argument("--all", action="store_true", help="Process all diseases.")
+    g.add_argument("--entity", "--disease", dest="entity", help="Entity prefix (before '_-').")
+    g.add_argument("--all", action="store_true", help="Process all entities in processed/.")
     p.add_argument("--force", action="store_true", help="Re-run even if JSON already exists.")
-    args = p.parse_args()
+    p.add_argument("--graph-name", help="Graph/topic name (uses data/{graph-name} as base).")
+    p.add_argument("--data-location", help="Explicit data directory (overrides --graph-name).")
+    p.add_argument("--schema-path", help="Path to schema_keys.json (default: {base}/schema/schema_keys.json).")
+    p.add_argument("--example-path", help="Path to example_entity_extraction.json (default: {base}/schema/example_entity_extraction.json).")
+    p.add_argument("--prompt-path", help="Path to prompt template (default: {base}/schema/prompt.txt).")
+    p.add_argument("--output-dir", help="Directory to write extracted JSON (default: {base}/json).")
+    return p.parse_args()
+
+
+def main():
+    global PATHS
+    args = parse_args()
+
+    base_dir = resolve_base_dir(args.graph_name, args.data_location, create=True)
+    processed_dir = base_dir / "processed"
+    if not processed_dir.exists():
+        sys.exit(f"❌ Processed directory not found: {processed_dir}")
+
+    output_dir = Path(args.output_dir) if args.output_dir else base_dir / "json"
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    schema_path = Path(args.schema_path) if args.schema_path else base_dir / "schema" / "schema_keys.json"
+    example_json_path = Path(args.example_path) if args.example_path else base_dir / "schema" / "example_entity_extraction.json"
+    prompt_path = Path(args.prompt_path) if args.prompt_path else base_dir / "schema" / "prompt.txt"
+
+    PATHS = ExtractionPaths(
+        base_dir=base_dir,
+        processed_dir=processed_dir,
+        output_dir=output_dir,
+        schema_path=schema_path,
+        example_json_path=example_json_path,
+        prompt_path=prompt_path,
+    )
+
+    schema_content = load_schema(PATHS.schema_path)
+    prompt_content = load_prompt(PATHS.prompt_path, schema_content)
+    example_json = load_example(PATHS.example_json_path)
 
     api_key = os.getenv("GOOGLE_API_KEY")
     if not api_key:
@@ -195,23 +236,23 @@ def main():
     model = genai.GenerativeModel(MODEL_NAME)
     results = {}
 
-    targets = [args.disease] if args.disease else extract_prefixes()
+    targets = [args.entity] if args.entity else extract_prefixes(PATHS.processed_dir)
     if not targets:
-        sys.exit("❌ No disease files found in data/processed/.")
+        sys.exit(f"❌ No files found in {PATHS.processed_dir}.")
 
-    print(f"🔍 Target diseases: {', '.join(targets)}")
+    print(f"🔍 Target entities: {', '.join(targets)}")
 
     for disease in targets:
-        out_path = OUTPUT_DIR / f"{disease}.json"
+        out_path = PATHS.output_dir / f"{disease}.json"
         if out_path.exists() and not args.force:
             print(f"⚡ Skipping cached result for {disease} (use --force to re-run).")
             results[disease] = ("SKIPPED", 0)
             continue
 
         print("\n" + "=" * 80)
-        print(f"🧩 Processing disease group: {disease}")
+        print(f"🧩 Processing entity group: {disease}")
         print("=" * 80)
-        success, attempts = process_with_retry(disease, model)
+        success, attempts = process_with_retry(disease, model, prompt_content, example_json, PATHS)
         results[disease] = ("SUCCESS" if success else "FAILED", attempts)
 
     print("\n" + "#" * 80)
@@ -225,7 +266,7 @@ def main():
 
     failed = [d for d, (s, _) in results.items() if s == "FAILED"]
     if failed:
-        print(f"⚠️ {len(failed)} disease(s) failed after {MAX_RETRIES} attempts: {', '.join(failed)}")
+        print(f"⚠️ {len(failed)} entries failed after {MAX_RETRIES} attempts: {', '.join(failed)}")
     else:
         print("🎉 All extractions completed successfully or were cached.")
 
