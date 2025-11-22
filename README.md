@@ -1,56 +1,80 @@
+--todo: add source reliability to the LLM input (module 3)
+
 # Knowledge Graph Pipeline
 
-Builds and analyses a topic-agnostic knowledge graph (cancer, Pokémon, League of Legends, etc.).
+Builds and analyses a **topic-agnostic knowledge graph**  
+(e.g., cancer, Pokémon, League of Legends).
 
-Modular design; each step is independently executable and may be reused for other tasks. 
-Working data under `data/{graph_name}/`, frozen demonstration runs (used for papers) live under `demos/`.
+The modular pipeline:
+
+1. Crawls web sources for raw text (Module 1)
+2. Cleans & normalizes text (Module 2)
+3. Uses an LLM to extract entities & relationships (Module 3)
+4. Validates / auto-repairs JSON outputs (Module 4)
+5. Combines + ontology-normalizes JSON for analysis (Module 5)
+6. Builds a heterogeneous graph and runs analytics + visualization (Module 6)
+
+- Working data lives under: `data/{graph_name}/`
+- Frozen demonstration runs (used for papers/experiments) live under: `demos/{graph_name}/`
+- A LaTeX paper (for the cancer demo) lives in: `papers/cancer/`
+
+---
 
 ## Dependencies
+
+Core packages:
+
 ```
 conda install beautifulsoup4 lxml networkx pandas scikit-learn psutil -c bioconda pronto -c conda-forge python-slugify pydantic pyvis rapidfuzz
+```
+
+Install LLM / API client:
+
+```bash
 pip install google-generativeai
 ```
+
 Set your API key (required for Module 3):
+
 ```
 export GOOGLE_API_KEY="YOUR_API_KEY"
 ```
 
-## Limitations
-```
-Module 1 -- More sources are required beyond Wikipedia/MedlinePlus. Code is structured such that additional sources can be added in the future.
-Module 3 -- Major issues
-                1) Reproducibility: LLMs generate different information with each run.
-                2) Hallucinations/etc: LLMs may fabricate facts or utilize external information.
-                3) Naming issues: (mitigated by Module 5)
-                        1) Some entries do not share the same naming scheme (eg: "Tobacco smoking", "Smoking tobacco", "Smoking (active and passive)", "Smoking", and "Smoking cigarettes").
-                        2) Excessive verbosity: "Being overweight (possibly due to smoking-related lower body weight)"
-...
-```
+---
 
-## Cancer Ontology Sources:
-```
-
-    https://raw.githubusercontent.com/DiseaseOntology/HumanDiseaseOntology/main/src/ontology/doid.obo
-    https://bioportal.bioontology.org/ontologies/NCIT
-    https://storage.googleapis.com/public-download-files/hgnc/owl/owl/hgnc.owl
-
-```
-
-
-## Usage
+## How to Use
 
 ### Per-graph inputs (user supplied -- edit these before running)
 - `data/{graph_name}/names.txt` – list of entities (eg: wikipedia page titles) to crawl.
 - `data/{graph_name}/schema/schema_keys.json` – schema tailored to the topic.
 - `data/{graph_name}/schema/example_entity_extraction.json` – example for the LLM (Module 3).
-- `data/{graph_name}/schema/prompt.txt` – prompt template (schema appended automatically).
+- `data/{graph_name}/schema/prompt.txt` – prompt template (schema+example appended automatically).
 - `data/{graph_name}/ontologies/` - Optional ontologies.
 
+### Option A – Pipeline Launcher
+
+This runs Modules 1 → 6 sequentially for a given graph topic.
+
+```bash
+python main.py --graph-name cancer --sources wikipedia medlineplus --seed "lung cancer" --seed "liver cancer"
 ```
-1) python main.py --graph-name cancer
 
-OR
+Expected layout (created automatically):
 
+- `data/cancer/raw/`
+- `data/cancer/processed/`
+- `data/cancer/json/`
+- `data/cancer/combined/`
+- `data/cancer/analysis/`
+
+You can then open `data/cancer/analysis/graph.html` in a browser and/or read   `data/cancer/analysis/report_module6.md` for a detailed report.
+
+### Option B – Manual
+
+`main.py` is a thin subprocess wrapper around the module CLIs.  
+If you prefer, you can run each module manually (see examples below).
+
+```
 1) python -m src.kg.module1_crawler.crawler --graph-name cancer --sources wikipedia medlineplus
 2) python -m src.kg.module2_clean.clean --data-location data/cancer
 3) python -m src.kg.module3_extraction_entity_relationship.extraction_entity_relationship --data-location data/cancer --all
@@ -58,46 +82,127 @@ OR
 5) python -m src.kg.module5_prepare_for_analysis.combine_json_files --data-location data/cancer
 6) python -m src.kg.module6_analysis.analyse --data-location data/cancer --validation --enhanced-viz --memory-monitor --seed "lung cancer" --seed "liver cancer"
 
-OR
+---
 
 Re-analyse a frozen demo, writing data somewhere else:
 1) python -m src.kg.module6_analysis.analyse --data-location demos/pokemon --outdir data/pokemon/analysis
 ```
 
+---
+
+# How to Extend
+
+New Source:
+- Add a new python file under crawler/sources
+- Add a new python file under clean/sources
+- Run pipeline, being sure to add the new source to the parameter list (eg: --sources YOUR_NEW_SOURCE)
+
+---
+
+## Repository Layout (High-Level)
+
+- `main.py` – optional pipeline launcher (sequentially runs Modules 1–6)
+- `src/kg/`
+  - `module1_crawler/` – topic-agnostic web crawler with pluggable sources
+  - `module2_clean/` – cleaning / preprocessing with pluggable cleaners
+  - `module3_extraction_entity_relationship/` – LLM entity & relation extraction
+  - `module4_validate_json/` – auto-repair validator for JSON outputs
+  - `module5_prepare_for_analysis/` – combine + ontology-normalize JSON
+  - `module6_analysis/` – graph construction + analytics + visualization
+  - `utils/` – shared helpers (paths resolution, token count prediction)
+- `data/{graph_name}/`
+  - `raw/` – raw HTML / text from Module 1
+  - `processed/` – cleaned plain text from Module 2
+  - `json/` – LLM extraction JSON from Module 3
+  - `combined/` – merged + normalized JSON from Module 5
+  - `analysis/` – graph files, CSVs, reports, HTML from Module 6
+  - `schema/` – schema for graph building, example JSON and prompt templates for Module 3 LLM
+  - `ontologies/` – local ontology files (.obo / .owl) for normalization
+  - `names.txt` – list of entities for crawling (e.g., cancer types)
+- `demos/{graph_name}/` – frozen snapshots (raw → combined → analysis)
+- `papers/cancer/` – LaTeX + figures + PDF for the cancer case study
+
 
 ## Modules/Steps:
 ### 1) Module 1 – Web Crawler
 -----------------------------------
-Collects raw natural-language content (HTML or plain text). Sources are plugin-based and auto-discovered from `src/kg/module1_crawler/sources` using a registry. No sources are enabled by default; specify `--sources` explicitly.
+Collects raw natural-language content (HTML or plain text) for a set of entity names.
 
-Examples:
-- Wikipedia (REST API)
-- MedlinePlus (HTML via XML search API)
+- Topic-agnostic: works for diseases, Pokémon, League of Legends champions, etc.
+- Source-specific plugins live in `sources/` and are auto-registered.
+- **Reliability** per source is recorded for **LLM extraction** and **downstream edge weighting**.
 
-Enable sources explicitly:
+
+Sources are plugin-based and auto-discovered from `src/kg/module1_crawler/sources` using a registry. No sources are enabled by default; specify `--sources` explicitly.
+
+### Example CLI
 ```
 python -m src.kg.module1_crawler.crawler --graph-name pokemon --sources wikipedia
 python -m src.kg.module1_crawler.crawler --graph-name cancer --sources wikipedia medlineplus
 ```
 
-Saves results under `data/<graph>/raw/` with provenance metadata (for Module 2 cleaning).
+Output:
 
 ```
-Output:
-    data/<graph>/raw/{slug}_{source}.{ext}
-    data/<graph>/raw/metadata.jsonl    # one JSON record per fetched resource
+data/<graph>/raw/{slug}_{source}.{ext}
+data/<graph>/raw/metadata.jsonl    # one JSON record per fetched resource
 ```
+
+Arguments:
+
+- `--graph-name` – topic name (creates/uses `data/{graph_name}`).
+- `--data-location` – explicit base directory (overrides `--graph-name`).
+- `--names-file` – file with one entity name per line (default `data/{graph_name}/names.txt`).
+- `--sources` – one or more of the registered sources (e.g. `wikipedia`, `medlineplus`).
+
+### Sources
+
+Implemented under `src/kg/module1_crawler/sources/`:
+
+- `wikipedia.py` – REST API, extracts summary text
+- `medlineplus.py` – HTML via XML search API, patient-facing handouts
+- `registry.py` – `@register_source` decorator + central registry
 
 ### 2) Module 2 – Cleaning / Preprocessing
 -----------------------------------
-Converts raw HTML or plain-text files (from Module 1) into normalized,
-clean text suitable for LLM-based entity extraction (Module 3).
+
+**Location:** `src/kg/module2_clean/`
+
+Converts raw HTML or plain-text files into **normalized, cleaned text** for LLM extraction.
+
+Key responsibilities:
+
+- Strip HTML/JS/CSS boilerplate, nav bars, ads, etc.
+- Fix common mojibake / encoding issues.
+- Apply source-specific trim rules.
+- Preserve enough structure for good LLM extraction while reducing noise.
+
+### Example CLI
+
+```bash
+python -m src.kg.module2_clean.clean   --graph-name cancer
 ```
-Input:
-    data/raw/*.html or .txt   (from Module 1 - Web Crawler)
-Output:
-    data/processed/{disease}_-_{source}.txt
-    data/processed/metadata.jsonl    # metadata record includes source filename, processed filename, checksums, and timestamp.
+
+### Architecture
+
+Under `src/kg/module2_clean/sources/`:
+
+- `default.py` – generic HTML → text cleaner
+- `wikipedia.py` – Wikipedia-specific cleanup
+- `medlineplus.py` – strict trimming for patient handouts
+- `registry.py` – `@register_cleaner`
+
+### Inputs
+```
+data/raw/*.html or .txt   (from Module 1 - Web Crawler)
+```
+
+### Outputs
+
+Under `data/{graph_name}/processed/`:
+```
+ {disease}_-_{source}.txt
+ metadata.jsonl
 ```
 ### 3) Module 3 – LLM-based Entity and Relationship Extraction
 -----------------------------------
@@ -218,4 +323,26 @@ Input:
     .json file(s) from --input_path
 Output:
     Token count printed to the command line.
+```
+
+
+## Limitations
+```
+Module 1 -- More sources are required beyond Wikipedia/MedlinePlus. Code is structured such that additional sources can be added in the future.
+Module 3 -- Major issues
+                1) Reproducibility: LLMs generate different information with each run.
+                2) Hallucinations/etc: LLMs may fabricate facts or utilize external information.
+                3) Naming issues: (mitigated by Module 5)
+                        1) Some entries do not share the same naming scheme (eg: "Tobacco smoking", "Smoking tobacco", "Smoking (active and passive)", "Smoking", and "Smoking cigarettes").
+                        2) Excessive verbosity: "Being overweight (possibly due to smoking-related lower body weight)"
+...
+```
+
+## Cancer Ontology Sources:
+```
+
+    https://raw.githubusercontent.com/DiseaseOntology/HumanDiseaseOntology/main/src/ontology/doid.obo
+    https://bioportal.bioontology.org/ontologies/NCIT
+    https://storage.googleapis.com/public-download-files/hgnc/owl/owl/hgnc.owl
+
 ```

@@ -48,10 +48,10 @@ def main():
     parser.add_argument(
         "--sources",
         nargs="+",
-        choices=["wikipedia", "medlineplus"],
-        default=["wikipedia", "medlineplus"],
+        default=[],  # no sources enabled by default
         help="Sources to use in the crawler.",
     )
+    parser.add_argument("--seed", action="append", default=[], help="Seed(s) for Module 6 traversal/shortest-path demos.")
     args = parser.parse_args()
 
     base_dir = Path(args.data_location) if args.data_location else Path("data") / args.graph_name
@@ -132,6 +132,7 @@ def main():
                 "--validation",
                 "--enhanced-viz",
                 "--memory-monitor",
+                *sum([["--seed", s] for s in args.seed[:2]], []),
             ],
         ),
 
