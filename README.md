@@ -126,11 +126,13 @@ New Source:
 ## Modules/Steps:
 ### 1) Module 1 – Web Crawler
 -----------------------------------
+**Location:** `src/kg/module1_crawler/`
+
 Collects raw natural-language content (HTML or plain text) for a set of entity names.
 
 - Topic-agnostic: works for diseases, Pokémon, League of Legends champions, etc.
 - Source-specific plugins live in `sources/` and are auto-registered.
-- **Reliability** per source is recorded for **LLM extraction** and **downstream edge weighting**.
+- Reliability per source is recorded for LLM extraction and downstream edge weighting.
 
 
 Sources are plugin-based and auto-discovered from `src/kg/module1_crawler/sources` using a registry. No sources are enabled by default; specify `--sources` explicitly.
@@ -139,6 +141,12 @@ Sources are plugin-based and auto-discovered from `src/kg/module1_crawler/source
 ```
 python -m src.kg.module1_crawler.crawler --graph-name pokemon --sources wikipedia
 python -m src.kg.module1_crawler.crawler --graph-name cancer --sources wikipedia medlineplus
+```
+
+Input:
+
+```
+(http sources)
 ```
 
 Output:
@@ -206,34 +214,41 @@ Under `data/{graph_name}/processed/`:
 ```
 ### 3) Module 3 – LLM-based Entity and Relationship Extraction
 -----------------------------------
+**Location:** `src/kg/module3_extraction_entity_relationship/`
+
 Uses the Google AI Studio API (Gemini 2.5 Flash Lite) to perform structured entity and relationship extraction for knowledge-graph population.
 
-This step also combines all input text from multiple sources into one file per disease.
+This step also combines all input text from all sources into one file per disease.
 If we have a lot of sources for each disease in the future, this is a weak point and will need to be changed (will run into a token limit otherwise).
 
 Note: this is also the weakest point in the entire project for scientific reproducibility. Would be ideal to avoid use of an LLM here.
 
-```
-Parameters:
-  • Single-disease mode:
-      python extraction_entity_relationship.py --disease breast-cancer
-  • Batch mode (process all disease prefixes):
-      python extraction_entity_relationship.py --all
-  • Force (existing .json files are skipped unless --force):
-      python extraction_entity_relationship.py --all --force
+Arguments:
+
+- `--entity` – run on a single item  
+- `--all` – process **all** entities in `data/{graph_name}/processed/`
+- `--force` – overwrite existing JSON  
+- `--schema-path` – override `{base}/schema/schema_keys.json`  
+- `--example-path` – override example JSON  
+- `--prompt-path` – override prompt template  
+
+Includes:
+
+- Injection of `schema_keys.json` and `example_entity_extraction.json` into prompt  
 - Retries failed extractions up to a configurable limit.
+
+### Inputs
+```
+data/{graph_name}/processed/*.txt  (from Module 2 - Cleaner)
 ```
 
+### Outputs
+
+Under `data/{graph_name}/json/`:
 ```
-Input:
-    .txt file(s) from data/processed/
-        options:
-            --disease {name}
-                OR
-            --all
-Output:
-    data/json/{disease-name}.json
+{disease-name}.json
 ```
+
 
 ### 4) Module 4 - Validator with Auto-Repair for LLM Step-1 JSON Outputs
 -------------------------------------------------
