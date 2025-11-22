@@ -1,20 +1,13 @@
 #!/usr/bin/env python3
 """
-Module 6 – Graph Construction & Analysis (orchestrator)
+Module 6 – Graph Construction & Analysis
 -------------------------------------------------------
-This refactored entry script coordinates the following steps:
-
-1) Load disease JSON records (combined file or directory)
-2) Build the heterogeneous knowledge graph
-3) Run connectivity, community, centrality, link prediction, node property,
-   traversal, and optional statistical validation analyses
-4) Export:
-   - GraphML
-   - PyVis HTML visualization (basic or enhanced)
-   - CSVs for centrality and link predictions
-   - Markdown report (enhanced format)
-
-CLI is compatible with the original monolithic analyse.py.
+Loads combined records for any topic, builds a heterogeneous graph, and runs
+connectivity, community detection (with consensus), centrality, link
+prediction, node property prediction, traversal demos, and optional
+statistical validation. Exports GraphML, PyVis HTML, CSVs, and an enhanced
+Markdown report. Configurable via CLI (input path, output dir, seeds,
+validation, enhanced viz, memory monitor, betweenness sampling, limits).
 """
 
 from __future__ import annotations
