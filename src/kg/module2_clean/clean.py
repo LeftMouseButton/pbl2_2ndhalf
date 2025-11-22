@@ -126,8 +126,8 @@ def lookup_source_reliability(source_slug: str) -> float:
                 rec = json.loads(line)
                 if slugify(rec.get("source_type", "")) == source_slug:
                     return float(rec.get("source_reliability", default_map.get(source_slug, 0.5)))
-        except Exception:
-            pass
+        except Exception as e:
+            log(f"[WARN] Failed to read source reliability for '{source_slug}': {e}")
     return default_map.get(source_slug, 0.5)
 
 
