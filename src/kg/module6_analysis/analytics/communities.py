@@ -94,8 +94,8 @@ def consensus_community_detection(
         from networkx.algorithms.community.label_propagation import label_propagation_communities
         lp = list(label_propagation_communities(G))
         all_results.append(lp)
-    except Exception:
-        pass
+    except Exception as e:
+        print(f"[WARN] Failed label propagation: {e}")
 
     # Fallback
     if not all_results:
