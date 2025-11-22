@@ -123,8 +123,8 @@ def process_once(disease: str, model, prompt_content: str, example_json: str, pa
                     if rec.get("processed_filename") == path.name:
                         reliability = float(rec.get("source_reliability", reliability))
                         break
-            except Exception:
-                pass
+            except Exception as e:
+                log(f"[WARN] Failed to read source reliability for '{source_slug}': {e}")
         print(f"📖 Reading {path.name} ...")
         reliability_map[path.name] = reliability
         combined_text += f"\n\n--- SOURCE: {path.name} ---\n"
