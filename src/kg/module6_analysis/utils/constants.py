@@ -48,8 +48,9 @@ def _load_schema_keys() -> list[str]:
     if graph_name:
         candidates.append(Path("data") / graph_name / "schema" / "schema_keys.json")
 
-    # If neither env var is set, rely on the conventional relative path used elsewhere.
-    candidates.append(Path("data") / graph_name / "schema" / "schema_keys.json" if graph_name else Path("data") / "cancer" / "schema" / "schema_keys.json")
+    # If neither env var is set, require a graph name to be provided.
+    if not graph_name and not env_path:
+        raise FileNotFoundError("Schema file not found. Set KG_SCHEMA_PATH or KG_GRAPH_NAME.")
 
     schema_path = next((p for p in candidates if p and p.exists()), None)
     if schema_path is None:
