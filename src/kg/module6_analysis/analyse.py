@@ -5,7 +5,7 @@ Module 6 – Graph Construction & Analysis (orchestrator)
 This refactored entry script coordinates the following steps:
 
 1) Load disease JSON records (combined file or directory)
-2) Build the heterogeneous cancer knowledge graph
+2) Build the heterogeneous knowledge graph
 3) Run connectivity, community, centrality, link prediction, node property,
    traversal, and optional statistical validation analyses
 4) Export:
@@ -67,7 +67,7 @@ from .report.csv_export import (
 
 
 def parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser(description="Module 6 – Build and analyse the cancer knowledge graph.")
+    p = argparse.ArgumentParser(description="Module 6 – Build and analyse the knowledge graph.")
     p.add_argument(
         "--input",
         help="Path to combined JSON (top-level list) OR a directory of per-entity JSONs. If omitted, defaults to {base}/combined/all_entities_matched.json (or all_diseases_matched.json) when --graph-name/--data-location is provided.",

@@ -1,7 +1,7 @@
 # src/kg/module6_analysis/analytics/centrality.py
 
 """
-Centrality metric computations for the cancer knowledge graph.
+Centrality metric computations for the knowledge graph.
 
 This module computes:
   - Normalized degree centrality
