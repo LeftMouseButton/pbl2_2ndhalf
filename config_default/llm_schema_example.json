@@ -1,0 +1,156 @@
+{
+  "entities": [
+    {
+      "id": "vtuber_1",
+      "type": "vtuber",
+      "name": "Example Vtuber 1",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "example_name_1",
+          "confidence": 0.85
+        },
+        "synonyms": {
+          "value": "example_synonyms_2",
+          "confidence": 0.85
+        },
+        "description": {
+          "value": "example_description_3",
+          "confidence": 0.85
+        }
+      }
+    },
+    {
+      "id": "agency_2",
+      "type": "agency",
+      "name": "Example Agency 2",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "example_name_1",
+          "confidence": 0.85
+        }
+      }
+    },
+    {
+      "id": "game_3",
+      "type": "game",
+      "name": "Example Game 3",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "example_name_1",
+          "confidence": 0.85
+        },
+        "genre": {
+          "value": "example_genre_2",
+          "confidence": 0.85
+        },
+        "developer": {
+          "value": "example_developer_3",
+          "confidence": 0.85
+        }
+      }
+    },
+    {
+      "id": "music_release_4",
+      "type": "music_release",
+      "name": "Example Music_Release 4",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "example_name_1",
+          "confidence": 0.85
+        },
+        "genre": {
+          "value": "example_genre_2",
+          "confidence": 0.85
+        }
+      }
+    },
+    {
+      "id": "event_5",
+      "type": "event",
+      "name": "Example Event 5",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "example_name_1",
+          "confidence": 0.85
+        },
+        "date": {
+          "value": "example_date_2",
+          "confidence": 0.85
+        },
+        "type": {
+          "value": "example_type_3",
+          "confidence": 0.85
+        },
+        "location": {
+          "value": "example_location_4",
+          "confidence": 0.85
+        }
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "source": "vtuber_1",
+      "relation": "belongs_to",
+      "target": "agency_1",
+      "confidence": 0.88
+    },
+    {
+      "source": "vtuber_1",
+      "relation": "collaborated_with",
+      "target": "vtuber_1",
+      "confidence": 0.88,
+      "properties": {
+        "hours": {
+          "value": "example_hours",
+          "confidence": 0.8
+        },
+        "times": {
+          "value": "example_times",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "source": "vtuber_1",
+      "relation": "played",
+      "target": "game_1",
+      "confidence": 0.88,
+      "properties": {
+        "hours_streamed": {
+          "value": "example_hours_streamed",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "source": "vtuber_1",
+      "relation": "released",
+      "target": "music_release_1",
+      "confidence": 0.88
+    },
+    {
+      "source": "vtuber_1",
+      "relation": "performed_at",
+      "target": "event_1",
+      "confidence": 0.88
+    },
+    {
+      "source": "agency_1",
+      "relation": "held",
+      "target": "event_1",
+      "confidence": 0.88,
+      "properties": {
+        "description": {
+          "value": "example_description",
+          "confidence": 0.8
+        }
+      }
+    }
+  ]
+}
