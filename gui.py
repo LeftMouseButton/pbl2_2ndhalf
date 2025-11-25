@@ -20,6 +20,10 @@ class KGConfigEditorApp:
 
         # --- runtime state ---
         self.current_graph_name = None
+        self.unsaved_changes = False
+        self.nodes_modified_since_schema = False
+        self.edges_modified_since_schema = False
+
         self.sources_state = {}          # {source: {"enabled": bool, "weight": float}}
         self.pipeline_process = None     # subprocess.Popen or None
         self.pipeline_thread = None      # threading.Thread or None
@@ -46,11 +50,19 @@ class KGConfigEditorApp:
         self.seed1_var = tk.StringVar()
         seed1_entry = ttk.Entry(top_frame, textvariable=self.seed1_var, width=18)
         seed1_entry.pack(side="left", padx=(4, 8))
+        seed1_entry.bind("<Key>", lambda e: self._mark_unsaved())
+        seed1_entry.bind("<<Paste>>", lambda e: self._mark_unsaved())
+        seed1_entry.bind("<<Cut>>", lambda e: self._mark_unsaved())
+        self.seed1_var.trace_add("write", lambda *_: self._mark_unsaved())
 
         ttk.Label(top_frame, text="Seed 2:").pack(side="left")
         self.seed2_var = tk.StringVar()
         seed2_entry = ttk.Entry(top_frame, textvariable=self.seed2_var, width=18)
         seed2_entry.pack(side="left", padx=(4, 8))
+        seed2_entry.bind("<Key>", lambda e: self._mark_unsaved())
+        seed2_entry.bind("<<Paste>>", lambda e: self._mark_unsaved())
+        seed2_entry.bind("<<Cut>>", lambda e: self._mark_unsaved())
+        self.seed2_var.trace_add("write", lambda *_: self._mark_unsaved())
 
         # Common seeds dropdown (auto-filled from entity_list.ini)
         ttk.Label(top_frame, text="Common seeds:").pack(side="left")
@@ -100,11 +112,13 @@ class KGConfigEditorApp:
         self.nodes_text = self._create_labeled_text(
             self.nodes_edges_frame,
             "Nodes & node properties (e.g. 'disease: name, synonyms, summary'):",
+            field_name="nodes"
         )
         self.edges_text = self._create_labeled_text(
             self.nodes_edges_frame,
             "Edges & edge properties (required: source_type, target_type; "
             "e.g. 'causes: disease -> gene | evidence, confidence'):",
+            field_name="edges"
         )
 
         # 3) Sources + weights
@@ -131,8 +145,7 @@ class KGConfigEditorApp:
     # ------------------------------------------------------------------
     # UI helpers
     # ------------------------------------------------------------------
-    def _create_labeled_text(self, parent, label_text, height=10):
-        """Create a label + scrollable Text widget; return the Text."""
+    def _create_labeled_text(self, parent, label_text, height=10, field_name=None):
         label = ttk.Label(parent, text=label_text)
         label.pack(anchor="w", pady=(0, 2))
 
@@ -146,7 +159,23 @@ class KGConfigEditorApp:
         text.pack(side="left", fill="both", expand=True)
         vscroll.pack(side="right", fill="y")
 
+        # --- FIX unsaved_changes for text widgets ---
+        def on_modified(event, widget=text):
+            if widget.edit_modified():
+                self.unsaved_changes = True
+                widget.edit_modified(False)
+
+                # Track nodes/edges changes for schema regeneration
+                if field_name == "nodes":
+                    self.nodes_modified_since_schema = True
+                elif field_name == "edges":
+                    self.edges_modified_since_schema = True
+
+
+        text.bind("<<Modified>>", on_modified)
+
         return text
+
 
     def _build_sources_section(self, parent):
         description = (
@@ -364,6 +393,9 @@ class KGConfigEditorApp:
             ttk.Label(self.sources_inner_frame, text="source_weight").grid(
                 row=row, column=2, sticky="w", padx=(4, 0)
             )
+    
+            enabled_var.trace_add("write", lambda *_: self._mark_unsaved())
+            weight_var.trace_add("write", lambda *_: self._mark_unsaved())
 
             self.source_vars[source_name] = enabled_var
             self.source_weight_vars[source_name] = weight_var
@@ -476,6 +508,8 @@ class KGConfigEditorApp:
 
         # After saving, ensure missing keys from defaults are appended
         self._apply_default_keys(graph_config_dir)
+
+        self.unsaved_changes = False
 
         messagebox.showinfo("Saved", f"Configuration saved for graph '{graph_name}'.")
 
@@ -691,6 +725,11 @@ class KGConfigEditorApp:
         self.schema_text.delete("1.0", "end")
         self.schema_text.insert("1.0", pretty)
 
+        # Reset modification flags for schema dependency
+        self.nodes_modified_since_schema = False
+        self.edges_modified_since_schema = False
+
+
     # ------------------------------------------------------------------
     # Condensed schema (schema_keys.json) generation with confidence
     # ------------------------------------------------------------------
@@ -800,6 +839,58 @@ class KGConfigEditorApp:
         if not graph_name:
             messagebox.showerror("Error", "Please enter a graph name before running the pipeline.")
             return
+
+        # ====== 0) Check if nodes/edges changed since last schema generation ======
+        if self.nodes_modified_since_schema or self.edges_modified_since_schema:
+            result = messagebox.askyesno(
+                "Schema Generation Reminder",
+                "You modified NODES or EDGES.\n\n"
+                "Did you remember to go to LLM Config -> Generate Example\n"
+                "to regenerate the example extraction schema?\n\n"
+                "YES = Continue without updating the example\n"
+                "NO  = I will update it first"
+            )
+            if not result:
+                return
+
+
+        # ------- 1) Check unsaved changes -------
+        if self.unsaved_changes:
+            result = messagebox.askyesno(
+                "Unsaved Changes",
+                "Did you remember to SAVE first to apply your changes?\n\n"
+                "Press YES = Continue without my changes\n"
+                "Press NO  = I will save first"
+            )
+            if not result:
+                return
+        # ------- 2) Ensure graph directory exists -------
+        graph_name = self.graph_name_var.get().strip()
+        if not graph_name:
+            messagebox.showerror("Error", "Please enter a graph name.")
+            return
+
+        graph_dir = os.path.join(BASE_DIR, "data", graph_name)
+        config_dir = os.path.join(graph_dir, "config")
+
+        if not os.path.isdir(config_dir):
+            try:
+                os.makedirs(config_dir, exist_ok=True)
+                # Copy default files into new config dir
+                for filename in os.listdir(DEFAULT_CONFIG_DIR):
+                    src = os.path.join(DEFAULT_CONFIG_DIR, filename)
+                    dst = os.path.join(config_dir, filename)
+                    if os.path.isfile(src):
+                        with open(src, "r", encoding="utf-8") as f_src:
+                            with open(dst, "w", encoding="utf-8") as f_dst:
+                                f_dst.write(f_src.read())
+            except Exception as e:
+                messagebox.showerror(
+                    "Error",
+                    f"Could not create default configuration in {config_dir}:\n{e}"
+                )
+                return
+
 
         enabled_sources = [
             src for src, var in self.source_vars.items()
@@ -924,12 +1015,24 @@ class KGConfigEditorApp:
         seed = self.common_seed_var.get().strip()
         if not seed:
             return
+        previous = (self.seed1_var.get(), self.seed2_var.get())
+
         if not self.seed1_var.get():
             self.seed1_var.set(seed)
         elif not self.seed2_var.get():
             self.seed2_var.set(seed)
         else:
             self.seed2_var.set(seed)
+
+        # Mark unsaved if this actually changed something
+        current = (self.seed1_var.get(), self.seed2_var.get())
+        if current != previous:
+            self._mark_unsaved()
+
+
+    def _mark_unsaved(self, event=None):
+        self.unsaved_changes = True
+
 
 
 def main():
