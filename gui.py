@@ -1,14 +1,10 @@
 import os
 import json
+import threading
+import subprocess
+import configparser
 import tkinter as tk
 from tkinter import ttk, messagebox
-
-try:
-    # Python 3.11+
-    import importlib.resources as pkg_resources  # noqa: F401
-except ImportError:
-    pass
-
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_CONFIG_DIR = os.path.join(BASE_DIR, "config_default")
@@ -22,11 +18,14 @@ class KGConfigEditorApp:
         self.root = root
         root.title("Knowledge Graph Config Editor")
 
-        # --- top-level state ---
+        # --- runtime state ---
         self.current_graph_name = None
-        self.sources_state = {}  # {source: {"enabled": bool, "weight": float}}
+        self.sources_state = {}          # {source: {"enabled": bool, "weight": float}}
+        self.pipeline_process = None     # subprocess.Popen or None
+        self.pipeline_thread = None      # threading.Thread or None
+        self.stop_requested = False      # flag for stopping pipeline
 
-        # --- top bar: graph name + load/save ---
+        # --- top bar: graph name + load/save + seeds + run/stop ---
         top_frame = ttk.Frame(root, padding=8)
         top_frame.pack(fill="x", side="top")
 
@@ -37,10 +36,50 @@ class KGConfigEditorApp:
         graph_entry.pack(side="left", padx=(4, 4))
 
         load_btn = ttk.Button(top_frame, text="Load", command=self.on_load_clicked)
-        load_btn.pack(side="left", padx=(4, 4))
+        load_btn.pack(side="left", padx=(4, 6))
 
         save_btn = ttk.Button(top_frame, text="Save", command=self.on_save_clicked)
-        save_btn.pack(side="left", padx=(4, 4))
+        save_btn.pack(side="left", padx=(4, 20))   # extra space before run section
+
+        # Seeds
+        ttk.Label(top_frame, text="Seed 1:").pack(side="left")
+        self.seed1_var = tk.StringVar()
+        seed1_entry = ttk.Entry(top_frame, textvariable=self.seed1_var, width=18)
+        seed1_entry.pack(side="left", padx=(4, 8))
+
+        ttk.Label(top_frame, text="Seed 2:").pack(side="left")
+        self.seed2_var = tk.StringVar()
+        seed2_entry = ttk.Entry(top_frame, textvariable=self.seed2_var, width=18)
+        seed2_entry.pack(side="left", padx=(4, 8))
+
+        # Common seeds dropdown (auto-filled from entity_list.ini)
+        ttk.Label(top_frame, text="Common seeds:").pack(side="left")
+        self.common_seed_var = tk.StringVar()
+        self.common_seed_box = ttk.Combobox(
+            top_frame,
+            textvariable=self.common_seed_var,
+            width=20,
+            state="readonly",
+            values=[]
+        )
+        self.common_seed_box.pack(side="left", padx=(4, 10))
+        self.common_seed_box.bind("<<ComboboxSelected>>", self.on_common_seed_selected)
+
+        # Run / Stop buttons
+        self.run_btn = ttk.Button(
+            top_frame,
+            text="Run Pipeline",
+            command=self.on_run_pipeline_clicked
+        )
+        self.run_btn.pack(side="left", padx=(4, 4))
+
+        self.stop_btn = ttk.Button(
+            top_frame,
+            text="Stop",
+            command=self.on_stop_pipeline_clicked
+        )
+        self.stop_btn.pack(side="left", padx=(4, 4))
+        self.stop_btn["state"] = "disabled"
 
         # --- notebook with sections ---
         notebook = ttk.Notebook(root)
@@ -60,24 +99,28 @@ class KGConfigEditorApp:
 
         self.nodes_text = self._create_labeled_text(
             self.nodes_edges_frame,
-            "Nodes & node properties (free-form, one per line, e.g. 'disease: name, synonyms, summary'):",
+            "Nodes & node properties (e.g. 'disease: name, synonyms, summary'):",
         )
         self.edges_text = self._create_labeled_text(
             self.nodes_edges_frame,
-            "Edges & edge properties (required: source_type, target_type; free-form, e.g. 'causes: disease -> gene | evidence, confidence'):",
+            "Edges & edge properties (required: source_type, target_type; "
+            "e.g. 'causes: disease -> gene | evidence, confidence'):",
         )
 
         # 3) Sources + weights
         self.sources_frame = ttk.Frame(notebook, padding=8)
         notebook.add(self.sources_frame, text="Sources")
-
         self._build_sources_section(self.sources_frame)
 
         # 4) LLM config (schema + prompt)
         self.llm_frame = ttk.Frame(notebook, padding=8)
         notebook.add(self.llm_frame, text="LLM Config")
-
         self._build_llm_section(self.llm_frame)
+
+        # 5) Pipeline output (terminal)
+        self.output_frame = ttk.Frame(notebook, padding=8)
+        notebook.add(self.output_frame, text="Pipeline Output")
+        self._build_output_section(self.output_frame)
 
         # Load default prompt on startup, as requested
         self._load_default_prompt()
@@ -127,7 +170,6 @@ class KGConfigEditorApp:
         inner_frame = ttk.Frame(canvas)
         self.sources_inner_frame = inner_frame
 
-        # Attach frame to canvas
         canvas_window = canvas.create_window((0, 0), window=inner_frame, anchor="nw")
 
         def _on_configure(event):
@@ -139,18 +181,17 @@ class KGConfigEditorApp:
         inner_frame.bind("<Configure>", _on_configure)
         canvas.bind("<Configure>", _on_canvas_width)
 
-        # Will be populated by _load_sources_from_plugins
-        self.source_vars = {}      # source -> tk.BooleanVar
-        self.source_weight_vars = {}  # source -> tk.StringVar
+        self.source_vars = {}        # source -> tk.BooleanVar
+        self.source_weight_vars = {} # source -> tk.StringVar
 
     def _build_llm_section(self, parent):
         top_frame = ttk.Frame(parent)
         top_frame.pack(fill="both", expand=True)
 
-        # Example schema box + Generate button
         left_frame = ttk.Frame(top_frame)
         left_frame.pack(side="left", fill="both", expand=True, padx=(0, 4))
 
+        # Example schema JSON + Generate button
         schema_label_frame = ttk.Frame(left_frame)
         schema_label_frame.pack(anchor="w", fill="x")
 
@@ -160,7 +201,7 @@ class KGConfigEditorApp:
 
         generate_btn = ttk.Button(
             schema_label_frame,
-            text="Generate",
+            text="Generate Example",
             command=self.on_generate_schema_clicked,
         )
         generate_btn.pack(side="right")
@@ -168,7 +209,7 @@ class KGConfigEditorApp:
         self.schema_text = self._create_labeled_text(
             left_frame,
             "(Generated example will follow the entities/relationships structure, "
-            "similar to your example JSON.)",
+            "with confidence fields.)",
             height=18,
         )
 
@@ -186,6 +227,26 @@ class KGConfigEditorApp:
             height=18,
         )
 
+    def _build_output_section(self, parent):
+        ttk.Label(parent, text="Pipeline output (stdout + stderr):").pack(
+            anchor="w", pady=(0, 2)
+        )
+
+        frame = ttk.Frame(parent)
+        frame.pack(fill="both", expand=True)
+
+        self.output_text = tk.Text(frame, wrap="word", height=20)
+        vscroll = ttk.Scrollbar(frame, orient="vertical", command=self.output_text.yview)
+        self.output_text.configure(yscrollcommand=vscroll.set)
+
+        self.output_text.pack(side="left", fill="both", expand=True)
+        vscroll.pack(side="right", fill="y")
+
+        button_frame = ttk.Frame(parent)
+        button_frame.pack(fill="x", pady=(4, 0))
+        clear_btn = ttk.Button(button_frame, text="Clear Output", command=self.on_clear_output)
+        clear_btn.pack(side="right")
+
     # ------------------------------------------------------------------
     # Path helpers
     # ------------------------------------------------------------------
@@ -198,8 +259,8 @@ class KGConfigEditorApp:
     def on_load_clicked(self):
         graph_name = self.graph_name_var.get().strip()
         #if not graph_name:
-            #messagebox.showerror("Error", "Please enter a graph name.")
-            #return
+        #    messagebox.showerror("Error", "Please enter a graph name.")
+        #    return
 
         self.current_graph_name = graph_name
         graph_config_dir = self._get_graph_config_dir(graph_name)
@@ -225,6 +286,9 @@ class KGConfigEditorApp:
             os.path.join(config_dir, "edges.ini"),
             self.edges_text,
         )
+
+        # Update common seeds from entity list
+        self._update_common_seeds_from_entity_list()
 
         # LLM schema JSON
         self._load_text_file_to_widget(
@@ -324,7 +388,6 @@ class KGConfigEditorApp:
             )
             return
 
-        # Expecting {source_name: {"enabled": bool, "weight": float}}
         self.sources_state = data
         for source, cfg in data.items():
             if source in self.source_vars:
@@ -332,6 +395,27 @@ class KGConfigEditorApp:
             if source in self.source_weight_vars:
                 w = cfg.get("weight", 1.0)
                 self.source_weight_vars[source].set(f"{float(w):.3f}")
+
+    def _update_common_seeds_from_entity_list(self):
+        """
+        Extract non-empty, non-comment lines from entity_list.ini area
+        and use them as 'common seeds' in the dropdown. Also auto-fill
+        Seed 1/Seed 2 if empty.
+        """
+        text = self.entity_text.get("1.0", "end-1c")
+        lines = [ln.strip() for ln in text.splitlines()]
+        seeds = [
+            ln for ln in lines
+            if ln and not ln.lstrip().startswith("#")
+        ]
+        self.common_seed_box["values"] = seeds
+
+        # Auto-fill seed1/seed2 if they are empty
+        if seeds:
+            if not self.seed1_var.get():
+                self.seed1_var.set(seeds[0])
+            if len(seeds) > 1 and not self.seed2_var.get():
+                self.seed2_var.set(seeds[1])
 
     # ------------------------------------------------------------------
     # Saving logic
@@ -362,14 +446,6 @@ class KGConfigEditorApp:
         self._save_widget_to_text_file(
             self.prompt_text, os.path.join(graph_config_dir, "prompt.ini")
         )
-        schema_keys_path = os.path.join(graph_config_dir, "schema_keys.json")
-        schema_keys = self._generate_condensed_schema()
-        try:
-            with open(schema_keys_path, "w", encoding="utf-8") as f:
-                json.dump(schema_keys, f, indent=2, ensure_ascii=False)
-        except Exception as e:
-            messagebox.showwarning("Warning", f"Could not save {schema_keys_path}: {e}")
-
 
         # Sources
         sources_path = os.path.join(graph_config_dir, "sources.json")
@@ -381,7 +457,6 @@ class KGConfigEditorApp:
                 weight = float(weight_str)
             except ValueError:
                 weight = 1.0
-            # Clamp to [0.0, 1.0]
             weight = max(0.0, min(1.0, weight))
             sources_cfg[source] = {"enabled": enabled, "weight": weight}
         try:
@@ -389,6 +464,15 @@ class KGConfigEditorApp:
                 json.dump(sources_cfg, f, indent=2, ensure_ascii=False)
         except Exception as e:
             messagebox.showwarning("Warning", f"Could not save {sources_path}: {e}")
+
+        # NEW: auto-generate condensed schema_keys.json on save
+        schema_keys_path = os.path.join(graph_config_dir, "schema_keys.json")
+        schema_keys = self._generate_condensed_schema()
+        try:
+            with open(schema_keys_path, "w", encoding="utf-8") as f:
+                json.dump(schema_keys, f, indent=2, ensure_ascii=False)
+        except Exception as e:
+            messagebox.showwarning("Warning", f"Could not save {schema_keys_path}: {e}")
 
         # After saving, ensure missing keys from defaults are appended
         self._apply_default_keys(graph_config_dir)
@@ -424,7 +508,6 @@ class KGConfigEditorApp:
                 self._merge_json_default_keys(default_path, target_path)
             elif ext == ".ini":
                 self._merge_ini_default_keys(default_path, target_path)
-            # For other extensions, we do nothing (entity_list.ini is line-based).
 
     def _merge_json_default_keys(self, default_path, target_path):
         try:
@@ -452,8 +535,6 @@ class KGConfigEditorApp:
                 pass
 
     def _merge_ini_default_keys(self, default_path, target_path):
-        import configparser
-
         default_cfg = configparser.ConfigParser()
         target_cfg = configparser.ConfigParser()
 
@@ -481,12 +562,16 @@ class KGConfigEditorApp:
                 pass
 
     # ------------------------------------------------------------------
-    # LLM schema generation
+    # LLM example-schema generation (with confidence)
     # ------------------------------------------------------------------
     def on_generate_schema_clicked(self):
         """
-        Generate sample JSON schema with per-entity, per-attribute,
-        and per-relationship confidence scores.
+        Use nodes/edges text to generate a sample JSON structure
+        with entities[] and relationships[] that could be used as
+        an example for an LLM.
+
+        Every entity, every attribute, and every relationship includes
+        a 'confidence' field (float 0.00–1.00).
         """
         nodes_spec = self.nodes_text.get("1.0", "end-1c").strip().splitlines()
         edges_spec = self.edges_text.get("1.0", "end-1c").strip().splitlines()
@@ -541,11 +626,11 @@ class KGConfigEditorApp:
         # --- Fallbacks ---
         if not node_types:
             node_types = [
-                ("vtuber", ["name", "debut_date", "agency"]),
+                ("entity", ["name", "type"]),
             ]
         if not edge_types:
             edge_types = [
-                ("belongs_to", "vtuber", "agency", ["notes"]),
+                ("related_to", "entity", "entity", ["notes"]),
             ]
 
         # --- Build Entities with confidence ---
@@ -583,7 +668,7 @@ class KGConfigEditorApp:
                 "source": src_id,
                 "relation": rel,
                 "target": tgt_id,
-                "confidence": 0.88  # relationship-level
+                "confidence": 0.88
             }
 
             if props:
@@ -606,6 +691,9 @@ class KGConfigEditorApp:
         self.schema_text.delete("1.0", "end")
         self.schema_text.insert("1.0", pretty)
 
+    # ------------------------------------------------------------------
+    # Condensed schema (schema_keys.json) generation with confidence
+    # ------------------------------------------------------------------
     def _generate_condensed_schema(self):
         """
         Generate a condensed JSON schema (schema_keys.json-style) in which:
@@ -615,16 +703,13 @@ class KGConfigEditorApp:
         - Every relationship property is {value:"", confidence:0.0}.
         Returned object is a Python dict, ready for json.dump().
         """
-
         nodes_spec = self.nodes_text.get("1.0", "end-1c").strip().splitlines()
         edges_spec = self.edges_text.get("1.0", "end-1c").strip().splitlines()
 
         entities_schema = {}
         relationships_schema = {}
 
-        # ---------------------------------------------------------------
         # Parse node definitions (entities)
-        # ---------------------------------------------------------------
         for line in nodes_spec:
             line = line.strip()
             if not line or line.startswith("#") or ":" not in line:
@@ -634,7 +719,6 @@ class KGConfigEditorApp:
             node_type = node_type.strip()
             attributes = [a.strip() for a in rest.split(",") if a.strip()]
 
-            # Build attributes with confidence
             attr_obj = {
                 attr: {
                     "value": "",
@@ -648,9 +732,7 @@ class KGConfigEditorApp:
                 "confidence": 0.0
             }
 
-        # ---------------------------------------------------------------
         # Parse edge definitions (relationships)
-        # ---------------------------------------------------------------
         for line in edges_spec:
             line = line.strip()
             if not line or line.startswith("#"):
@@ -661,21 +743,18 @@ class KGConfigEditorApp:
             tgt_type = None
             props = []
 
-            # Extract relation
             if ":" in line:
                 relation_part, rest = line.split(":", 1)
                 relation = relation_part.strip()
             else:
                 rest = line
 
-            # Extract properties
             if "|" in rest:
                 src_tgt_part, props_part = rest.split("|", 1)
                 props = [p.strip() for p in props_part.split(",") if p.strip()]
             else:
                 src_tgt_part = rest
 
-            # Extract source → target
             if "->" in src_tgt_part:
                 s, t = src_tgt_part.split("->", 1)
                 src_type = s.strip()
@@ -684,7 +763,6 @@ class KGConfigEditorApp:
             if not (relation and src_type and tgt_type):
                 continue
 
-            # Build property object with value + confidence
             prop_obj = {
                 p: {
                     "value": "",
@@ -693,7 +771,6 @@ class KGConfigEditorApp:
                 for p in props
             }
 
-            # Final relationship schema
             relationships_schema[relation] = {
                 "source_type": src_type,
                 "target_type": tgt_type,
@@ -701,15 +778,158 @@ class KGConfigEditorApp:
                 "confidence": 0.0
             }
 
-        # ---------------------------------------------------------------
-        # Final composed schema
-        # ---------------------------------------------------------------
         condensed = {
             "entities": entities_schema,
             "relationships": relationships_schema
         }
-
         return condensed
+
+    # ------------------------------------------------------------------
+    # Pipeline run / stop / output
+    # ------------------------------------------------------------------
+    def on_run_pipeline_clicked(self):
+        """
+        Executes: python main.py --graph-name X --sources s1 s2 ... --seed "text1" --seed "text2"
+        Streams output live into the Pipeline Output tab.
+        """
+        if self.pipeline_process is not None and self.pipeline_process.poll() is None:
+            messagebox.showwarning("Pipeline running", "A pipeline is already running.")
+            return
+
+        graph_name = self.graph_name_var.get().strip()
+        if not graph_name:
+            messagebox.showerror("Error", "Please enter a graph name before running the pipeline.")
+            return
+
+        enabled_sources = [
+            src for src, var in self.source_vars.items()
+            if var.get()
+        ]
+
+        if not enabled_sources:
+            if not messagebox.askyesno(
+                "No sources selected",
+                "No sources are enabled. Run pipeline anyway?"
+            ):
+                return
+
+        seed1 = self.seed1_var.get().strip()
+        seed2 = self.seed2_var.get().strip()
+
+        seeds = []
+        if seed1:
+            seeds.append(seed1)
+        if seed2:
+            seeds.append(seed2)
+
+        if not seeds:
+            messagebox.showerror("Error", "Please enter at least one seed to run the pipeline.")
+            return
+
+        cmd = ["python", "main.py", "--graph-name", graph_name]
+
+        if enabled_sources:
+            cmd.append("--sources")
+            cmd.extend(enabled_sources)
+
+        for seed in seeds:
+            cmd += ["--seed", seed]
+
+        readable = " ".join(f'"{c}"' if " " in c else c for c in cmd)
+        if not messagebox.askyesno("Run pipeline", f"Execute:\n\n{readable}\n\nContinue?"):
+            return
+
+        self._append_output_text(f"\n=== Running: {readable} ===\n")
+        self.stop_requested = False
+
+        try:
+            self.pipeline_process = subprocess.Popen(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                bufsize=1
+            )
+        except Exception as e:
+            messagebox.showerror("Execution Error", f"Could not run pipeline:\n{e}")
+            self.pipeline_process = None
+            return
+
+        # Disable Run, enable Stop
+        self.run_btn["state"] = "disabled"
+        self.stop_btn["state"] = "normal"
+
+        self.pipeline_thread = threading.Thread(
+            target=self._stream_process_output,
+            args=(self.pipeline_process,),
+            daemon=True
+        )
+        self.pipeline_thread.start()
+
+    def _stream_process_output(self, process):
+        try:
+            if process.stdout is not None:
+                for line in process.stdout:
+                    if self.stop_requested:
+                        break
+                    self.root.after(0, self._append_output_text, line)
+        except Exception as e:
+            self.root.after(0, self._append_output_text, f"\n[Error reading output: {e}]\n")
+
+        rc = process.poll()
+        if rc is None:
+            rc = process.wait()
+
+        self.root.after(0, self._on_pipeline_finished, rc)
+
+    def _on_pipeline_finished(self, return_code):
+        self._append_output_text(f"\n=== Pipeline finished with code {return_code} ===\n")
+        self.pipeline_process = None
+        self.pipeline_thread = None
+        self.run_btn["state"] = "normal"
+        self.stop_btn["state"] = "disabled"
+        self.stop_requested = False
+
+    def on_stop_pipeline_clicked(self):
+        """
+        Request to stop the running pipeline (terminate subprocess).
+        """
+        if self.pipeline_process is None or self.pipeline_process.poll() is not None:
+            messagebox.showinfo("Info", "No running pipeline to stop.")
+            return
+
+        self.stop_requested = True
+        self._append_output_text("\n[Stop requested…]\n")
+
+        try:
+            self.pipeline_process.terminate()
+        except Exception as e:
+            self._append_output_text(f"[Error sending terminate: {e}]\n")
+
+    def _append_output_text(self, text):
+        self.output_text.insert("end", text)
+        self.output_text.see("end")
+
+    def on_clear_output(self):
+        self.output_text.delete("1.0", "end")
+
+    # ------------------------------------------------------------------
+    # Common seeds dropdown behavior
+    # ------------------------------------------------------------------
+    def on_common_seed_selected(self, event=None):
+        """
+        When user selects a common seed, fill Seed 1 if empty, else Seed 2,
+        else overwrite Seed 2.
+        """
+        seed = self.common_seed_var.get().strip()
+        if not seed:
+            return
+        if not self.seed1_var.get():
+            self.seed1_var.set(seed)
+        elif not self.seed2_var.get():
+            self.seed2_var.set(seed)
+        else:
+            self.seed2_var.set(seed)
 
 
 def main():
