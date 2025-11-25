@@ -197,9 +197,9 @@ class KGConfigEditorApp:
     # ------------------------------------------------------------------
     def on_load_clicked(self):
         graph_name = self.graph_name_var.get().strip()
-        if not graph_name:
-            messagebox.showerror("Error", "Please enter a graph name.")
-            return
+        #if not graph_name:
+            #messagebox.showerror("Error", "Please enter a graph name.")
+            #return
 
         self.current_graph_name = graph_name
         graph_config_dir = self._get_graph_config_dir(graph_name)
@@ -362,6 +362,14 @@ class KGConfigEditorApp:
         self._save_widget_to_text_file(
             self.prompt_text, os.path.join(graph_config_dir, "prompt.ini")
         )
+        schema_keys_path = os.path.join(graph_config_dir, "schema_keys.json")
+        schema_keys = self._generate_condensed_schema()
+        try:
+            with open(schema_keys_path, "w", encoding="utf-8") as f:
+                json.dump(schema_keys, f, indent=2, ensure_ascii=False)
+        except Exception as e:
+            messagebox.showwarning("Warning", f"Could not save {schema_keys_path}: {e}")
+
 
         # Sources
         sources_path = os.path.join(graph_config_dir, "sources.json")
@@ -477,42 +485,32 @@ class KGConfigEditorApp:
     # ------------------------------------------------------------------
     def on_generate_schema_clicked(self):
         """
-        Use nodes/edges text to *try* to generate a sample JSON structure
-        with entities[] and relationships[] that could be used as an
-        example for an LLM.
-
-        Heuristics:
-        - Nodes: expect lines like 'disease: name, synonyms, summary'
-        - Edges: expect lines like 'causes: disease -> gene | evidence, confidence'
-        If parsing fails, we fall back to boilerplate placeholders.
+        Generate sample JSON schema with per-entity, per-attribute,
+        and per-relationship confidence scores.
         """
         nodes_spec = self.nodes_text.get("1.0", "end-1c").strip().splitlines()
         edges_spec = self.edges_text.get("1.0", "end-1c").strip().splitlines()
 
+        # --- Parse node types ---
         node_types = []
         for line in nodes_spec:
             line = line.strip()
             if not line or line.startswith("#"):
                 continue
-            # "type: attr1, attr2"
             parts = line.split(":", 1)
             node_type = parts[0].strip()
             attrs = []
             if len(parts) > 1:
-                attrs = [
-                    a.strip()
-                    for a in parts[1].split(",")
-                    if a.strip()
-                ]
+                attrs = [a.strip() for a in parts[1].split(",") if a.strip()]
             node_types.append((node_type, attrs))
 
+        # --- Parse edge types ---
         edge_types = []
         for line in edges_spec:
             line = line.strip()
             if not line or line.startswith("#"):
                 continue
-            # "relation: source -> target | prop1, prop2"
-            # relation
+
             rel = None
             src_type = None
             tgt_type = None
@@ -535,67 +533,183 @@ class KGConfigEditorApp:
                 tgt_type = t.strip()
 
             if props_part:
-                props = [
-                    p.strip()
-                    for p in props_part.split(",")
-                    if p.strip()
-                ]
+                props = [p.strip() for p in props_part.split(",") if p.strip()]
 
             if rel and src_type and tgt_type:
                 edge_types.append((rel, src_type, tgt_type, props))
 
+        # --- Fallbacks ---
         if not node_types:
-            # Boilerplate fallback
             node_types = [
-                ("disease", ["name", "synonyms", "summary"]),
-                ("gene", ["symbol", "full_name"]),
+                ("vtuber", ["name", "debut_date", "agency"]),
             ]
-
         if not edge_types:
             edge_types = [
-                ("associated_with", "disease", "gene", ["evidence", "source"]),
+                ("belongs_to", "vtuber", "agency", ["notes"]),
             ]
 
-        # Build entities[]
+        # --- Build Entities with confidence ---
         entities = []
         for i, (node_type, attrs) in enumerate(node_types, start=1):
             node_id = f"{node_type.lower()}_{i}"
+
+            # Attributes with per-attribute confidence
             attributes = {}
             for j, attr in enumerate(attrs, start=1):
-                # Simple attribute value, just so it's valid JSON
-                attributes[attr] = f"example_{attr}_{j}"
+                attributes[attr] = {
+                    "value": f"example_{attr}_{j}",
+                    "confidence": 0.85
+                }
+
             entity = {
                 "id": node_id,
                 "type": node_type,
                 "name": f"Example {node_type.title()} {i}",
+                "confidence": 0.90
             }
+
             if attributes:
                 entity["attributes"] = attributes
+
             entities.append(entity)
 
-        # Build relationships[]
+        # --- Build Relationships with confidence ---
         relationships = []
         for i, (rel, src_type, tgt_type, props) in enumerate(edge_types, start=1):
             src_id = f"{src_type.lower()}_1"
             tgt_id = f"{tgt_type.lower()}_1"
+
             rel_obj = {
                 "source": src_id,
                 "relation": rel,
                 "target": tgt_id,
+                "confidence": 0.88  # relationship-level
             }
+
             if props:
-                properties = {p: f"example_{p}" for p in props}
+                properties = {}
+                for p in props:
+                    properties[p] = {
+                        "value": f"example_{p}",
+                        "confidence": 0.80
+                    }
                 rel_obj["properties"] = properties
+
             relationships.append(rel_obj)
 
         example = {
             "entities": entities,
-            "relationships": relationships,
+            "relationships": relationships
         }
 
         pretty = json.dumps(example, indent=2, ensure_ascii=False)
         self.schema_text.delete("1.0", "end")
         self.schema_text.insert("1.0", pretty)
+
+    def _generate_condensed_schema(self):
+        """
+        Generate a condensed JSON schema (schema_keys.json-style) in which:
+        - Every entity has a confidence score.
+        - Every attribute is {value:"", confidence:0.0}.
+        - Every relationship has a confidence score.
+        - Every relationship property is {value:"", confidence:0.0}.
+        Returned object is a Python dict, ready for json.dump().
+        """
+
+        nodes_spec = self.nodes_text.get("1.0", "end-1c").strip().splitlines()
+        edges_spec = self.edges_text.get("1.0", "end-1c").strip().splitlines()
+
+        entities_schema = {}
+        relationships_schema = {}
+
+        # ---------------------------------------------------------------
+        # Parse node definitions (entities)
+        # ---------------------------------------------------------------
+        for line in nodes_spec:
+            line = line.strip()
+            if not line or line.startswith("#") or ":" not in line:
+                continue
+
+            node_type, rest = line.split(":", 1)
+            node_type = node_type.strip()
+            attributes = [a.strip() for a in rest.split(",") if a.strip()]
+
+            # Build attributes with confidence
+            attr_obj = {
+                attr: {
+                    "value": "",
+                    "confidence": 0.0
+                }
+                for attr in attributes
+            }
+
+            entities_schema[node_type] = {
+                "attributes": attr_obj,
+                "confidence": 0.0
+            }
+
+        # ---------------------------------------------------------------
+        # Parse edge definitions (relationships)
+        # ---------------------------------------------------------------
+        for line in edges_spec:
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+
+            relation = None
+            src_type = None
+            tgt_type = None
+            props = []
+
+            # Extract relation
+            if ":" in line:
+                relation_part, rest = line.split(":", 1)
+                relation = relation_part.strip()
+            else:
+                rest = line
+
+            # Extract properties
+            if "|" in rest:
+                src_tgt_part, props_part = rest.split("|", 1)
+                props = [p.strip() for p in props_part.split(",") if p.strip()]
+            else:
+                src_tgt_part = rest
+
+            # Extract source → target
+            if "->" in src_tgt_part:
+                s, t = src_tgt_part.split("->", 1)
+                src_type = s.strip()
+                tgt_type = t.strip()
+
+            if not (relation and src_type and tgt_type):
+                continue
+
+            # Build property object with value + confidence
+            prop_obj = {
+                p: {
+                    "value": "",
+                    "confidence": 0.0
+                }
+                for p in props
+            }
+
+            # Final relationship schema
+            relationships_schema[relation] = {
+                "source_type": src_type,
+                "target_type": tgt_type,
+                "properties": prop_obj,
+                "confidence": 0.0
+            }
+
+        # ---------------------------------------------------------------
+        # Final composed schema
+        # ---------------------------------------------------------------
+        condensed = {
+            "entities": entities_schema,
+            "relationships": relationships_schema
+        }
+
+        return condensed
 
 
 def main():
