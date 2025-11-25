@@ -19,7 +19,6 @@ def crawl_medlineplus_for_name(cfg, session, helpers: Dict[str, Any], entity_nam
     save_file = helpers["save_file"]
     write_metadata = helpers["write_metadata"]
     http_get_with_retries = helpers["http_get_with_retries"]
-    SOURCE_RELIABILITY = helpers["SOURCE_RELIABILITY"]
 
     MEDLINEPLUS_SEARCH_URL = "https://wsearch.nlm.nih.gov/ws/query"
     _TAG_RE = re.compile(r"<[^>]+>")
@@ -172,7 +171,6 @@ def crawl_medlineplus_for_name(cfg, session, helpers: Dict[str, Any], entity_nam
         "name": entity_name,
         "slug": slug,
         "source_type": "medlineplus",
-        "source_reliability": SOURCE_RELIABILITY.get("medlineplus", 0.8),
         "url": best["url"],
         "path": str(out_path),
         "crawl_timestamp": datetime.now(timezone.utc).isoformat(),

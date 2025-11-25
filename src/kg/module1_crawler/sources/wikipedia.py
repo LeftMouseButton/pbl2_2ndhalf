@@ -72,9 +72,6 @@ def crawl_wikipedia_for_name(cfg, session, helpers: Dict[str, Any], entity_name:
         "name": entity_name,
         "slug": slug,
         "source_type": "wikipedia",
-        "source_reliability": cfg.source_reliability.get("wikipedia", 0.6)
-        if hasattr(cfg, "source_reliability")
-        else helpers["SOURCE_RELIABILITY"].get("wikipedia", 0.6),
         "url": f"https://en.wikipedia.org/wiki/{entity_name.replace(' ', '_')}",
         "path": str(out_path),
         "crawl_timestamp": datetime.now(timezone.utc).isoformat(),

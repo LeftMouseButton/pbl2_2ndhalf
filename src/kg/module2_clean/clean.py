@@ -27,7 +27,6 @@ from typing import Dict, Any
 
 import hashlib
 import html as html_lib
-import json
 import re
 import time
 import pkgutil
@@ -110,26 +109,6 @@ def derive_name_and_source(stem: str) -> (str, str):
     source = slugify(source_part) or "unknown"
     return entity, source
 
-def lookup_source_reliability(source_slug: str) -> float:
-    """
-    Look up source reliability from raw metadata or default heuristics.
-    """
-    _, raw_meta_path, _, _ = require_paths()
-    default_map = {
-        "wikipedia": 0.6,
-        "medlineplus": 0.8,
-        "pubmed": 1.0,
-    }
-    if raw_meta_path.exists():
-        try:
-            for line in raw_meta_path.read_text(encoding="utf-8").splitlines():
-                rec = json.loads(line)
-                if slugify(rec.get("source_type", "")) == source_slug:
-                    return float(rec.get("source_reliability", default_map.get(source_slug, 0.5)))
-        except Exception as e:
-            log(f"[WARN] Failed to read source reliability for '{source_slug}': {e}")
-    return default_map.get(source_slug, 0.5)
-
 
 def process_file(raw_path: Path) -> Dict[str, Any]:
     """
@@ -175,7 +154,6 @@ def process_file(raw_path: Path) -> Dict[str, Any]:
         "clean_checksum": checksum(cleaned),
         "clean_length": len(cleaned),
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "source_reliability": lookup_source_reliability(source),
     }
 
     try:

@@ -57,11 +57,6 @@ class CrawlerConfig:
 CONFIG: CrawlerConfig | None = None
 SESSION: requests.Session | None = None
 
-SOURCE_RELIABILITY = {
-    name: meta["reliability"]
-    for name, meta in REGISTERED_SOURCES.items()
-}
-
 
 # =============================================================================
 # Utilities
@@ -168,7 +163,6 @@ def crawl_all() -> None:
         "save_file": save_file,
         "write_metadata": write_metadata,
         "http_get_with_retries": http_get_with_retries,
-        "SOURCE_RELIABILITY": SOURCE_RELIABILITY,
     }
 
     # AUTO-GENERATED SOURCE PIPELINE (dynamic)
@@ -215,7 +209,7 @@ def initialize_config(args: argparse.Namespace) -> None:
     raw_dir = base_dir / "raw"
     raw_dir.mkdir(parents=True, exist_ok=True)
 
-    names_path = Path(args.names_file) if args.names_file else base_dir / "names.txt"
+    names_path = Path(args.names_file) if args.names_file else base_dir / "config" / "entity_list.ini"
     metadata_path = raw_dir / "metadata.jsonl"
 
     enabled = {}
