@@ -26,7 +26,7 @@ from google.generativeai.types import HarmCategory, HarmBlockThreshold
 
 from src.kg.utils.paths import resolve_base_dir
 
-MODEL_NAME = "gemini-2.5-flash-lite"
+MODEL_NAME = "gemini-2.0-flash"
 MAX_RETRIES = 3
 
 
@@ -132,7 +132,10 @@ def process_single_source_file(entity: str, src_path: Path, model, prompt_conten
         print(f"🧠 LLM extracting for {entity} [{source}] ...")
         response = model.generate_content(
             contents=[full_prompt],
-            generation_config={"temperature": 0.2},
+            generation_config={
+            "temperature": 0.2,
+            "response_mime_type": "application/json",
+            },
         )
     except Exception as e:
         print(f"❌ API error for {src_path.name}: {e}")

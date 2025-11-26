@@ -105,8 +105,8 @@ def main():
                 "python",
                 "-m",
                 "src.kg.module5_prepare_for_analysis.combine_json_files",
-                "--data-location",
-                str(base_dir),
+                "--graph-name",
+                str(args.graph_name),
             ],
         ),
         (
@@ -119,7 +119,10 @@ def main():
                 str(combined_dir / "all_entities.json"),
             ],
         ),
-        (
+        
+
+    ]
+    '''(
             "Module 6: Graph Construction & Analysis",
             [
                 "python",
@@ -134,9 +137,7 @@ def main():
                 "--memory-monitor",
                 *sum([["--seed", s] for s in args.seed[:2]], []),
             ],
-        ),
-
-    ]
+        ),'''
 
     print("\n" + "#" * 80)
     print("#               KNOWLEDGE GRAPH PIPELINE LAUNCHER")
