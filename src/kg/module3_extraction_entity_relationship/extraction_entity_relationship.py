@@ -197,9 +197,9 @@ def main():
     output_dir = Path(args.output_dir) if args.output_dir else base_dir / "json"
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    schema_path = Path(args.schema_path) if args.schema_path else base_dir / "schema" / "schema_keys.json"
-    example_json_path = Path(args.example_path) if args.example_path else base_dir / "schema" / "example_entity_extraction.json"
-    prompt_path = Path(args.prompt_path) if args.prompt_path else base_dir / "schema" / "prompt.txt"
+    schema_path = Path(args.schema_path) if args.schema_path else base_dir / "config" / "schema_keys.json"
+    example_json_path = Path(args.example_path) if args.example_path else base_dir / "config" / "llm_schema_example.json"
+    prompt_path = Path(args.prompt_path) if args.prompt_path else base_dir / "config" / "prompt.ini"
 
     PATHS = ExtractionPaths(
         base_dir=base_dir,
