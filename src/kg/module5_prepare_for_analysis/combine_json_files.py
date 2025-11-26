@@ -58,7 +58,7 @@ def configure_paths(
     INPUT_DIR = Path(input_dir) if input_dir else BASE_DIR / "json"
     OUTPUT_DIR = Path(output_dir) if output_dir else BASE_DIR / "combined"
     ONTOLOGY_DIR = Path(ontology_dir) if ontology_dir else BASE_DIR / "ontologies"
-    SCHEMA_PATH = Path(schema_path) if schema_path else BASE_DIR / "schema" / "schema_keys.json"
+    SCHEMA_PATH = Path(schema_path) if schema_path else BASE_DIR / "config" / "schema_keys.json"
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     OUTPUT_FILE = OUTPUT_DIR / "all_entities.json"
