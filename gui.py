@@ -64,19 +64,6 @@ class KGConfigEditorApp:
         seed2_entry.bind("<<Cut>>", lambda e: self._mark_unsaved())
         self.seed2_var.trace_add("write", lambda *_: self._mark_unsaved())
 
-        # Common seeds dropdown (auto-filled from entity_list.ini)
-        ttk.Label(top_frame, text="Common seeds:").pack(side="left")
-        self.common_seed_var = tk.StringVar()
-        self.common_seed_box = ttk.Combobox(
-            top_frame,
-            textvariable=self.common_seed_var,
-            width=20,
-            state="readonly",
-            values=[]
-        )
-        self.common_seed_box.pack(side="left", padx=(4, 10))
-        self.common_seed_box.bind("<<ComboboxSelected>>", self.on_common_seed_selected)
-
         # Run / Stop buttons
         self.run_btn = ttk.Button(
             top_frame,
@@ -430,8 +417,7 @@ class KGConfigEditorApp:
 
     def _update_common_seeds_from_entity_list(self):
         """
-        Extract non-empty, non-comment lines from entity_list.ini area
-        and use them as 'common seeds' in the dropdown. Also auto-fill
+        Auto-fill
         Seed 1/Seed 2 if empty.
         """
         text = self.entity_text.get("1.0", "end-1c")
@@ -440,7 +426,6 @@ class KGConfigEditorApp:
             ln for ln in lines
             if ln and not ln.lstrip().startswith("#")
         ]
-        self.common_seed_box["values"] = seeds
 
         # Auto-fill seed1/seed2 if they are empty
         if seeds:
