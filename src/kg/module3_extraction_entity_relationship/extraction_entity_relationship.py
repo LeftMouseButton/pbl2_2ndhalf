@@ -6,9 +6,9 @@ Uses the Google AI Studio API (Gemini 2.5 Flash Live) to perform
 structured entity and relationship extraction for knowledge-graph population.
 
 Modes:
-  • Single disease:
-      python extraction_entity_relationship.py --disease breast-cancer
-  • Batch (all diseases):
+  • Single entity/topic:
+      python extraction_entity_relationship.py --entity some-topic
+  • Batch (all entities/topics):
       python extraction_entity_relationship.py --all
   • Re-run cached results:
       python extraction_entity_relationship.py --all --force
@@ -85,10 +85,10 @@ def load_example(example_path: Path) -> str:
 # HELPERS
 # ────────────────────────────────────────────────────────────────────────────── #
 
-def find_related_files(disease: str, processed_dir: Path):
-    files = [f for f in processed_dir.glob(f"{disease}_-*.txt")]
+def find_related_files(entity: str, processed_dir: Path):
+    files = [f for f in processed_dir.glob(f"{entity}_-*.txt")]
     if not files:
-        print(f"⚠️ No matching files found for prefix '{disease}_-'. Skipping.")
+        print(f"⚠️ No matching files found for prefix '{entity}_-'. Skipping.")
     return files
 
 
@@ -106,27 +106,14 @@ def extract_prefixes(processed_dir: Path):
     return sorted(names)
 
 
-def process_once(disease: str, model, prompt_content: str, example_json: str, paths: ExtractionPaths):
-    disease_files = find_related_files(disease, paths.processed_dir)
-    if not disease_files:
+def process_once(entity: str, model, prompt_content: str, example_json: str, paths: ExtractionPaths):
+    entity_files = find_related_files(entity, paths.processed_dir)
+    if not entity_files:
         return False
 
     combined_text = ""
-    reliability_map = {}
-    for path in disease_files:
-        reliability = 0.5
-        meta_path = paths.processed_dir / "metadata.jsonl"
-        if meta_path.exists():
-            try:
-                for line in meta_path.read_text(encoding="utf-8").splitlines():
-                    rec = json.loads(line)
-                    if rec.get("processed_filename") == path.name:
-                        reliability = float(rec.get("source_reliability", reliability))
-                        break
-            except Exception as e:
-                log(f"[WARN] Failed to read source reliability for '{source_slug}': {e}")
+    for path in entity_files:
         print(f"📖 Reading {path.name} ...")
-        reliability_map[path.name] = reliability
         combined_text += f"\n\n--- SOURCE: {path.name} ---\n"
         combined_text += path.read_text(encoding="utf-8")
 
@@ -135,19 +122,19 @@ def process_once(disease: str, model, prompt_content: str, example_json: str, pa
     print(full_prompt)
     print("--- END PROMPT ---\n")
 
-    print(f"🧠 Sending extraction request for '{disease}' to {MODEL_NAME}...")
+    print(f"🧠 Sending extraction request for '{entity}' to {MODEL_NAME}...")
     try:
         response = model.generate_content(
             contents=[full_prompt],
             generation_config={"temperature": 0.2},
         )
     except Exception as e:
-        print(f"❌ API error for {disease}: {e}")
+        print(f"❌ API error for {entity}: {e}")
         return False
 
     text = (response.text or "").strip()
     if not text:
-        print(f"❌ Empty response for {disease}.")
+        print(f"❌ Empty response for {entity}.")
         return False
 
     try:
@@ -157,23 +144,19 @@ def process_once(disease: str, model, prompt_content: str, example_json: str, pa
             text = text.rstrip("`").strip()
         data = json.loads(text)
     except json.JSONDecodeError:
-        print(f"❌ Invalid JSON for {disease}. Output preview:\n{text[:400]}...\n")
+        print(f"❌ Invalid JSON for {entity}. Output preview:\n{text[:400]}...\n")
         return False
 
-    # Attach reliability map to output for downstream weighting
-    if isinstance(data, dict):
-        data["source_reliability"] = reliability_map
-
-    out_path = paths.output_dir / f"{disease}.json"
+    out_path = paths.output_dir / f"{entity}.json"
     out_path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
     print(f"✅ Saved extraction: {out_path}")
     return True
 
 
-def process_with_retry(disease: str, model, prompt_content: str, example_json: str, paths: ExtractionPaths):
+def process_with_retry(entity: str, model, prompt_content: str, example_json: str, paths: ExtractionPaths):
     for attempt in range(1, MAX_RETRIES + 1):
-        print(f"\n🔄 Attempt {attempt}/{MAX_RETRIES} for {disease}")
-        ok = process_once(disease, model, prompt_content, example_json, paths)
+        print(f"\n🔄 Attempt {attempt}/{MAX_RETRIES} for {entity}")
+        ok = process_once(entity, model, prompt_content, example_json, paths)
         if ok:
             return True, attempt
         if attempt < MAX_RETRIES:
@@ -190,7 +173,7 @@ def process_with_retry(disease: str, model, prompt_content: str, example_json: s
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Entity/relationship extraction for any graph topic.")
     g = p.add_mutually_exclusive_group(required=True)
-    g.add_argument("--entity", "--disease", dest="entity", help="Entity prefix (before '_-').")
+    g.add_argument("--entity", dest="entity", help="Entity/topic prefix (before '_-').")
     g.add_argument("--all", action="store_true", help="Process all entities in processed/.")
     p.add_argument("--force", action="store_true", help="Re-run even if JSON already exists.")
     p.add_argument("--graph-name", help="Graph/topic name (uses data/{graph-name} as base).")
@@ -245,26 +228,26 @@ def main():
 
     print(f"🔍 Target entities: {', '.join(targets)}")
 
-    for disease in targets:
-        out_path = PATHS.output_dir / f"{disease}.json"
+    for entity in targets:
+        out_path = PATHS.output_dir / f"{entity}.json"
         if out_path.exists() and not args.force:
-            print(f"⚡ Skipping cached result for {disease} (use --force to re-run).")
-            results[disease] = ("SKIPPED", 0)
+            print(f"⚡ Skipping cached result for {entity} (use --force to re-run).")
+            results[entity] = ("SKIPPED", 0)
             continue
 
         print("\n" + "=" * 80)
-        print(f"🧩 Processing entity group: {disease}")
+        print(f"🧩 Processing entity group: {entity}")
         print("=" * 80)
-        success, attempts = process_with_retry(disease, model, prompt_content, example_json, PATHS)
-        results[disease] = ("SUCCESS" if success else "FAILED", attempts)
+        success, attempts = process_with_retry(entity, model, prompt_content, example_json, PATHS)
+        results[entity] = ("SUCCESS" if success else "FAILED", attempts)
 
     print("\n" + "#" * 80)
     print("📊 SUMMARY")
     print("#" * 80)
-    for disease, (status, attempts) in results.items():
+    for entity, (status, attempts) in results.items():
         emoji = {"SUCCESS": "✅", "FAILED": "❌", "SKIPPED": "⚡"}[status]
         attempts_str = f"(Attempts: {attempts})" if attempts else ""
-        print(f"{disease:<30} {emoji} {status:<8} {attempts_str}")
+        print(f"{entity:<30} {emoji} {status:<8} {attempts_str}")
     print("#" * 80)
 
     failed = [d for d, (s, _) in results.items() if s == "FAILED"]
