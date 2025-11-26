@@ -2,18 +2,22 @@
 """
 combine_json_files.py
 ---------------------
-Combines all .json files in data/json/ into a single structured JSON file,
-optionally performing ontology-based normalization before combining.
+
+Topic-agnostic JSON combiner and ontology normalizer for ANY knowledge graph.
 
 Features:
-    ✅ Auto-detects all ontology files (.obo and .owl) in 'ontologies/' folder
-    ✅ Uses fuzzy string matching for local normalization
-    ✅ Writes clean all_entities.json (optionally lowercase)
-    ✅ Writes ontology_mapping.json grouped by file and key
-    ✅ Prints & saves normalization summary (JSON + console)
-    ✅ Exports unmatched terms to unmatched_terms.txt
-    ✅ Supports --no-normalize and --no-lowercase flags
-    ✅ Displays top 10 unmatched terms with closest ontology suggestions
+    ✔ Reads JSON from data/{graph}/json_validated/
+    ✔ Supports both graph-documents ({entities:[], relationships:[]})
+      and single-entity JSON objects
+    ✔ Auto-detects ANY ontology in data/{graph}/ontologies/
+    ✔ Performs fuzzy text-based ontology normalization on ALL attributes
+      across ALL entity types
+    ✔ Skips normalization automatically if no ontology files exist
+    ✔ Produces:
+         - combined/all_entities.json
+         - combined/ontology_mapping.json
+         - combined/normalization_stats.json
+         - combined/unmatched_terms.txt
 """
 
 import json
@@ -23,42 +27,45 @@ from pathlib import Path
 from rapidfuzz import process, fuzz
 from statistics import mean
 from datetime import datetime
-from collections import OrderedDict, Counter
+from collections import OrderedDict, defaultdict
 
 from src.kg.utils.paths import resolve_base_dir
 
 try:
     from pronto import Ontology
 except ImportError:
-    raise SystemExit("❌ Please install dependencies: pip install pronto owlready2 rapidfuzz")
+    raise SystemExit("❌ Missing dependency: pip install pronto owlready2 rapidfuzz")
 
-# --- Configuration (set at runtime) ----------------------------------------
+###############################################################################
+# PATH CONFIGURATION
+###############################################################################
+
 BASE_DIR: Path | None = None
 INPUT_DIR: Path | None = None
 OUTPUT_DIR: Path | None = None
 ONTOLOGY_DIR: Path | None = None
-SCHEMA_PATH: Path | None = None
-
 OUTPUT_FILE: Path | None = None
 MAPPING_FILE: Path | None = None
 STATS_FILE: Path | None = None
 UNMATCHED_FILE: Path | None = None
 
 
-def configure_paths(
-    base_dir: Path,
-    input_dir: Path | None = None,
-    ontology_dir: Path | None = None,
-    output_dir: Path | None = None,
-    schema_path: Path | None = None,
-) -> None:
-    """Initialize module-level paths for a given graph/topic."""
-    global BASE_DIR, INPUT_DIR, OUTPUT_DIR, ONTOLOGY_DIR, OUTPUT_FILE, MAPPING_FILE, STATS_FILE, UNMATCHED_FILE, SCHEMA_PATH
+def configure_paths(base_dir: Path):
+    """
+    Configure directory layout for a given graph.
+    Uses the new topic-agnostic directory structure:
+
+        data/{graph}/json_validated/
+        data/{graph}/ontologies/
+        data/{graph}/combined/
+    """
+    global BASE_DIR, INPUT_DIR, OUTPUT_DIR, ONTOLOGY_DIR
+    global OUTPUT_FILE, MAPPING_FILE, STATS_FILE, UNMATCHED_FILE
+
     BASE_DIR = base_dir
-    INPUT_DIR = Path(input_dir) if input_dir else BASE_DIR / "json"
-    OUTPUT_DIR = Path(output_dir) if output_dir else BASE_DIR / "combined"
-    ONTOLOGY_DIR = Path(ontology_dir) if ontology_dir else BASE_DIR / "ontologies"
-    SCHEMA_PATH = Path(schema_path) if schema_path else BASE_DIR / "config" / "schema_keys.json"
+    INPUT_DIR = BASE_DIR / "json_validated"
+    OUTPUT_DIR = BASE_DIR / "combined"
+    ONTOLOGY_DIR = BASE_DIR / "ontologies"
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     OUTPUT_FILE = OUTPUT_DIR / "all_entities.json"
@@ -67,41 +74,42 @@ def configure_paths(
     UNMATCHED_FILE = OUTPUT_DIR / "unmatched_terms.txt"
 
 
-def require_paths() -> tuple[Path, Path, Path, Path, Path, Path, Path]:
-    if not all([INPUT_DIR, OUTPUT_DIR, ONTOLOGY_DIR, OUTPUT_FILE, MAPPING_FILE, STATS_FILE, UNMATCHED_FILE, SCHEMA_PATH]):
-        raise RuntimeError("Paths not configured. Call configure_paths(...) first.")
-    return INPUT_DIR, OUTPUT_DIR, ONTOLOGY_DIR, OUTPUT_FILE, MAPPING_FILE, STATS_FILE, UNMATCHED_FILE  # type: ignore
+###############################################################################
+# ONTOLOGY LOADING
+###############################################################################
 
-FUZZY_CUTOFF = 85
-TOP_UNMATCHED_DISPLAY = 10
-
-# --- Ontology Loading -----------------------------------------------------
 def detect_ontologies():
-    """Automatically detect ontology files in ontologies/ folder."""
-    _, _, ontology_dir, _, _, _, _ = require_paths()
-    if not ontology_dir.exists():
-        print("⚠️  Ontology directory not found:", ontology_dir)
+    """Find .obo or .owl ontology files in data/{graph}/ontologies/."""
+    if not ONTOLOGY_DIR.exists():
+        print("⚠️  No ontology directory found:", ONTOLOGY_DIR)
         return []
-    files = [f for f in ontology_dir.glob("*") if f.suffix in (".obo", ".owl")]
+
+    files = [p for p in ONTOLOGY_DIR.glob("*") if p.suffix in (".obo", ".owl")]
     if not files:
-        print("⚠️  No ontology files found in 'ontologies/' folder.")
+        print("ℹ️  No ontology files found — skipping normalization.")
     else:
         print(f"🔎 Found {len(files)} ontology file(s):")
         for f in files:
             print("   •", f.name)
     return files
 
+
 def load_obo(path: Path, term_dict: dict):
-    from pronto import Ontology
     print(f"📘 Parsing OBO ontology: {path.name}")
     ont = Ontology(path)
     for term in ont.terms():
-        labels = [term.name] if term.name else []
-        labels += [s.description for s in term.synonyms]
+        labels = []
+        if term.name:
+            labels.append(term.name)
+        labels.extend(s.description for s in term.synonyms)
         for label in labels:
             if label:
-                term_dict[label.lower()] = {"id": term.id, "name": term.name}
+                term_dict[label.lower()] = {
+                    "id": term.id,
+                    "name": term.name
+                }
     return term_dict
+
 
 def load_owl(path: Path, term_dict: dict):
     from owlready2 import get_ontology
@@ -110,469 +118,450 @@ def load_owl(path: Path, term_dict: dict):
     for cls in onto.classes():
         label = cls.label.first() if hasattr(cls, "label") and cls.label else cls.name
         if label:
-            term_dict[label.lower()] = {"id": cls.iri, "name": label}
+            term_dict[label.lower()] = {
+                "id": cls.iri,
+                "name": label
+            }
     return term_dict
 
-def load_ontologies():
-    """Load all ontology files (.obo or .owl) found in ontologies/, grouped by type."""
-    term_dict_disease = {}
-    term_dict_gene = {}
+
+def load_all_ontologies():
+    """
+    Topic-agnostic ontology loader.
+    - Loads all classes/labels as a flat dictionary.
+    - No special handling for gene/disease.
+    """
     ontology_files = detect_ontologies()
+    if not ontology_files:
+        return {}, ontology_files
+
+    term_dict = {}
 
     for path in ontology_files:
-        fname = path.name.lower()
         try:
             if path.suffix == ".obo":
-                from pronto import Ontology
-                ont = Ontology(path)
-                for term in ont.terms():
-                    labels = [term.name] if term.name else []
-                    labels += [s.description for s in term.synonyms]
-                    for label in labels:
-                        if not label:
-                            continue
-                        label_lower = label.lower()
-                        # classify by ontology filename
-                        if any(x in fname for x in ["hgnc", "gene", "ensembl", "ncbi"]):
-                            term_dict_gene[label_lower] = {"id": term.id, "name": term.name}
-                        else:
-                            term_dict_disease[label_lower] = {"id": term.id, "name": term.name}
-
+                load_obo(path, term_dict)
             elif path.suffix == ".owl":
-                from owlready2 import get_ontology
-                onto = get_ontology(str(path)).load()
-                for cls in onto.classes():
-                    label = cls.label.first() if hasattr(cls, "label") and cls.label else cls.name
-                    if not label:
-                        continue
-                    label_lower = label.lower()
-                    if any(x in fname for x in ["hgnc", "gene", "ensembl", "ncbi"]):
-                        term_dict_gene[label_lower] = {"id": cls.iri, "name": label}
-                    else:
-                        term_dict_disease[label_lower] = {"id": cls.iri, "name": label}
+                load_owl(path, term_dict)
         except Exception as e:
             print(f"❌ Failed to load {path.name}: {e}")
 
-    has_gene_ont = len(term_dict_gene) > 0
-    has_disease_ont = len(term_dict_disease) > 0
-    print(
-        f"✅ Loaded {len(term_dict_disease)} disease terms "
-        f"and {len(term_dict_gene)} gene terms "
-        f"from {len(ontology_files)} file(s)"
-    )
-    if not has_gene_ont:
-        print("⚠️  No gene ontology detected — related_genes will not be normalized.\n")
-    elif not has_disease_ont:
-        print("⚠️  No disease ontology detected — disease fields will not be normalized.\n")
-
-    return {"disease": term_dict_disease, "gene": term_dict_gene}, ontology_files
+    print(f"✔ Loaded {len(term_dict)} ontology terms.")
+    return term_dict, ontology_files
 
 
+###############################################################################
+# NORMALIZATION
+###############################################################################
 
-# --- Normalization --------------------------------------------------------
-def normalize_term(term, term_dict):
-    """Return ontology match info for a single term."""
-    if not term or not term_dict:
-        return {"original": term, "normalized": term, "id": None, "score": 0, "matched": False}
+FUZZY_CUTOFF = 85
 
-    match, score, _ = process.extractOne(term.lower(), term_dict.keys(), scorer=fuzz.token_sort_ratio)
+
+def normalize_value(value: str, term_dict: dict):
+    """Normalize a single value using fuzzy match on ANY ontology term."""
+    if not isinstance(value, str) or not value.strip():
+        return value, {"matched": False, "score": 0, "id": None, "normalized": value}
+
+    match, score, _ = process.extractOne(value.lower(), term_dict.keys(), scorer=fuzz.token_sort_ratio)
     if score >= FUZZY_CUTOFF:
         entry = term_dict[match]
-        return {"original": term, "normalized": entry["name"], "id": entry["id"], "score": score, "matched": True}
+        return entry["name"], {
+            "matched": True,
+            "score": score,
+            "id": entry["id"],
+            "normalized": entry["name"]
+        }
     else:
-        return {"original": term, "normalized": term, "id": None, "score": score, "matched": False}
-
-def normalize_entity_lists(data, ontology_dicts, stats, mapping_dict, filename, lowercase=True):
-    """Normalize entity lists using field-appropriate ontologies with safe fallbacks."""
-    mapping_dict[filename] = mapping_dict.get(filename, {})
-    term_dict_disease = ontology_dicts.get("disease", {}) or {}
-    term_dict_gene = ontology_dicts.get("gene", {}) or {}
-
-    for key in ["causes", "risk_factors", "symptoms", "diagnosis", "treatments", "related_genes", "subtypes"]:
-        if key not in data or not isinstance(data[key], list):
-            continue
-
-        new_values = []
-        key_mappings = []
-
-        # choose ontology dictionary by field type
-        if key == "related_genes":
-            if len(term_dict_gene) == 0:
-                # no gene ontology → skip normalization
-                for item in data[key]:
-                    if isinstance(item, str):
-                        value = item.lower() if lowercase else item
-                        new_values.append(value)
-                        key_mappings.append({
-                            "original": item,
-                            "normalized": value,
-                            "id": None,
-                            "score": 0,
-                            "matched": False,
-                            "skipped": True
-                        })
-                data[key] = new_values
-                mapping_dict[filename][key] = key_mappings
-                continue
-            field_dict = term_dict_gene
-        else:
-            field_dict = term_dict_disease
-
-        for item in data[key]:
-            if not isinstance(item, str):
-                new_values.append(item)
-                continue
-
-            original_item = item
-
-            # ---------------------------------------------------------------
-            # Strip typical gene mutation suffixes before normalization
-            # e.g., "msh3 gene mutation" -> "msh3"
-            #       "pten gene"          -> "pten"
-            #       "msh6 mutation"      -> "msh6"
-            # ---------------------------------------------------------------
-            if key == "related_genes" and isinstance(item, str):
-                cleaned = item.lower()
-                for suf in [
-                    " gene mutation",
-                    " mutation",
-                    " gene",
-                    " variant",
-                ]:
-                    if cleaned.endswith(suf):
-                        cleaned = cleaned[: -len(suf)]
-                item = cleaned.strip()
-
-            # Perform ontology match using the cleaned term
-            result = normalize_term(item, field_dict)
-            result["original"] = original_item  # keep full original text in mapping
-
-            key_mappings.append(result)
-            stats["total"] += 1
-            stats["scores"].append(result["score"])
-
-            if result["matched"]:
-                stats["matched"] += 1
-                value = result["normalized"]    # ontology canonical label
-            else:
-                stats["unmatched"] += 1
-                stats["unmatched_terms"].add(original_item)
-                value = original_item           # fall back to original string
-
-            # keep lowercase behavior consistent with rest of pipeline
-            new_values.append(value.lower() if lowercase else value)
-
-
-        data[key] = new_values
-        mapping_dict[filename][key] = key_mappings
-
-    return data
-
-def _ontology_match_strength(match_info):
-    """
-    Derive ontology match strength M in [0.3, 1.0] from mapping info.
-    """
-    if not match_info:
-        return 0.4
-    if match_info.get("matched"):
-        return 1.0
-    score = match_info.get("score", 0)
-    if score >= 90:
-        return 0.7  # synonym-level
-    if score >= 70:
-        return 0.5  # partial fuzzy
-    return 0.4
-
-def _source_reliability(rec):
-    if isinstance(rec, dict):
-        vals = list(rec.values())
-        if vals:
-            try:
-                return sum(float(v) for v in vals) / len(vals)
-            except Exception:
-                return 0.5
-    return 0.5
-
-def _compute_weights(values, mapping_infos, reliability_map):
-    """
-    Compute per-value edge weights using multi-factor formula:
-      w = log(1+f) * C * M * S
-    where f = frequency, C = extraction confidence (default 1.0),
-          M = ontology match strength, S = source reliability (avg).
-    """
-    weights = []
-    freq = Counter(values)
-    S = _source_reliability(reliability_map)
-    for idx, val in enumerate(values):
-        f = freq.get(val, 1)
-        C = 1.0
-        m_info = mapping_infos[idx] if idx < len(mapping_infos) else {}
-        M = _ontology_match_strength(m_info)
-        w = math.log(1 + f) * C * M * S
-        weights.append({
-            "value": val,
-            "weight": w,
-            "f": f,
-            "C": C,
-            "M": M,
-            "S": S,
-        })
-    return weights
-
-def create_matched_only_dataset(combined, mapping_file: Path, output_dir: Path, schema_path: Path):
-    """
-    Create a filtered dataset containing only ontology-matched terms,
-    using schema/schema_keys.json to preserve field order and empty placeholders.
-    """
-    matched_file = output_dir / "all_entities_matched.json"
-    matched_combined = {"records": []}
-
-    # --- Load ontology mapping ---------------------------------------------------
-    if not mapping_file.exists():
-        print(f"⚠️  Ontology mapping file not found at: {mapping_file}")
-        return
-
-    with open(mapping_file, "r", encoding="utf-8") as f:
-        mapping_data = json.load(f)
-
-    # --- Load schema to determine keys -----------------------------------------
-    schema_keys = []
-    node_graph_mode = False
-    if Path(schema_path).exists():
-        try:
-            with open(schema_path, "r", encoding="utf-8") as f:
-                schema_json = json.load(f)
-                # If schema uses node_types (graph-centric), just carry through records without pruning
-                if isinstance(schema_json, dict) and "node_types" in schema_json:
-                    node_graph_mode = True
-                else:
-                    schema_keys = list(schema_json.keys())
-                print(f"✅ Loaded schema keys from {schema_path}")
-        except Exception as e:
-            print(f"⚠️  Failed to read schema file ({schema_path}): {e}")
-    if node_graph_mode:
-        matched_combined["records"] = combined.get("records", [])
-        matched_file.write_text(json.dumps(matched_combined, indent=2, ensure_ascii=False), encoding="utf-8")
-        print(f"📄 Created matched-only dataset (pass-through) → {matched_file}")
-        return
-    if not schema_keys:
-        print(f"⚠️  Schema file not found or empty at {schema_path}, using dynamic keys")
-        all_possible = set()
-        for fd in mapping_data.values():
-            all_possible |= set(fd.keys())
-        schema_keys = sorted(list(all_possible))
-
-    # --- Build matched-only dataset ---------------------------------------------
-    for filename, file_data in mapping_data.items():
-        # find original record
-        original = next((d for d in combined["records"] if d.get("_source_file") == filename), None)
-        if not original:
-            continue
-
-        entity_name = original.get("disease_name") or original.get("name")
-        if not entity_name:
-            continue
-
-        new_entry = OrderedDict()
-        # Keep both for backwards compatibility
-        new_entry["name"] = entity_name
-        if original.get("disease_name"):
-            new_entry["disease_name"] = original.get("disease_name")
-
-        # pass through auxiliary metadata if present
-        for aux_key in ["_source_file", "source_reliability", "_edge_weights"]:
-            if aux_key in original:
-                new_entry[aux_key] = original[aux_key]
-
-        has_matched = False
-
-        for key in schema_keys:
-            if key in ("disease_name", "name"):
-                continue
-            matched_terms = []
-            for m in file_data.get(key, []):
-                if m.get("matched") is True:
-                    norm = (m.get("normalized") or "").strip()
-                    if norm:
-                        matched_terms.append(norm.lower())
-            new_entry[key] = matched_terms  # preserve empty
-            if matched_terms:
-                has_matched = True
-
-        if has_matched:
-            matched_combined["records"].append(new_entry)
-
-    # --- Write output ------------------------------------------------------------
-    if not matched_combined["records"]:
-        print("⚠️  No matched entries found — check ontology_mapping.json or normalization output.")
-    else:
-        with open(matched_file, "w", encoding="utf-8") as f:
-            json.dump(matched_combined, f, indent=2, ensure_ascii=False)
-        print(f"📄 Created matched-only dataset → {matched_file}")
-
-
-# --- Combination Logic ----------------------------------------------------
-def combine_json_files(no_normalize=False, lowercase=True):
-    input_dir, output_dir, _, output_file, mapping_file, stats_file, unmatched_file = require_paths()
-    schema_path = SCHEMA_PATH or Path("schema/schema_keys.json")
-    schema_json = {}
-    graph_mode = False
-    if schema_path.exists():
-        try:
-            schema_json = json.loads(schema_path.read_text(encoding="utf-8"))
-            if isinstance(schema_json, dict) and "node_types" in schema_json:
-                graph_mode = True
-                print("ℹ️  Detected node_types in schema — skipping ontology normalization.")
-        except Exception as e:
-            print(f"⚠️  Could not parse schema file at {schema_path}: {e}")
-    combined = {"records": []}
-    mapping_dict = {}
-    stats = {"total": 0, "matched": 0, "unmatched": 0, "scores": [], "unmatched_terms": set()}
-
-    schema_path = BASE_DIR / "schema" / "schema_keys.json" if BASE_DIR else output_dir.parent / "schema" / "schema_keys.json"
-    ontology_dicts, ontology_files = ({}, []) if no_normalize or graph_mode else load_ontologies()
-
-    json_files = sorted(input_dir.glob("*.json"))
-    if not json_files:
-        print(f"No JSON files found in {input_dir}")
-        return
-
-    for file in json_files:
-        try:
-            data = json.loads(file.read_text(encoding="utf-8"))
-            # Graph-style schema: accept entire document as-is
-            if graph_mode and isinstance(data, dict):
-                data["_source_file"] = file.name
-                combined["records"].append(data)
-                print(f"✅ Added {file.name} (graph schema)")
-                continue
-
-            if isinstance(data, dict) and (data.get("disease_name") or data.get("name")):
-                # tag source filename so matched-only export can join correctly
-                data["_source_file"] = file.name
-                # normalize primary name key to lower for consistency
-                primary_name = data.get("disease_name") or data.get("name")
-                if lowercase and isinstance(primary_name, str):
-                    primary_name = primary_name.lower()
-                # use topic-agnostic primary name field
-                if primary_name:
-                    data["name"] = primary_name
-
-                if not no_normalize and not graph_mode:
-                    data = normalize_entity_lists(data, ontology_dicts, stats, mapping_dict, file.name, lowercase=lowercase)
-                elif lowercase:
-                    for key in ["causes", "risk_factors", "symptoms", "diagnosis", "treatments", "related_genes", "subtypes"]:
-                        if key in data and isinstance(data[key], list):
-                            data[key] = [v.lower() if isinstance(v, str) else v for v in data[key]]
-
-                # compute edge weights using mapping_dict and source reliability metadata
-                weights = {}
-                if not graph_mode:
-                    reliability_map = data.get("source_reliability", {})
-                    for key in ["causes", "risk_factors", "symptoms", "diagnosis", "treatments", "related_genes", "subtypes"]:
-                        if key in data and isinstance(data[key], list):
-                            mapping_infos = mapping_dict.get(file.name, {}).get(key, [])
-                            weights[key] = _compute_weights(data[key], mapping_infos, reliability_map)
-                    if weights:
-                        data["_edge_weights"] = weights
-
-                combined["records"].append(data)
-                print(f"✅ Added {file.name}{' (no normalization)' if no_normalize else ''}")
-            else:
-                print(f"⚠️ Skipping {file.name} (missing primary name field)")
-        except json.JSONDecodeError as e:
-            print(f"❌ Error reading {file.name}: {e}")
-
-    # Write clean combined output
-    output_file.write_text(json.dumps(combined, indent=2, ensure_ascii=False), encoding="utf-8")
-
-    if no_normalize or graph_mode:
-        print(f"\n📦 Combined {len(combined['records'])} files → {output_file}")
-        print("⚙️  Normalization skipped (--no-normalize or graph schema)")
-        return
-
-    # Write ontology mapping
-    mapping_file.write_text(json.dumps(mapping_dict, indent=2, ensure_ascii=False), encoding="utf-8")
-
-    # --- Export matched-only dataset ---------------------------------
-    create_matched_only_dataset(combined, mapping_file, output_dir, schema_path=schema_path)
-
-    # --- Summary ----------------------------------------------------------
-    if stats["total"] > 0:
-        avg_score = mean(stats["scores"])
-        match_rate = (stats["matched"] / stats["total"]) * 100
-        summary = {
-            "timestamp": datetime.now().isoformat(timespec="seconds"),
-            "ontology_files": [str(x) for x in ontology_files],
-            "total_terms_processed": stats["total"],
-            "matched_terms": stats["matched"],
-            "unmatched_terms": stats["unmatched"],
-            "match_rate_percent": round(match_rate, 2),
-            "average_match_score": round(avg_score, 2),
-            "lowercase_enabled": lowercase,
-            "output_file": str(output_file),
-            "ontology_mapping_file": str(mapping_file),
-            "unmatched_terms_file": str(unmatched_file),
+        return value, {
+            "matched": False,
+            "score": score,
+            "id": None,
+            "normalized": value
         }
 
-        print("\n📊 Normalization Summary")
-        print("────────────────────────────")
-        print(f"Total terms processed : {summary['total_terms_processed']}")
-        print(f"Matched to ontology   : {summary['matched_terms']} ({match_rate:.1f}%)")
-        print(f"Unmatched terms       : {summary['unmatched_terms']}")
-        print(f"Average match score   : {avg_score:.1f}")
-        print(f"Ontologies loaded     : {len(ontology_files)}")
 
-        stats_file.write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
+###############################################################################
+# COMBINATION LOGIC
+###############################################################################
 
-        if stats["unmatched_terms"]:
-            sorted_terms = sorted(stats["unmatched_terms"], key=str.lower)
-            unmatched_file.write_text("\n".join(sorted_terms), encoding="utf-8")
-            print(f"\n🧾 Summary saved to {stats_file}")
-            print(f"🧠 Ontology mapping saved to {mapping_file}")
-            print(f"🚫 Unmatched terms saved to {unmatched_file}")
+def is_graph_format(j):
+    """Detect LLM-style graph document with entities + relationships."""
+    return isinstance(j, dict) and "entities" in j and "relationships" in j
 
-            print("\n🔍 Top Unmatched Terms (with closest ontology suggestions):")
-            print("────────────────────────────────────────────────────────────")
-            sample_terms = sorted_terms[:TOP_UNMATCHED_DISPLAY]
-            # use the combined dictionaries for fuzzy suggestion search
-            combined_terms = {}
-            combined_terms.update(ontology_dicts.get("disease", {}))
-            combined_terms.update(ontology_dicts.get("gene", {}))
 
-            for term in sample_terms:
-                if not combined_terms:
-                    print(f"• {term}  →  (no ontology data available)")
-                    continue
+def combine_json_files():
+    if not INPUT_DIR.exists():
+        print(f"❌ Input directory not found: {INPUT_DIR}")
+        return
 
-                suggestion, score, _ = process.extractOne(term.lower(), combined_terms.keys(), scorer=fuzz.token_sort_ratio)
-                best = combined_terms.get(suggestion, {"id": "—", "name": suggestion})
-                print(f"• {term}  →  {best['name']}  (score: {score:.1f}, id: {best['id']})")
+    json_files = sorted(INPUT_DIR.glob("*.json"))
+    if not json_files:
+        print(f"ℹ️ No JSON files found in {INPUT_DIR}")
+        return
+
+    ontology_terms, ontology_files = load_all_ontologies()
+    do_normalize = len(ontology_terms) > 0
+
+    combined = {"records": []}
+    mapping_dict = {}
+    stats = {"total": 0, "matched": 0, "unmatched": 0, "scores": [], "unmatched_terms": []}
+
+    for jf in json_files:
+        try:
+            data = json.loads(jf.read_text(encoding="utf-8"))
+        except Exception as e:
+            print(f"❌ Failed to read {jf.name}: {e}")
+            continue
+
+        # --------------------------------------------------------
+        # GRAPH MODE (LLM extraction: entities + relationships)
+        # --------------------------------------------------------
+        if is_graph_format(data):
+            print(f"📄 Processing graph document: {jf.name}")
+            data["_source_file"] = jf.name
+
+            if do_normalize:
+                mapping_dict[jf.name] = normalize_graph_document(
+                    data, ontology_terms, stats
+                )
+
+            # If entity IDs already exist across previous documents, merge them
+            merge_graph_into_combined(combined, data)
+
+            continue
+
+        # --------------------------------------------------------
+        # SINGLE-ENTITY MODE (fallback)
+        # --------------------------------------------------------
+        if isinstance(data, dict) and "name" in data:
+            print(f"📄 Processing single entity: {jf.name}")
+            data["_source_file"] = jf.name
+
+            if do_normalize:
+                mapping_dict[jf.name] = normalize_single_entity(
+                    data, ontology_terms, stats
+                )
+
+            merge_single_entity_into_combined(combined, data)
+
+            continue
+
+        print(f"⚠️ Skipped {jf.name} (unrecognized format)")
+
+    # --------------------------------------------------------
+    # WRITE OUTPUTS
+    # --------------------------------------------------------
+    OUTPUT_FILE.write_text(json.dumps(combined, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(f"✔ Combined → {OUTPUT_FILE}")
+
+    if do_normalize:
+        MAPPING_FILE.write_text(json.dumps(mapping_dict, indent=2, ensure_ascii=False), encoding="utf-8")
+        print(f"✔ Mapping → {MAPPING_FILE}")
+
+        write_stats(stats, ontology_files)
+
+    return combined
+
+
+###############################################################################
+# NORMALIZATION FOR GRAPH DOCUMENTS
+###############################################################################
+
+def normalize_graph_document(doc, ontology_terms, stats):
+    """
+    Normalize ALL attributes inside:
+      • entities[*].attributes[*].value
+      • relationship properties[*].value
+    """
+    mapping = {"entities": {}, "relationships": {}}
+
+    # --- Entities ---
+    for ent in doc.get("entities", []):
+        ent_map = {}
+        for attr, payload in ent.get("attributes", {}).items():
+            val = payload.get("value")
+            if isinstance(val, str):
+                new_val, info = normalize_value(val, ontology_terms)
+                payload["value"] = new_val
+
+                ent_map[attr] = info
+                update_stats(info, stats)
+            else:
+                ent_map[attr] = {"matched": False, "score": 0, "id": None}
+
+        mapping["entities"][ent["id"]] = ent_map
+
+    # --- Relationships ---
+    for rel in doc.get("relationships", []):
+        rel_map = {}
+        for prop, payload in rel.get("properties", {}).items():
+            val = payload.get("value")
+            if isinstance(val, str):
+                new_val, info = normalize_value(val, ontology_terms)
+                payload["value"] = new_val
+
+                rel_map[prop] = info
+                update_stats(info, stats)
+            else:
+                rel_map[prop] = {"matched": False, "score": 0, "id": None}
+
+        mapping["relationships"][f"{rel['source']}->{rel['relation']}->{rel['target']}"] = rel_map
+
+    return mapping
+
+
+###############################################################################
+# NORMALIZATION FOR SINGLE ENTITY MODE
+###############################################################################
+
+def normalize_single_entity(ent, ontology_terms, stats):
+    """
+    Fallback for single-entity JSON (less common now).
+    Normalizes all string values in a flat JSON object.
+    """
+    mapping = {}
+
+    for key, val in ent.items():
+        if isinstance(val, str):
+            new_val, info = normalize_value(val, ontology_terms)
+            ent[key] = new_val
+            mapping[key] = info
+            update_stats(info, stats)
+
+        elif isinstance(val, list):
+            mapping[key] = []
+            for v in val:
+                if isinstance(v, str):
+                    new_val, info = normalize_value(v, ontology_terms)
+                    mapping[key].append(info)
+                    update_stats(info, stats)
+                else:
+                    mapping[key].append({"matched": False, "score": 0, "id": None})
+
+    return mapping
+
+###############################################################################
+# DUPLICATE MERGING LOGIC
+###############################################################################
+
+def merge_confidence(c_old, c_new):
+    """
+    Merge two confidence values.
+    Rule:
+        new_confidence = min(1.0, (avg of both) + 0.05 bonus)
+    """
+    if c_old is None: return c_new
+    if c_new is None: return c_old
+    merged = ((c_old + c_new) / 2) + 0.05
+    return round(min(1.0, merged), 4)
+
+
+def merge_attributes(existing_attrs, new_attrs):
+    """
+    Merge attributes for a single entity.
+    Both have structure:
+        attr: { "value": ..., "confidence": ... }
+    """
+
+    for key, payload in new_attrs.items():
+        if key in existing_attrs:
+            # duplicate attribute
+            old = existing_attrs[key]
+            new = payload
+
+            # If same value → merge confidence
+            if old["value"] == new["value"]:
+                old["confidence"] = merge_confidence(old["confidence"], new["confidence"])
+            else:
+                # Different values → keep both? No: keep first, but note as alias
+                # Add new value as fallback attribute with suffix "_altN"
+                alt_key = key + "_alt"
+                suffix = 1
+                while alt_key + str(suffix) in existing_attrs:
+                    suffix += 1
+                existing_attrs[alt_key + str(suffix)] = new
+        else:
+            # completely new attribute
+            existing_attrs[key] = payload
+
+    return existing_attrs
+
+
+def merge_relationship_properties(existing_props, new_props):
+    """
+    Same logic as attributes but applied to relationship properties.
+    """
+    for key, payload in new_props.items():
+        if key in existing_props:
+            old = existing_props[key]
+            new = payload
+
+            if old["value"] == new["value"]:
+                old["confidence"] = merge_confidence(old["confidence"], new["confidence"])
+            else:
+                alt_key = key + "_alt"
+                suffix = 1
+                while alt_key + str(suffix) in existing_props:
+                    suffix += 1
+                existing_props[alt_key + str(suffix)] = new
+        else:
+            existing_props[key] = payload
+
+    return existing_props
+
+    ###############################################################################
+# MERGE ENTIRE GRAPH DOCUMENT INTO "combined"
+###############################################################################
+
+def merge_graph_into_combined(combined, new_doc):
+    """
+    Merges the entities and relationships from a new graph-document
+    into the global combined["records"].
+
+    combined["records"] format:
+        [
+            {
+               "entities": [...],
+               "relationships": [...]
+            },
+            ...
+        ]
+    """
+
+    # If first document, add as-is
+    if not combined["records"]:
+        combined["records"].append(new_doc)
+        return
+
+    # Always merge into the *first* record (global graph)
+    base = combined["records"][0]
+
+    existing_ents = {ent["id"]: ent for ent in base["entities"]}
+    existing_rels = {
+        (rel["source"], rel["relation"], rel["target"]): rel
+        for rel in base["relationships"]
+    }
+
+    # ========== ENTITIES ==========
+    for ent in new_doc["entities"]:
+        ent_id = ent["id"]
+
+        if ent_id in existing_ents:
+            base_ent = existing_ents[ent_id]
+
+            # Merge entity confidence
+            base_ent["confidence"] = merge_confidence(
+                base_ent.get("confidence"), ent.get("confidence")
+            )
+
+            # Merge attributes
+            base_ent["attributes"] = merge_attributes(
+                base_ent.get("attributes", {}),
+                ent.get("attributes", {})
+            )
 
         else:
-            print(f"\n🧾 Summary saved to {stats_file}")
-            print(f"🧠 Ontology mapping saved to {mapping_file}")
-            print("✅ All terms matched to ontology!")
+            # New entity
+            base["entities"].append(ent)
+            existing_ents[ent_id] = ent
+
+    # ========== RELATIONSHIPS ==========
+    for rel in new_doc["relationships"]:
+        key = (rel["source"], rel["relation"], rel["target"])
+        if key in existing_rels:
+            base_rel = existing_rels[key]
+
+            # Merge relationship confidence
+            base_rel["confidence"] = merge_confidence(
+                base_rel.get("confidence"), rel.get("confidence")
+            )
+
+            # Merge relationship properties
+            base_rel["properties"] = merge_relationship_properties(
+                base_rel.get("properties", {}),
+                rel.get("properties", {})
+            )
+
+        else:
+            # New relationship
+            base["relationships"].append(rel)
+            existing_rels[key] = rel
+
+    def merge_single_entity_into_combined(combined, ent):
+        """
+        Merge a single-entity JSON into the combined KG.
+        Treat as entity with no relationships.
+        """
+        if not combined["records"]:
+            combined["records"].append({"entities": [ent], "relationships": []})
+            return
+
+        base = combined["records"][0]
+        existing = {e["id"]: e for e in base["entities"]}
+
+        ent_id = ent["id"]
+        if ent_id in existing:
+            base_ent = existing[ent_id]
+
+            base_ent["confidence"] = merge_confidence(
+                base_ent.get("confidence"), ent.get("confidence")
+            )
+
+            base_ent["attributes"] = merge_attributes(
+                base_ent.get("attributes", {}),
+                ent.get("attributes", {})
+            )
+        else:
+            base["entities"].append(ent)
+
+
+
+###############################################################################
+# STATS
+###############################################################################
+
+def update_stats(info, stats):
+    stats["total"] += 1
+    stats["scores"].append(info["score"])
+    if info["matched"]:
+        stats["matched"] += 1
     else:
-        print("\n📊 No terms found for normalization.")
+        stats["unmatched"] += 1
+        stats["unmatched_terms"].append(info["normalized"])
 
-    print(f"\n📦 Combined {len(combined['records'])} files → {output_file}")
 
-# --- CLI Entry Point ------------------------------------------------------
+def write_stats(stats, ontology_files):
+    match_rate = (stats["matched"] / stats["total"]) * 100 if stats["total"] else 0
+    avg_score = mean(stats["scores"]) if stats["scores"] else 0
+
+    summary = {
+        "timestamp": datetime.now().isoformat(timespec="seconds"),
+        "ontology_files": [str(x) for x in ontology_files],
+        "total_values_normalized": stats["total"],
+        "matched_terms": stats["matched"],
+        "unmatched_terms": stats["unmatched"],
+        "match_rate_percent": round(match_rate, 2),
+        "average_fuzzy_score": round(avg_score, 2),
+        "unmatched_values": stats["unmatched_terms"],
+    }
+
+    STATS_FILE.write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
+    UNMATCHED_FILE.write_text("\n".join(stats["unmatched_terms"]), encoding="utf-8")
+
+    print("📊 Normalization Stats:")
+    print(json.dumps(summary, indent=2, ensure_ascii=False))
+
+
+###############################################################################
+# CLI
+###############################################################################
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Combine and optionally normalize JSON files using local ontologies (topic-agnostic)."
-    )
-    parser.add_argument("--no-normalize", action="store_true", help="Skip ontology normalization.")
-    parser.add_argument("--no-lowercase", action="store_true", help="Preserve original capitalization.")
-    parser.add_argument("--graph-name", help="Graph/topic name (uses data/{graph} as base).")
-    parser.add_argument("--data-location", help="Explicit data directory (overrides --graph-name).")
-    parser.add_argument("--input-dir", help="Override input directory (default: {base}/json).")
-    parser.add_argument("--ontology-dir", help="Override ontology directory (default: {base}/ontologies).")
-    parser.add_argument("--output-dir", help="Override output directory (default: {base}/combined).")
+    parser = argparse.ArgumentParser(description="Combine + Normalize topic-agnostic KG JSON files")
+    parser.add_argument("--graph-name", required=True, help="Graph/topic name under data/")
     args = parser.parse_args()
 
-    base_dir = resolve_base_dir(args.graph_name, args.data_location, create=True)
-    configure_paths(base_dir, input_dir=args.input_dir, ontology_dir=args.ontology_dir, output_dir=args.output_dir)
+    base_dir = resolve_base_dir(args.graph_name, None, create=True)
+    configure_paths(base_dir)
 
-    combine_json_files(no_normalize=args.no_normalize, lowercase=not args.no_lowercase)
+    combine_json_files()
