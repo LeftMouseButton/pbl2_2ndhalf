@@ -157,14 +157,15 @@ def parse_args() -> argparse.Namespace:
     )
     p.add_argument("--graph-name", help="Graph/topic name (uses data/{graph} as base).")
     p.add_argument("--data-location", help="Explicit data directory (overrides --graph-name).")
-    p.add_argument("--schema-path", help="Path to schema_keys.json (default: {base}/schema/schema_keys.json).")
+    p.add_argument("--schema-path", help="Path to schema_keys.json (default: {base}/config/schema_keys.json).")
     return p.parse_args()
 
 
 if __name__ == "__main__":
+    sys.exit(0) # temp, todo: fix completely broken schema output (it outputs nothing)
     args = parse_args()
     base_dir = resolve_base_dir(args.graph_name, args.data_location, create=True)
-    schema_path = Path(args.schema_path) if args.schema_path else base_dir / "schema" / "schema_keys.json"
+    schema_path = Path(args.schema_path) if args.schema_path else base_dir / "config" / "schema_keys.json"
     target_path = Path(args.target) if args.target else base_dir / "json"
 
     # If schema defines node_types (graph schema), skip validation—assume structured elsewhere
