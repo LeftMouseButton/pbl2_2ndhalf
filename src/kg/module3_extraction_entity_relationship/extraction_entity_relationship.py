@@ -5,13 +5,12 @@ extraction_entity_relationship.py
 Uses the Google AI Studio API (Gemini 2.5 Flash Live) to perform
 structured entity and relationship extraction for knowledge-graph population.
 
-Modes:
-  • Single entity/topic:
-      python extraction_entity_relationship.py --entity some-topic
-  • Batch (all entities/topics):
-      python extraction_entity_relationship.py --all
-  • Re-run cached results:
-      python extraction_entity_relationship.py --all --force
+MODIFIED:
+    ✔ Each source file is processed separately (no grouping!)
+    ✔ Output filename includes "_<source>" suffix
+        Example:
+            suisei_-_wikipedia.txt → suisei_wikipedia.json
+            suisei_-_other.txt     → suisei_other.json
 """
 
 import argparse
@@ -27,13 +26,13 @@ from google.generativeai.types import HarmCategory, HarmBlockThreshold
 
 from src.kg.utils.paths import resolve_base_dir
 
-# ────────────────────────────────────────────────────────────────────────────── #
-# CONFIGURATION
-# ────────────────────────────────────────────────────────────────────────────── #
-
 MODEL_NAME = "gemini-2.5-flash-lite"
 MAX_RETRIES = 3
 
+
+# ────────────────────────────────────────────────────────────────────────────── #
+# DATA STRUCTURES
+# ────────────────────────────────────────────────────────────────────────────── #
 
 @dataclass
 class ExtractionPaths:
@@ -53,8 +52,9 @@ def require_paths() -> ExtractionPaths:
         raise RuntimeError("Paths not initialized. Call main() to configure.")
     return PATHS
 
+
 # ────────────────────────────────────────────────────────────────────────────── #
-# LOAD CONFIG / SCHEMA / PROMPT
+# LOAD SCHEMA, PROMPT, EXAMPLE
 # ────────────────────────────────────────────────────────────────────────────── #
 
 def load_schema(schema_path: Path) -> str:
@@ -81,94 +81,103 @@ def load_example(example_path: Path) -> str:
         sys.exit(f"❌ Example JSON missing: {example_path}")
     return example_path.read_text(encoding="utf-8")
 
+
 # ────────────────────────────────────────────────────────────────────────────── #
-# HELPERS
+# FIND FILES
 # ────────────────────────────────────────────────────────────────────────────── #
 
 def find_related_files(entity: str, processed_dir: Path):
+    """Return ALL files for this entity, e.g. suisei_-_wikipedia.txt, suisei_-_other.txt."""
     files = [f for f in processed_dir.glob(f"{entity}_-*.txt")]
     if not files:
-        print(f"⚠️ No matching files found for prefix '{entity}_-'. Skipping.")
-    return files
+        print(f"⚠️ No matching files found for '{entity}_-*.txt'.")
+    return sorted(files)
 
 
-def upload_files(files):
-    uploaded = []
-    for path in files:
-        print(f"⬆️ Uploading {path.name} ...")
-        uploaded.append(genai.upload_file(path))
-    return uploaded
+# ────────────────────────────────────────────────────────────────────────────── #
+# PROCESS ONE FILE (NEW BEHAVIOR)
+# ────────────────────────────────────────────────────────────────────────────── #
 
+def process_single_source_file(entity: str, src_path: Path, model, prompt_content: str,
+                               example_json: str, paths: ExtractionPaths):
+    """
+    NEW: Process each file independently.
+    Input:  suisei_-_wikipedia.txt
+    Output: suisei_wikipedia.json
+    """
 
-def extract_prefixes(processed_dir: Path):
-    """Collect unique prefixes (entity names) from processed text folder."""
-    names = {p.name.split("_-_")[0] for p in processed_dir.glob("*.txt") if "_-_" in p.name}
-    return sorted(names)
-
-
-def process_once(entity: str, model, prompt_content: str, example_json: str, paths: ExtractionPaths):
-    entity_files = find_related_files(entity, paths.processed_dir)
-    if not entity_files:
-        return False
-
-    combined_text = ""
-    for path in entity_files:
-        print(f"📖 Reading {path.name} ...")
-        combined_text += f"\n\n--- SOURCE: {path.name} ---\n"
-        combined_text += path.read_text(encoding="utf-8")
-
-    full_prompt = f"{prompt_content}\n\nExample JSON:\n{example_json}\n\nInput Text:\n{combined_text}"
-    print("\n--- DEBUG: Prompt sent to LLM ---")
-    print(full_prompt)
-    print("--- END PROMPT ---\n")
-
-    print(f"🧠 Sending extraction request for '{entity}' to {MODEL_NAME}...")
+    # Extract source name: part after "_-_"
     try:
+        source = src_path.name.split("_-_", 1)[1].replace(".txt", "")
+    except Exception:
+        source = "unknown"
+
+    output_filename = f"{entity}_{source}.json"
+    out_path = paths.output_dir / output_filename
+
+    print(f"\n📄 Processing file: {src_path.name}")
+    print(f"➡️  Output JSON will be: {output_filename}")
+
+    text = src_path.read_text(encoding="utf-8")
+    combined_text = f"--- SOURCE: {src_path.name} ---\n{text}"
+
+    full_prompt = (
+        f"{prompt_content}\n\n"
+        f"Example JSON:\n{example_json}\n\n"
+        f"Input Text:\n{combined_text}"
+    )
+
+    # ---- Send to model ----
+    try:
+        print(f"🧠 LLM extracting for {entity} [{source}] ...")
         response = model.generate_content(
             contents=[full_prompt],
             generation_config={"temperature": 0.2},
         )
     except Exception as e:
-        print(f"❌ API error for {entity}: {e}")
+        print(f"❌ API error for {src_path.name}: {e}")
         return False
 
     text = (response.text or "").strip()
     if not text:
-        print(f"❌ Empty response for {entity}.")
+        print(f"❌ Empty response for {src_path.name}")
         return False
 
+    # Remove ```json fences
     try:
         if text.startswith("```"):
             text = text.lstrip("`").removeprefix("json").strip()
         if text.endswith("```"):
             text = text.rstrip("`").strip()
+
         data = json.loads(text)
     except json.JSONDecodeError:
-        print(f"❌ Invalid JSON for {entity}. Output preview:\n{text[:400]}...\n")
+        print(f"❌ Invalid JSON for {src_path.name}. Output begins:\n{text[:300]}...\n")
         return False
 
-    out_path = paths.output_dir / f"{entity}.json"
     out_path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
-    print(f"✅ Saved extraction: {out_path}")
+    print(f"✅ Saved: {out_path}")
     return True
 
 
-def process_with_retry(entity: str, model, prompt_content: str, example_json: str, paths: ExtractionPaths):
+def process_with_retry_file(entity: str, src_path: Path, model, prompt_content: str,
+                            example_json: str, paths: ExtractionPaths):
+    """Retry wrapper for a single source file."""
     for attempt in range(1, MAX_RETRIES + 1):
-        print(f"\n🔄 Attempt {attempt}/{MAX_RETRIES} for {entity}")
-        ok = process_once(entity, model, prompt_content, example_json, paths)
+        print(f"\n🔄 Attempt {attempt}/{MAX_RETRIES} for file {src_path.name}")
+        ok = process_single_source_file(entity, src_path, model, prompt_content, example_json, paths)
         if ok:
-            return True, attempt
+            return True
         if attempt < MAX_RETRIES:
             wait = 5 * attempt
             print(f"⏳ Retrying in {wait}s...")
             time.sleep(wait)
-    return False, MAX_RETRIES
+    return False
+
 
 # ────────────────────────────────────────────────────────────────────────────── #
 # MAIN
 # ────────────────────────────────────────────────────────────────────────────── #
-
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Entity/relationship extraction for any graph topic.")
@@ -178,10 +187,10 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--force", action="store_true", help="Re-run even if JSON already exists.")
     p.add_argument("--graph-name", help="Graph/topic name (uses data/{graph-name} as base).")
     p.add_argument("--data-location", help="Explicit data directory (overrides --graph-name).")
-    p.add_argument("--schema-path", help="Path to schema_keys.json (default: {base}/schema/schema_keys.json).")
-    p.add_argument("--example-path", help="Path to example_entity_extraction.json (default: {base}/schema/example_entity_extraction.json).")
-    p.add_argument("--prompt-path", help="Path to prompt template (default: {base}/schema/prompt.txt).")
-    p.add_argument("--output-dir", help="Directory to write extracted JSON (default: {base}/json).")
+    p.add_argument("--schema-path", help="Path to schema_keys.json.")
+    p.add_argument("--example-path", help="Path to example_entity_extraction.json.")
+    p.add_argument("--prompt-path", help="Path to prompt template.")
+    p.add_argument("--output-dir", help="Directory to write extracted JSON.")
     return p.parse_args()
 
 
@@ -220,41 +229,37 @@ def main():
     genai.configure(api_key=api_key)
 
     model = genai.GenerativeModel(MODEL_NAME)
-    results = {}
 
-    targets = [args.entity] if args.entity else extract_prefixes(PATHS.processed_dir)
-    if not targets:
-        sys.exit(f"❌ No files found in {PATHS.processed_dir}.")
+    # Determine processing targets
+    targets = [args.entity] if args.entity else {
+        p.name.split("_-_")[0] for p in processed_dir.glob("*_-_*.txt")
+    }
+    targets = sorted(targets)
 
-    print(f"🔍 Target entities: {', '.join(targets)}")
-
+    # ---- MAIN LOOP ----
     for entity in targets:
-        out_path = PATHS.output_dir / f"{entity}.json"
-        if out_path.exists() and not args.force:
-            print(f"⚡ Skipping cached result for {entity} (use --force to re-run).")
-            results[entity] = ("SKIPPED", 0)
+        print("\n" + "=" * 80)
+        print(f"🧩 Processing group '{entity}' (each file separately)")
+        print("=" * 80)
+
+        source_files = find_related_files(entity, processed_dir)
+        if not source_files:
             continue
 
-        print("\n" + "=" * 80)
-        print(f"🧩 Processing entity group: {entity}")
-        print("=" * 80)
-        success, attempts = process_with_retry(entity, model, prompt_content, example_json, PATHS)
-        results[entity] = ("SUCCESS" if success else "FAILED", attempts)
+        for f in source_files:
+            # deduce output filename
+            src_suffix = f.name.split("_-_")[1].replace(".txt", "")
+            out_path = PATHS.output_dir / f"{entity}_{src_suffix}.json"
 
-    print("\n" + "#" * 80)
-    print("📊 SUMMARY")
-    print("#" * 80)
-    for entity, (status, attempts) in results.items():
-        emoji = {"SUCCESS": "✅", "FAILED": "❌", "SKIPPED": "⚡"}[status]
-        attempts_str = f"(Attempts: {attempts})" if attempts else ""
-        print(f"{entity:<30} {emoji} {status:<8} {attempts_str}")
-    print("#" * 80)
+            if out_path.exists() and not args.force:
+                print(f"⚡ Skipping cached: {out_path.name}")
+                continue
 
-    failed = [d for d, (s, _) in results.items() if s == "FAILED"]
-    if failed:
-        print(f"⚠️ {len(failed)} entries failed after {MAX_RETRIES} attempts: {', '.join(failed)}")
-    else:
-        print("🎉 All extractions completed successfully or were cached.")
+            ok = process_with_retry_file(entity, f, model, prompt_content, example_json, PATHS)
+            if not ok:
+                print(f"❌ FAILED after retries: {f.name}")
+
+    print("\n🎉 DONE — all sources processed separately.")
 
 
 if __name__ == "__main__":
