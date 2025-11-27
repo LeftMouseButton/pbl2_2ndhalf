@@ -204,7 +204,7 @@ def validate_all(target: Path, output_dir: Path):
     if target.is_file():
         return validate_file(target, output_dir)
     if target.is_dir():
-        files = sorted(target.glob("*.json"))
+        files = [f for f in sorted(target.glob("*.json")) if f.name != "metadata_unknown.json"]
         if not files:
             print(f"No JSON files found in {target}")
             return False

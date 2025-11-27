@@ -86,9 +86,15 @@ def load_example(example_path: Path) -> str:
 # FIND FILES
 # ────────────────────────────────────────────────────────────────────────────── #
 
+IGNORE_FILENAMES = {"metadata_-_unknown.txt"}
+
 def find_related_files(entity: str, processed_dir: Path):
     """Return ALL files for this entity, e.g. suisei_-_wikipedia.txt, suisei_-_other.txt."""
-    files = [f for f in processed_dir.glob(f"{entity}_-*.txt")]
+    files = [
+        f
+        for f in processed_dir.glob(f"{entity}_-*.txt")
+        if f.name not in IGNORE_FILENAMES
+    ]
     if not files:
         print(f"⚠️ No matching files found for '{entity}_-*.txt'.")
     return sorted(files)
@@ -234,9 +240,14 @@ def main():
     model = genai.GenerativeModel(MODEL_NAME)
 
     # Determine processing targets
-    targets = [args.entity] if args.entity else {
-        p.name.split("_-_")[0] for p in processed_dir.glob("*_-_*.txt")
-    }
+    if args.entity:
+        targets = [args.entity]
+    else:
+        targets = {
+            p.name.split("_-_")[0]
+            for p in processed_dir.glob("*_-_*.txt")
+            if p.name not in IGNORE_FILENAMES
+        }
     targets = sorted(targets)
 
     # ---- MAIN LOOP ----
