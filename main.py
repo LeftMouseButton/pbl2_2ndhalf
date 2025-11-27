@@ -51,6 +51,11 @@ def main():
         default=[],  # no sources enabled by default
         help="Sources to use in the crawler.",
     )
+    parser.add_argument(
+        "--allow-extra-nodes",
+        action="store_true",
+        help="Allow LLM to introduce nodes/edges beyond schema (relaxes Module 3 schema constraints).",
+    )
     parser.add_argument("--seed", action="append", default=[], help="Seed(s) for Module 6 traversal/shortest-path demos.")
     args = parser.parse_args()
 
@@ -87,7 +92,8 @@ def main():
                 "--data-location",
                 str(base_dir),
                 "--all",
-            ],
+            ]
+            + (["--allow-extra-nodes"] if args.allow_extra_nodes else []),
         ),
         (
             "Module 4: Validate Extracted JSON",

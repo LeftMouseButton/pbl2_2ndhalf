@@ -96,15 +96,27 @@ class KGConfigEditorApp:
         self.nodes_edges_frame = ttk.Frame(notebook, padding=8)
         notebook.add(self.nodes_edges_frame, text="Nodes & Edges")
 
+        # Toggle: allow extra nodes/edges beyond those defined here
+        self.allow_extra_nodes_var = tk.BooleanVar(value=False)
+        toggle_frame = ttk.Frame(self.nodes_edges_frame)
+        toggle_frame.pack(fill="x", pady=(0, 4))
+        extra_cb = ttk.Checkbutton(
+            toggle_frame,
+            text="Allow extra nodes/edges (LLM may introduce additional types)",
+            variable=self.allow_extra_nodes_var,
+            command=self._mark_unsaved,
+        )
+        extra_cb.pack(anchor="w")
+
         self.nodes_text = self._create_labeled_text(
             self.nodes_edges_frame,
-            "Nodes & node properties (e.g. 'disease: name, synonyms, summary'):",
+            "Nodes & node properties (e.g. 'vtuber: name, synonyms, description'):",
             field_name="nodes"
         )
         self.edges_text = self._create_labeled_text(
             self.nodes_edges_frame,
             "Edges & edge properties (required: source_type, target_type; "
-            "e.g. 'causes: disease -> gene | evidence, confidence'):",
+            "e.g. 'belongs_to: vtuber -> agency | notes'):",
             field_name="edges"
         )
 
@@ -312,6 +324,19 @@ class KGConfigEditorApp:
             self.schema_text,
         )
 
+        # Extra-nodes toggle: load from simple JSON flag if present, else default False.
+        extra_flag_path = os.path.join(config_dir, "allow_extra_nodes.json")
+        allow_extra = False
+        if os.path.isfile(extra_flag_path):
+            try:
+                with open(extra_flag_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                if isinstance(data, dict) and isinstance(data.get("allow_extra_nodes"), bool):
+                    allow_extra = data["allow_extra_nodes"]
+            except Exception:
+                allow_extra = False
+        self.allow_extra_nodes_var.set(allow_extra)
+
         # Prompt: prefer graph-specific prompt.ini if present, else default
         prompt_path_graph = os.path.join(graph_config_dir, "prompt.ini")
         if os.path.isfile(prompt_path_graph):
@@ -481,6 +506,14 @@ class KGConfigEditorApp:
                 json.dump(sources_cfg, f, indent=2, ensure_ascii=False)
         except Exception as e:
             messagebox.showwarning("Warning", f"Could not save {sources_path}: {e}")
+
+        # Persist extra-nodes toggle as a tiny JSON flag
+        extra_flag_path = os.path.join(graph_config_dir, "allow_extra_nodes.json")
+        try:
+            with open(extra_flag_path, "w", encoding="utf-8") as f:
+                json.dump({"allow_extra_nodes": bool(self.allow_extra_nodes_var.get())}, f, indent=2, ensure_ascii=False)
+        except Exception as e:
+            messagebox.showwarning("Warning", f"Could not save {extra_flag_path}: {e}")
 
         # NEW: auto-generate condensed schema_keys.json on save
         schema_keys_path = os.path.join(graph_config_dir, "schema_keys.json")
@@ -907,6 +940,10 @@ class KGConfigEditorApp:
             return
 
         cmd = ["python", "main.py", "--graph-name", graph_name]
+
+        # Propagate extra-nodes toggle down the pipeline.
+        if bool(self.allow_extra_nodes_var.get()):
+            cmd.append("--allow-extra-nodes")
 
         if enabled_sources:
             cmd.append("--sources")

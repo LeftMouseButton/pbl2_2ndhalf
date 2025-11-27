@@ -177,14 +177,18 @@ def load_schema(schema_path: Path) -> str:
     return json.dumps(schema_json, indent=2, ensure_ascii=False)
 
 
-def load_prompt(prompt_path: Path, schema_content: str) -> str:
+def load_prompt(prompt_path: Path, schema_content: str | None) -> str:
     if not prompt_path.exists():
         sys.exit(f"❌ Prompt file not found at {prompt_path}")
     prompt_text = prompt_path.read_text(encoding="utf-8").strip()
+
+    # If no schema content is provided, return the raw prompt text only.
+    if schema_content is None:
+        return f"{prompt_text}\n\n"
+
     if "{SCHEMA_JSON}" in prompt_text:
         return prompt_text.replace("{SCHEMA_JSON}", schema_content)
     return f"{prompt_text}\n\nSchema:\n{schema_content}"
-    #return f"{prompt_text}\n\n"
 
 
 def load_example(example_path: Path) -> str:
@@ -403,6 +407,11 @@ def parse_args() -> argparse.Namespace:
     )
     p.add_argument("--prompt-path", help="Path to prompt template.")
     p.add_argument("--output-dir", help="Directory to write extracted JSON.")
+    p.add_argument(
+        "--allow-extra-nodes",
+        action="store_true",
+        help="Allow LLM to introduce nodes/edges beyond schema (omit schema JSON from prompt).",
+    )
     return p.parse_args()
 
 
@@ -444,7 +453,12 @@ def main():
     )
 
     schema_content = load_schema(PATHS.schema_path)
-    prompt_content = load_prompt(PATHS.prompt_path, schema_content)
+
+    # If extra nodes/edges are allowed, do not inject schema JSON into the prompt.
+    if args.allow_extra_nodes:
+        prompt_content = load_prompt(PATHS.prompt_path, None)
+    else:
+        prompt_content = load_prompt(PATHS.prompt_path, schema_content)
     example_json = load_example(PATHS.example_json_path)
 
     api_key = os.getenv("GOOGLE_API_KEY")
