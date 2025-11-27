@@ -15,7 +15,7 @@ This module contains two predictors:
 
 2) improved_link_prediction()
    - Generalized predictor that considers ALL plausible edge types,
-     as defined by utils.constants.get_plausible_edge_types().
+     as defined by get_plausible_edge_types() or provided via config.
    - Computes the same similarity metrics but separately for each
      type of conceptual relation.
    - Normalizes each metric and aggregates with a 3-metric average.
@@ -27,24 +27,21 @@ with the original analyse.py report and CSV exporters.
 from __future__ import annotations
 
 import itertools
-from typing import Dict, List, Tuple, Any, Set
+from typing import Dict, List, Tuple, Any, Set, Optional
 
 import networkx as nx
 
-from ..utils.constants import NODE_TYPES  # for type checks if needed
-from ..utils.constants import EDGE_TYPES  # used by original method
-from ..utils.constants import COLOR_BY_TYPE  # not required, but kept for symmetry
 from ..utils.constants import MAX_NODES_DEFAULT
-from ..utils.constants import NODE_TYPES as _NT
-from ..utils.constants import EDGE_TYPES as _ET
 
-# Import enhanced plausible edge types
-# (This function was originally inside analyse.py; now it's cleanly located here.)
+
 def get_plausible_edge_types() -> Dict[Tuple[str, str], str]:
     """
-    Define all plausible biomedical edge types between node categories.
+    Default biomedical edge-type mapping between node categories.
 
-    Originally defined in analyse.py, extracted for modularity.
+    For legacy cancer graphs that do not provide a config/edges.ini, this
+    mapping is used as a fallback. When a per-topic config is present,
+    analyse.py will pass a custom mapping into the link prediction
+    functions instead.
 
     Returns
     -------
@@ -71,12 +68,19 @@ def get_plausible_edge_types() -> Dict[Tuple[str, str], str]:
 # 1) BASIC LOCAL-SIMILARITY LINK PREDICTION (ORIGINAL)
 # ─────────────────────────────────────────────────────────────────────────────
 
-def link_prediction(G: nx.Graph, limit: int = 2000) -> List[Dict[str, Any]]:
+def link_prediction(
+    G: nx.Graph,
+    limit: int = 2000,
+    plausible_edges: Optional[Dict[Tuple[str, str], str]] = None,
+) -> List[Dict[str, Any]]:
     """
-    Original Module 6 link prediction based on local similarity metrics.
+    Original Module 6 link prediction based on local similarity metrics,
+    optionally restricted to a set of plausible type-pairs.
 
-    Restricted to plausible biological edges:
-        disease ↔ {gene, treatment, symptom}
+    If `plausible_edges` is provided (typically derived from config/edges.ini),
+    only node pairs whose (sorted) type pair appears as a key in that mapping
+    are considered. Otherwise, the legacy biomedical filter is used:
+    disease ↔ {gene, treatment, symptom}.
 
     Parameters
     ----------
@@ -91,10 +95,19 @@ def link_prediction(G: nx.Graph, limit: int = 2000) -> List[Dict[str, Any]]:
     """
     results: List[Dict[str, Any]] = []
 
-    # --- Plausibility filter (only the original restricted triad) -----------
+    # --- Plausibility filter ------------------------------------------------
     def plausible(u: str, v: str) -> bool:
         tu = G.nodes[u].get("type")
         tv = G.nodes[v].get("type")
+
+        # Config-driven mode: restrict strictly to type pairs from edges.ini
+        if plausible_edges is not None:
+            if tu is None or tv is None:
+                return False
+            key = tuple(sorted((tu, tv)))
+            return key in plausible_edges
+
+        # Legacy biomedical mode (disease ↔ {gene, treatment, symptom})
         return (
             (tu == "disease" and tv in {"gene", "treatment", "symptom"}) or
             (tv == "disease" and tu in {"gene", "treatment", "symptom"})
@@ -156,11 +169,16 @@ def link_prediction(G: nx.Graph, limit: int = 2000) -> List[Dict[str, Any]]:
 # 2) IMPROVED MULTI-TYPE LINK PREDICTION
 # ─────────────────────────────────────────────────────────────────────────────
 
-def improved_link_prediction(G: nx.Graph, limit: int = 2000) -> List[Dict[str, Any]]:
+def improved_link_prediction(
+    G: nx.Graph,
+    limit: int = 2000,
+    plausible_edges: Optional[Dict[Tuple[str, str], str]] = None,
+) -> List[Dict[str, Any]]:
     """
-    Enhanced link prediction supporting ALL plausible biological edge types
-    (disease–gene, symptom–symptom, gene–treatment, etc.) using the same
-    similarity metrics and ensemble scoring.
+    Enhanced link prediction supporting ALL plausible edge types defined by
+    `plausible_edges` (typically derived from config/edges.ini). If no mapping
+    is provided, the default biomedical mapping from get_plausible_edge_types()
+    is used.
 
     Parameters
     ----------
@@ -173,7 +191,8 @@ def improved_link_prediction(G: nx.Graph, limit: int = 2000) -> List[Dict[str, A
     List[dict]
         Sorted by descending ensemble_score.
     """
-    plausible_edges = get_plausible_edge_types()
+    if plausible_edges is None:
+        plausible_edges = get_plausible_edge_types()
     results: List[Dict[str, Any]] = []
 
     # Group candidate pairs by conceptual edge type

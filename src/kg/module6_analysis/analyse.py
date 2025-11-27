@@ -187,9 +187,22 @@ def main() -> None:
     edge_cfg: Dict[str, Any] = {}
     color_by_type: Dict[str, str] = {}
     edge_color_map: Dict[str, str] = {}
+    plausible_edges: Dict[tuple[str, str], str] = {}
     if base_dir is not None:
         node_cfg, edge_cfg = load_graph_config(base_dir)
         color_by_type, edge_color_map = build_color_maps(node_cfg, edge_cfg)
+
+        # Build config-driven plausible edge-type mapping for link prediction.
+        # Mapping: (sorted(source_type, target_type)) -> relation name
+        for rel_name, cfg in edge_cfg.items():
+            try:
+                src_type = cfg.source_type
+                tgt_type = cfg.target_type
+            except AttributeError:
+                continue
+            key = tuple(sorted((src_type, tgt_type)))
+            # If multiple relations share the same type pair, keep the first.
+            plausible_edges.setdefault(key, rel_name)
 
     start_time = time.time()
 
@@ -259,13 +272,22 @@ def main() -> None:
 
     # Link prediction
     print("🔮 Link prediction …")
-    # TODO: Make link prediction fully config-driven using edges.ini
+    # Config-driven link prediction: restrict to type pairs declared in edges.ini
+    # when available; otherwise, fall back to the legacy biomedical mapping.
     if args.validation:
-        lp_rows = improved_link_prediction(G, limit=4000)
-        print("   Using enhanced link prediction with expanded edge types.")
+        lp_rows = improved_link_prediction(
+            G,
+            limit=4000,
+            plausible_edges=plausible_edges or None,
+        )
+        print("   Using enhanced link prediction (config-driven when available).")
     else:
-        lp_rows = link_prediction(G, limit=4000)
-        print("   Using basic local-similarity link prediction.")
+        lp_rows = link_prediction(
+            G,
+            limit=4000,
+            plausible_edges=plausible_edges or None,
+        )
+        print("   Using basic local-similarity link prediction (config-driven when available).")
 
     if lp_rows:
         print("   Top 5 link suggestions:")
