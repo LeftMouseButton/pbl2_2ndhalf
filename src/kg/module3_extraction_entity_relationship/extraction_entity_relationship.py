@@ -30,6 +30,12 @@ from google.generativeai.types import HarmCategory, HarmBlockThreshold
 
 from src.kg.utils.paths import resolve_base_dir
 
+try:
+    # For finer-grained error handling (e.g., ResourceExhausted / quota issues)
+    from google.api_core import exceptions as google_exceptions
+except Exception:  # pragma: no cover - best-effort import
+    google_exceptions = None
+
 MODEL_NAME = "gemini-2.0-flash"
 MAX_RETRIES = 3
 
@@ -54,12 +60,29 @@ class ExtractionPaths:
 
 
 PATHS: ExtractionPaths | None = None
+GLOBAL_ABORT: bool = False  # set to True when we detect likely quota/budget exhaustion
 
 
 def require_paths() -> ExtractionPaths:
     if PATHS is None:
         raise RuntimeError("Paths not initialized. Call main() to configure.")
     return PATHS
+
+
+def _is_budget_or_quota_error(exc: Exception) -> bool:
+    """
+    Heuristically detect errors that are very likely due to quota/budget
+    exhaustion (e.g., HTTP 429 ResourceExhausted from Vertex AI).
+    """
+    msg = str(exc)
+    if google_exceptions is not None and isinstance(exc, google_exceptions.ResourceExhausted):
+        return True
+    lowered = msg.lower()
+    return (
+        "resource exhausted" in lowered
+        or "quota" in lowered
+        or "429" in lowered
+    )
 
 
 # ────────────────────────────────────────────────────────────── #
@@ -235,6 +258,12 @@ def process_single_source_file(
     Output: suisei_wikipedia.json
     """
 
+    # If we previously detected a likely budget/quota exhaustion, skip work.
+    global GLOBAL_ABORT
+    if GLOBAL_ABORT:
+        print(f"⏭️  Skipping {src_path.name} because a previous call hit quota/budget limits.")
+        return False
+
     # Extract source name: part after "_-_"
     try:
         source = src_path.name.split("_-_", 1)[1].replace(".txt", "")
@@ -291,19 +320,38 @@ def process_single_source_file(
                 stream=True,
             )
         except Exception as e:
-            print(f"❌ Streaming API error for {src_path.name} (chunk {i}): {e}")
+            if _is_budget_or_quota_error(e):
+                print(f"❌ Streaming API error for {src_path.name} (chunk {i}): {e}")
+                print("   Detected probable quota/budget exhaustion. "
+                      "Marking GLOBAL_ABORT so remaining files are skipped in this run.")
+                GLOBAL_ABORT = True
+            else:
+                print(f"❌ Streaming API error for {src_path.name} (chunk {i}): {e}")
             return False
 
         streamed_chunks: list[str] = []
         total_chars = 0
         chunk_counter = 0
 
-        for chunk in stream:
-            if hasattr(chunk, "text") and chunk.text:
-                streamed_chunks.append(chunk.text)
-                total_chars += len(chunk.text)
-                chunk_counter += 1
-                print_stream_progress(start_time, chunk_counter, total_chars)
+        # Robust streaming loop – catch mid-stream API errors (e.g. 429 ResourceExhausted)
+        try:
+            for chunk in stream:
+                if hasattr(chunk, "text") and chunk.text:
+                    streamed_chunks.append(chunk.text)
+                    total_chars += len(chunk.text)
+                    chunk_counter += 1
+                    print_stream_progress(start_time, chunk_counter, total_chars)
+        except Exception as e:
+            # Let outer retry logic handle transient errors; mark budget exhaustion if detected.
+            if _is_budget_or_quota_error(e):
+                print(f"\n❌ Streaming iteration error for {src_path.name} (chunk {i}): {e}")
+                print("   Detected probable quota/budget exhaustion. "
+                      "Marking GLOBAL_ABORT so remaining files are skipped in this run.")
+                GLOBAL_ABORT = True
+            else:
+                print(f"\n❌ Streaming iteration error for {src_path.name} (chunk {i}): {e}")
+                print("   This chunk will be retried by the outer file-level retry wrapper if retries remain.")
+            return False
 
         print()  # newline after progress line
 
@@ -372,14 +420,19 @@ def process_with_retry_file(
     paths: ExtractionPaths,
 ):
     """Retry wrapper for a single source file."""
+    global GLOBAL_ABORT
     for attempt in range(1, MAX_RETRIES + 1):
+        if GLOBAL_ABORT:
+            print(f"\n⏭️  Skipping retries for {src_path.name} because quota/budget is already exhausted.")
+            return False
+
         print(f"\n🔄 Attempt {attempt}/{MAX_RETRIES} for file {src_path.name}")
         ok = process_single_source_file(
             entity, src_path, model, prompt_content, example_json, paths
         )
         if ok:
             return True
-        if attempt < MAX_RETRIES:
+        if attempt < MAX_RETRIES and not GLOBAL_ABORT:
             wait = 5 * attempt
             print(f"⏳ Retrying in {wait}s...")
             time.sleep(wait)
@@ -416,7 +469,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def main():
-    global PATHS
+    global PATHS, GLOBAL_ABORT
     args = parse_args()
 
     base_dir = resolve_base_dir(args.graph_name, args.data_location, create=True)
@@ -508,8 +561,19 @@ def main():
             )
             if not ok:
                 print(f"❌ FAILED after retries: {f.name}")
+                if GLOBAL_ABORT:
+                    print("\n⛔ Detected likely API quota/budget exhaustion.")
+                    print("   Aborting remaining files for this run to avoid repeated failures.")
+                    break
+        if GLOBAL_ABORT:
+            break
 
-    print("\n🎉 DONE — all sources processed separately with streaming + chunking.")
+    if GLOBAL_ABORT:
+        print("\n⚠️  Pipeline stopped early due to API quota/budget limits.")
+        print("   You may need to wait for quota to reset or upgrade your account, "
+              "then re-run the pipeline with --force if needed.")
+    else:
+        print("\n🎉 DONE — all sources processed separately with streaming + chunking.")
 
 
 if __name__ == "__main__":
