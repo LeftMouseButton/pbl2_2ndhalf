@@ -381,6 +381,35 @@ def combine_json_files():
             print(f"❌ Failed to read {jf.name}: {e}")
             continue
 
+        # ----------------------------------------------------------------
+        # ADAPTER: some validated graph docs (e.g. VTuber) store the
+        # concrete nodes/edges in `entities_list` / `relationships_list`,
+        # while top-level "entities"/"relationships" contain schema-like
+        # structures. Prefer the list-based representation when present
+        # by converting it into the canonical graph-document shape.
+        # ----------------------------------------------------------------
+        if (
+            isinstance(data, dict)
+            and "entities_list" in data
+            and "relationships_list" in data
+            and isinstance(data.get("entities_list"), list)
+            and isinstance(data.get("relationships_list"), list)
+        ):
+            ents = data.get("entities_list") or []
+            rels = data.get("relationships_list") or []
+
+            # Preserve other metadata, but drop schema-style entities/relationships.
+            base_meta = {
+                k: v
+                for k, v in data.items()
+                if k not in ("entities", "relationships", "entities_list", "relationships_list")
+            }
+            data = {
+                **base_meta,
+                "entities": ents,
+                "relationships": rels,
+            }
+
         # Determine source and weight for this file
         source_name = infer_source_name(jf, data, source_weights) if source_weights else None
         source_weight = source_weights.get(source_name) if source_name else None
