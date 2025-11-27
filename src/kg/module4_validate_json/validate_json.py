@@ -127,19 +127,13 @@ def normalize_entities(raw_entities: Any) -> List[Dict[str, Any]]:
                 attr_template if isinstance(attr_template, dict) else {},
             )
 
-        normalized_ent: Dict[str, Any] = {}
-        normalized_ent["name"] = ent.get("name", "") or ""
-        normalized_ent["type"] = ent_type
-        normalized_ent["confidence"] = _ensure_float(ent.get("confidence"), ent_schema.get("confidence", 0.0))
-        normalized_ent["attributes"] = attrs
+        ent["attributes"] = attrs
+        ent["confidence"] = _ensure_float(ent.get("confidence"), ent_schema.get("confidence", 0.0))
+        ent["id"] = ent.get("name", "") or ""
+        ent["name"] = ent.get("name", "") or ""
+        ent["type"] = ent_type
 
-        # Preserve any additional fields except deprecated/removed ones
-        for k, v in ent.items():
-            if k in {"id", "name", "type", "confidence", "attributes"}:
-                continue
-            normalized_ent[k] = v
-
-        fixed.append(normalized_ent)
+        fixed.append(ent)
     return fixed
 
 
