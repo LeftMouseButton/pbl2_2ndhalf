@@ -72,6 +72,8 @@ def enhanced_pyvis_visualization(
     centrality: Optional[Dict[str, Dict[str, float]]] = None,
     node2comm: Optional[Dict[str, int]] = None,
     title: str = "Enhanced Knowledge Graph",
+    color_by_type: Optional[Dict[str, str]] = None,
+    edge_color_map: Optional[Dict[str, str]] = None,
 ) -> None:
     """
     Export an enhanced PyVis HTML visualization.
@@ -79,6 +81,9 @@ def enhanced_pyvis_visualization(
     if Network is None:
         print("[INFO] pyvis not installed; skipping enhanced visualization.")
         return
+
+    color_map = color_by_type or COLOR_BY_TYPE
+    edge_colors = edge_color_map or EDGE_COLOR_MAP
 
     # Base PyVis network
     net = Network(
@@ -127,7 +132,7 @@ def enhanced_pyvis_visualization(
     for n, data in G.nodes(data=True):
         label = data.get("label", n)
         ntype = data.get("type", "")
-        color = COLOR_BY_TYPE.get(ntype, "#cccccc")
+        color = color_map.get(ntype, "#cccccc")
         size = size_map.get(n, 25)
 
         x, y = pos.get(n, (0.0, 0.0))
@@ -154,7 +159,7 @@ def enhanced_pyvis_visualization(
     # Add edges
     for u, v, ed in G.edges(data=True):
         etype = ed.get("type", "")
-        color = EDGE_COLOR_MAP.get(etype, "#888888")
+        color = edge_colors.get(etype, "#888888")
         net.add_edge(u, v, title=etype, color=color, width=2)
 
     # Generate HTML

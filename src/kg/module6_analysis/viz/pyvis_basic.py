@@ -29,6 +29,7 @@ def export_pyvis_with_legend(
     G: nx.Graph,
     path_html: Path,
     node2comm: Optional[Dict[str, int]] = None,
+    color_by_type: Optional[Dict[str, str]] = None,
 ) -> None:
     """
     Create a PyVis HTML visualization with a compact legend of node types.
@@ -53,6 +54,9 @@ def export_pyvis_with_legend(
         print("[INFO] pyvis not installed; skipping interactive visualization.")
         return
 
+    # Allow caller to override the default color scheme dynamically.
+    color_map = color_by_type or COLOR_BY_TYPE
+
     net = Network(
         height="750px",
         width="100%",
@@ -74,7 +78,7 @@ def export_pyvis_with_legend(
         if node2comm is not None:
             title += f"<br>community={node2comm.get(n, -1)}"
 
-        color = COLOR_BY_TYPE.get(node_type, "#cccccc")
+        color = color_map.get(node_type, "#cccccc")
 
         net.add_node(
             n,
@@ -113,7 +117,7 @@ def export_pyvis_with_legend(
         </div>
     """
 
-    for node_type, color in COLOR_BY_TYPE.items():
+    for node_type, color in color_map.items():
         legend_html += f"""
         <div style="display: flex; align-items: center; margin-bottom: 5px;">
             <div style="
@@ -139,6 +143,7 @@ def export_pyvis(
     G: nx.Graph,
     path_html: Path,
     node2comm: Optional[Dict[str, int]] = None,
+    color_by_type: Optional[Dict[str, str]] = None,
 ) -> None:
     """
     Minimal PyVis graph export without a legend.
@@ -154,6 +159,8 @@ def export_pyvis(
     if Network is None:
         print("[INFO] pyvis not installed; skipping interactive visualization.")
         return
+
+    color_map = color_by_type or COLOR_BY_TYPE
 
     net = Network(
         height="750px",
@@ -173,7 +180,7 @@ def export_pyvis(
         if node2comm is not None:
             title += f"<br>community={node2comm.get(n, -1)}"
 
-        color = COLOR_BY_TYPE.get(node_type, "#cccccc")
+        color = color_map.get(node_type, "#cccccc")
         net.add_node(n, label=label, title=title, color=color)
 
     # Edges

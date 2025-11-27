@@ -52,6 +52,7 @@ from .report.csv_export import (
     export_centrality_dual_csvs,
     export_linkpred_csv,
 )
+from .utils.config_loader import load_graph_config, build_color_maps
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -181,6 +182,15 @@ def main() -> None:
 
     graph_label = args.graph_name or (base_dir.name if base_dir else input_path.stem)
 
+    # Load per-topic config if available (nodes.ini / edges.ini)
+    node_cfg: Dict[str, Any] = {}
+    edge_cfg: Dict[str, Any] = {}
+    color_by_type: Dict[str, str] = {}
+    edge_color_map: Dict[str, str] = {}
+    if base_dir is not None:
+        node_cfg, edge_cfg = load_graph_config(base_dir)
+        color_by_type, edge_color_map = build_color_maps(node_cfg, edge_cfg)
+
     start_time = time.time()
 
     print(f"📥 Loading records from {input_path}")
@@ -200,7 +210,7 @@ def main() -> None:
 
     # Build graph
     print("🧱 Building graph …")
-    G, build_stats = build_graph(records)
+    G, build_stats = build_graph(records, node_config=node_cfg, edge_config=edge_cfg)
     print(
         f"✅ Graph built: {build_stats.n_nodes} nodes, "
         f"{build_stats.n_edges} edges. Types: {build_stats.types}"
@@ -249,6 +259,7 @@ def main() -> None:
 
     # Link prediction
     print("🔮 Link prediction …")
+    # TODO: Make link prediction fully config-driven using edges.ini
     if args.validation:
         lp_rows = improved_link_prediction(G, limit=4000)
         print("   Using enhanced link prediction with expanded edge types.")
@@ -313,9 +324,16 @@ def main() -> None:
             centrality=cent,
             node2comm=node2comm,
             title=f"Enhanced {graph_label} Knowledge Graph",
+            color_by_type=color_by_type or None,
+            edge_color_map=edge_color_map or None,
         )
     else:
-        export_pyvis_with_legend(G, html_path, node2comm=node2comm)
+        export_pyvis_with_legend(
+            G,
+            html_path,
+            node2comm=node2comm,
+            color_by_type=color_by_type or None,
+        )
     print(f"🌐 Saved interactive HTML → {html_path}")
 
     # CSV exports

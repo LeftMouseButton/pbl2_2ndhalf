@@ -17,13 +17,14 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from collections import Counter
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple, Optional
 
-from pathlib import Path
+import re
 import networkx as nx
 
 from ..utils.constants import NODE_TYPES
 from ..utils.normalize import _norm
+from ..utils.config_loader import EdgeTypeConfig
 
 
 @dataclass
@@ -76,38 +77,188 @@ def _add_edge(G: nx.Graph, a: str, b: str, etype: str, weight: float | None = No
         G.add_edge(u, v, **attrs)
 
 
-def build_graph(records: List[Dict[str, Any]]) -> Tuple[nx.Graph, BuildStats]:
+def _slugify(text: str) -> str:
+    """
+    Create a stable slug identifier for graph nodes.
+
+    Mirrors the behavior of module1_crawler.slugify_name() so that
+    entity IDs and relationship endpoints like "hoshimachi_suisei"
+    line up correctly.
+    """
+    if not isinstance(text, str):
+        text = str(text)
+    s = text.strip().lower()
+    s = re.sub(r"\s+", "_", s)
+    s = s.replace("-", "_")
+    s = re.sub(r"[^\w_]+", "", s)
+    return s or "unknown"
+
+
+def _add_graph_document_record(
+    G: nx.Graph,
+    rec: Dict[str, Any],
+    edge_cfg: Optional[Dict[str, EdgeTypeConfig]] = None,
+) -> None:
+    """
+    Build graph nodes/edges from a graph-style record:
+        { "entities": [...], "relationships": [...] }
+
+    Behavior (topic-agnostic):
+      - Node IDs are slugified from entity IDs/names.
+      - Node labels come from entity.name (or id) and are preserved.
+      - Attributes are flattened so that both values and confidences are stored:
+            attr -> value
+            attr_confidence -> confidence
+      - A top-level entity "confidence" is stored as node["confidence"].
+      - Relationships use:
+            edge["type"]      = relation name
+            edge["confidence"] = relationship confidence
+            edge["weight"]     = relationship confidence   (for weighted analysis)
+        and relationship properties are flattened similarly to node attributes.
+      - If edges.ini is available, it is used to infer node types for nodes
+        that appear only in relationships.
+    """
+    entities = rec.get("entities") or []
+    rels = rec.get("relationships") or []
+
+    # Index entities by slug so we can align them with relationship endpoints.
+    ent_by_slug: Dict[str, Dict[str, Any]] = {}
+    for ent in entities:
+        ent_id = ent.get("id") or ent.get("name")
+        if not ent_id:
+            continue
+        slug = _slugify(ent_id)
+        if slug not in ent_by_slug:
+            ent_by_slug[slug] = ent
+
+    def ensure_node(
+        slug: str,
+        *,
+        fallback_label: Optional[str] = None,
+        fallback_type: Optional[str] = None,
+    ) -> None:
+        """
+        Ensure that a node with the given slug exists.
+
+        If an entity definition is available, use it to populate attributes;
+        otherwise, create a minimal node using fallbacks.
+        """
+        if G.has_node(slug):
+            # Fill in missing basic attributes if we can.
+            ndata = G.nodes[slug]
+            if fallback_type and not ndata.get("type"):
+                ndata["type"] = fallback_type
+            if fallback_label and not ndata.get("label"):
+                ndata["label"] = fallback_label
+            return
+
+        ent = ent_by_slug.get(slug)
+        if ent:
+            ntype = ent.get("type", "entity")
+            label = ent.get("name") or ent.get("id") or slug
+            attrs: Dict[str, Any] = {
+                "type": ntype,
+                "label": label,
+            }
+            # Top-level confidence
+            conf = ent.get("confidence")
+            if isinstance(conf, (int, float)):
+                attrs["confidence"] = float(conf)
+
+            # Flatten nested attributes: key -> value, key_confidence -> confidence
+            ent_attrs = ent.get("attributes") or {}
+            if isinstance(ent_attrs, dict):
+                for key, payload in ent_attrs.items():
+                    if not isinstance(payload, dict):
+                        continue
+                    val = payload.get("value")
+                    conf_attr = payload.get("confidence")
+                    attrs[key] = val
+                    if conf_attr is not None:
+                        attrs[f"{key}_confidence"] = conf_attr
+        else:
+            # No entity definition: synthesize a minimal node.
+            label = fallback_label or slug.replace("_", " ").title()
+            ntype = fallback_type or "entity"
+            attrs = {
+                "type": ntype,
+                "label": label,
+            }
+
+        G.add_node(slug, **attrs)
+
+    # First, add all entity-defined nodes.
+    for slug in ent_by_slug.keys():
+        ensure_node(slug)
+
+    # Then, add edges and any missing nodes referenced only in relationships.
+    for rel in rels:
+        src_raw = rel.get("source")
+        tgt_raw = rel.get("target")
+        if not (src_raw and tgt_raw):
+            continue
+
+        src = str(src_raw)
+        tgt = str(tgt_raw)
+
+        relation = rel.get("relation") or rel.get("type") or "related"
+        edge_type_cfg: Optional[EdgeTypeConfig] = (edge_cfg or {}).get(relation)
+        src_type = edge_type_cfg.source_type if edge_type_cfg else None
+        tgt_type = edge_type_cfg.target_type if edge_type_cfg else None
+
+        # Ensure endpoints exist; if they are not part of entities, infer type/label.
+        ensure_node(src, fallback_type=src_type)
+        ensure_node(tgt, fallback_type=tgt_type)
+
+        # Build edge attributes.
+        eattrs: Dict[str, Any] = {"type": relation}
+        e_conf = rel.get("confidence")
+        if isinstance(e_conf, (int, float)):
+            eattrs["confidence"] = float(e_conf)
+            eattrs["weight"] = float(e_conf)
+
+        props = rel.get("properties") or {}
+        if isinstance(props, dict):
+            for key, payload in props.items():
+                if not isinstance(payload, dict):
+                    continue
+                val = payload.get("value")
+                conf_prop = payload.get("confidence")
+                eattrs[key] = val
+                if conf_prop is not None:
+                    eattrs[f"{key}_confidence"] = conf_prop
+
+        if G.has_edge(src, tgt):
+            # Preserve max weight if multiple relationships aggregate on the same pair.
+            if "weight" in eattrs:
+                new_w = eattrs["weight"]
+                existing_w = G[src][tgt].get("weight")
+                if existing_w is None or (isinstance(new_w, (int, float)) and new_w > existing_w):
+                    G[src][tgt]["weight"] = new_w
+            continue
+
+        G.add_edge(src, tgt, **eattrs)
+
+
+def build_graph(
+    records: List[Dict[str, Any]],
+    node_config: Optional[Dict[str, Any]] = None,
+    edge_config: Optional[Dict[str, EdgeTypeConfig]] = None,
+) -> Tuple[nx.Graph, BuildStats]:
+    """
+    Build a heterogeneous graph from combined JSON records.
+
+    For new topic-agnostic graphs (VTubers, games, etc.) this function expects
+    at least one record with explicit "entities" and "relationships" fields
+    and constructs the graph directly from that information. Legacy disease-
+    style records are still supported via the older NODE_TYPES-based branch.
+    """
     G = nx.Graph()
 
     for rec in records:
-        # Graph-style record with explicit entities/relationships
+        # Graph-style record with explicit entities/relationships (topic-agnostic).
         if "entities" in rec and "relationships" in rec:
-            entities = rec.get("entities") or []
-            rels = rec.get("relationships") or []
-            # add all entities
-            for ent in entities:
-                ent_id = ent.get("id") or ent.get("name")
-                ent_type = ent.get("type", "entity")
-                label = ent.get("name", ent_id)
-                attrs = {"type": ent_type, "label": label}
-                if ent.get("attributes"):
-                    attrs.update(ent["attributes"])
-                if ent_id:
-                    G.add_node(ent_id, **attrs)
-            # add edges
-            for rel in rels:
-                src = rel.get("source")
-                tgt = rel.get("target")
-                if not (src and tgt):
-                    continue
-                etype = rel.get("relation") or rel.get("type") or "related"
-                attrs = {"type": etype}
-                if rel.get("properties"):
-                    attrs.update(rel["properties"])
-                if G.has_edge(src, tgt):
-                    # don't override existing attributes
-                    continue
-                G.add_edge(src, tgt, **attrs)
+            _add_graph_document_record(G, rec, edge_cfg=edge_config)
             continue
 
         disease = (rec.get("disease_name") or rec.get("name") or "").strip()

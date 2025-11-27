@@ -17,58 +17,49 @@ from pathlib import Path
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Load SCHEMA_KEYS dynamically from schema/schema_keys.json
+# Load SCHEMA_KEYS dynamically (but never crash if missing)
 # ─────────────────────────────────────────────────────────────────────────────
 
 def _load_schema_keys() -> list[str]:
     """
-    Load the top-level keys used by all disease JSON records.
+    Load the top-level keys used by JSON records, if a schema file is available.
 
-    Returns
-    -------
-    List[str]
-        The ordered list of schema keys, extracted from the JSON file.
-
-    Raises
-    ------
-    FileNotFoundError
-    JSONDecodeError
-    ValueError
+    For backwards compatibility this function is intentionally forgiving:
+    if no schema can be found or parsed, it returns an empty list rather than
+    raising an exception. This keeps Module 6 usable for arbitrary topics.
     """
-    # Resolution order (aligned with other modules):
-    #   1) Explicit env var KG_SCHEMA_PATH
-    #   2) Env var KG_GRAPH_NAME -> data/{graph}/schema/schema_keys.json
-    #   3) Direct path at data/{graph}/schema/schema_keys.json if KG_GRAPH_NAME unset and cwd encodes it
     env_path = os.getenv("KG_SCHEMA_PATH")
     graph_name = os.getenv("KG_GRAPH_NAME")
 
-    candidates = []
+    candidates: list[Path] = []
     if env_path:
         candidates.append(Path(env_path))
     if graph_name:
+        # Newer topic-agnostic layout
+        candidates.append(Path("data") / graph_name / "config" / "schema_keys.json")
+        # Legacy layout (cancer project)
         candidates.append(Path("data") / graph_name / "schema" / "schema_keys.json")
 
-    # If neither env var is set, require a graph name to be provided.
-    if not graph_name and not env_path:
-        raise FileNotFoundError("Schema file not found. Set KG_SCHEMA_PATH or KG_GRAPH_NAME.")
+    for schema_path in candidates:
+        if not schema_path.exists():
+            continue
+        try:
+            data = json.loads(schema_path.read_text(encoding="utf-8"))
+        except Exception as e:
+            print(f"[WARN] Failed to parse schema keys from {schema_path}: {e}")
+            return []
 
-    schema_path = next((p for p in candidates if p and p.exists()), None)
-    if schema_path is None:
-        raise FileNotFoundError(
-            "Schema file not found. Set KG_SCHEMA_PATH or KG_GRAPH_NAME, "
-            "or ensure data/{graph_name}/schema/schema_keys.json exists."
-        )
+        if not isinstance(data, dict):
+            print(f"[WARN] schema_keys.json must contain an object, got {type(data)} at {schema_path}")
+            return []
 
-    data = json.loads(schema_path.read_text(encoding="utf-8"))
+        return list(data.keys())
 
-    if not isinstance(data, dict):
-        raise ValueError(f"schema_keys.json must contain a JSON object, got: {type(data)}")
-
-    # The schema keys are simply the key names of the object
-    return list(data.keys())
+    # No schema configured; this is expected for many topics.
+    return []
 
 
-# The authoritative list of schema keys for all modules
+# The (optional) list of schema keys for all modules.
 SCHEMA_KEYS: list[str] = _load_schema_keys()
 
 
