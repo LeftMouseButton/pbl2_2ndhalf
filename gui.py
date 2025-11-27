@@ -752,6 +752,10 @@ class KGConfigEditorApp:
             }
 
             entities_schema[node_type] = {
+                "id": {
+                    "value": "",
+                    "confidence": 0.0
+                },
                 "attributes": attr_obj,
                 "confidence": 0.0
             }

@@ -184,6 +184,7 @@ def load_prompt(prompt_path: Path, schema_content: str) -> str:
     if "{SCHEMA_JSON}" in prompt_text:
         return prompt_text.replace("{SCHEMA_JSON}", schema_content)
     return f"{prompt_text}\n\nSchema:\n{schema_content}"
+    #return f"{prompt_text}\n\n"
 
 
 def load_example(example_path: Path) -> str:
