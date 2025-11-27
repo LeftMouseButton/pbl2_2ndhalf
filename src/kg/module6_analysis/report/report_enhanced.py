@@ -30,6 +30,132 @@ try:
 except Exception:  # pragma: no cover
     np = None
 
+desc_community = """```
+Meaning
+- Automatic grouping of nodes into clusters based on connectivity.
+
+Purpose
+- Reveals natural subgroups—e.g., fandom communities, content “neighborhoods,” or thematic clusters.
+
+What can be learned
+- Which entities tend to appear in similar contexts
+- Which content types “bundle” together
+```\n"""
+desc_centrality_degree= """```
+Meaning
+- Measures how many direct connections a node has.
+
+Purpose
+- Identifies hubs — nodes that link to many others.
+
+What can be learned
+- Influential individuals
+- Popular items or frequently referenced content
+```\n"""
+desc_centrality_betweenness= """```
+Meaning
+- Measures how often a node lies on shortest paths between others.
+
+Purpose
+- Identifies “bridges” that connect different communities or knowledge areas.
+
+What can be learned
+- Which nodes act as connectors
+- Importance beyond raw popularity
+
+Example
+- “Hololive agency has high betweenness” → agency connects VTubers with events and sponsors.
+```\n"""
+desc_centrality_eigenvector= """```
+Meaning
+- Measures influence based on the influence of neighbors (like Google PageRank).
+
+Purpose
+- Shows nodes embedded in highly important regions of the graph.
+
+What can be learned
+- Which VTubers are connected to other high-profile nodes
+- Whether centrality spreads through a network of key players
+```\n"""
+desc_centrality_weighted= """```
+Meaning
+- The same centrality measures, but incorporating confidence values.
+- Confidence values are determined from user-input source reliability parameter (per source), and LLM-decided extraction confidence values (per attribute).
+
+Purpose
+- Improve accuracy of information when input data is suboptimal.
+```\n"""
+desc_linkprediction= """```
+Meaning
+- Predictions of edges that should exist but were not found in the input text.
+
+Purpose
+- Guides data collection, curation, and expansion of the graph.
+
+What can be learned
+- Potential VTuber collaborations
+- Likely relationships not captured in text
+- Areas where the graph is incomplete
+
+Example
+- Predicting Korone ↔ Pekora with score 0.650 suggests a strong expected link (shared content, games, history).
+```\n"""
+desc_statisticalvalidation= """```
+Meaning
+- Mathematical tests verifying how well the graph fits expected distributions (e.g., power law).
+
+Purpose
+- Confirms whether the graph behaves like a natural human-generated network.
+
+What can be learned
+- Whether the network resembles real social/knowledge networks
+- Whether centrality correlations are strong or weak
+- Whether graph structure is meaningful, not random
+
+Example
+- AIC comparison showing power-law fit → hierarchically structured VTuber ecosystems.
+- Spearman: whether nodes rank similarly across different centrality metrics.
+- - eg: If high-degree nodes also tend to have high betweenness → Spearman ρ is high.
+```\n"""
+desc_nodepropertyprediction= """```
+Meaning
+- Predicts unknown attributes using neighbors.
+
+Purpose
+- Shows whether the graph contains enough structure to infer missing information.
+
+What can be learned
+- Whether metadata can be inferred for incomplete pages
+- Which node types cluster strongly by property
+- How effective future GNNs might be on the dataset
+
+Example
+- Low accuracy (~14%) → current graph is too small for strong inferences; need more data.
+```\n"""
+desc_traversal_bfs= """```
+Meaning: Layer-by-layer expansion from a seed node.
+Purpose: Shows local neighborhoods and nearby relationships.
+Learning: Which nodes are conceptually close even if not adjacent.
+
+Example:
+BFS from Fubuki reaches many music releases and events within 3 steps.
+```\n"""
+desc_traversal_dfs= """```
+Meaning: Follows long chains of connectivity.
+Purpose: Reveals narrative or sequential connections.
+Learning: What long relationship chains look like in the graph.
+
+Example:
+DFS reveals long chains linking Fubuki → Mio → Suisei → Tetris → comet → AZKi.
+```\n"""
+desc_traversal_shortestpath= """```
+Meaning: Minimal number of hops between key nodes.
+Purpose: Shows how tightly clusters are linked.
+Learning: Central connectors between major VTubers.
+
+Example:
+Shortest path “Fubuki → Hololive → Suisei” indicates the agency bridges them cleanly.
+```\n"""
 
 def _topk_dict(
     scores: Dict[str, float],
@@ -88,7 +214,7 @@ def generate_enhanced_report(
     top_k: int,
     npp_result: Optional[Dict[str, Any]] = None,
     validation_results: Optional[Dict[str, Any]] = None,
-    title: str = "Enhanced Knowledge Graph Analysis Report",
+    title: str = "Knowledge Graph Analysis Report",
 ) -> str:
     """
     Build a detailed Markdown report string.
@@ -249,24 +375,6 @@ def generate_enhanced_report(
 
     # Title + Executive Summary
     sections.append(f"# {title}\n")
-    sections.append("## Executive Summary\n")
-    sections.append(f"- **{n_nodes}** nodes and **{n_edges}** edges\n")
-    sections.append(
-        f"- **{connectivity['n_components']}** connected components "
-        f"(giant component: {connectivity['giant_nodes']} nodes, "
-        f"{giant_fraction:.1%} of all nodes)\n"
-    )
-    sections.append(f"- **{len(comms)}** communities detected\n")
-    sections.append(f"- Average degree: **{avg_deg:.2f}**; density: **{density:.4f}**\n")
-
-    if comm_stats:
-        sections.append(
-            f"- Community sizes – mean: **{comm_stats.get('mean_size', 0.0):.1f}**, "
-            f"largest: **{comm_stats.get('largest', 0)}**, "
-            f"smallest: **{comm_stats.get('smallest', 0)}**\n"
-        )
-
-    sections.append("\n")
 
     # Graph Summary
     sections.append("## Graph Summary\n")
@@ -280,6 +388,13 @@ def generate_enhanced_report(
     )
     sections.append(f"- Average degree: **{avg_deg:.2f}**\n")
     sections.append(f"- Graph density: **{density:.4f}**\n")
+    sections.append(f"- **{len(comms)}** communities detected\n")
+    if comm_stats:
+        sections.append(
+            f"- Community sizes – mean: **{comm_stats.get('mean_size', 0.0):.1f}**, "
+            f"largest: **{comm_stats.get('largest', 0)}**, "
+            f"smallest: **{comm_stats.get('smallest', 0)}**\n"
+        )
 
     if connectivity.get("isolates"):
         iso_preview = ", ".join(connectivity["isolates"][:10])
@@ -289,20 +404,25 @@ def generate_enhanced_report(
 
     # Community Detection
     sections.append("## Community Detection\n")
+    sections.append(desc_community)
     sections.append(f"- Detected **{len(comms)}** communities.\n\n")
     sections.append(leaders_table + "\n\n")
 
     # Centrality
     sections.append("## Centrality (Top Hubs)\n")
     sections.append("### Degree (Unweighted)\n")
+    sections.append(desc_centrality_degree)
     sections.append(degree_table + "\n\n")
     sections.append("### Betweenness (Unweighted)\n")
+    sections.append(desc_centrality_betweenness)
     sections.append(betw_table + "\n\n")
     sections.append("### Eigenvector (Unweighted)\n")
+    sections.append(desc_centrality_eigenvector)
     sections.append(eig_table + "\n\n")
 
     if top_deg_w or top_btw_w or top_eig_w:
         sections.append("### Degree (Weighted)\n")
+        sections.append(desc_centrality_weighted)
         sections.append(_fmt_table(top_deg_w, ["label", "type", "score"]) + "\n\n")
         sections.append("### Betweenness (Weighted)\n")
         sections.append(_fmt_table(top_btw_w, ["label", "type", "score"]) + "\n\n")
@@ -311,10 +431,12 @@ def generate_enhanced_report(
 
     # Link Prediction
     sections.append("## Link Prediction (Top Suggestions)\n")
+    sections.append(desc_linkprediction)
     sections.append(lp_table_md + "\n\n")
 
     # Statistical Validation
     sections.append("## Statistical Validation\n")
+    sections.append(desc_statisticalvalidation)
 
     if validation_results:
         dd = validation_results.get("degree_distribution", {})
@@ -363,6 +485,7 @@ def generate_enhanced_report(
 
     # Node Property Prediction
     sections.append("## Node Property Prediction\n")
+    sections.append(desc_nodepropertyprediction)
     if npp_result:
         sections.append(
             f"- Neighbor-majority accuracy: "
@@ -379,14 +502,17 @@ def generate_enhanced_report(
 
     if bfs_text:
         sections.append("### BFS (depth ≤ 3) from seeds\n")
+        sections.append(desc_traversal_bfs)
         sections.append("```text\n" + bfs_text.strip() + "\n```\n\n")
 
     if dfs_text:
         sections.append("### DFS (preorder) from seeds\n")
+        sections.append(desc_traversal_dfs)
         sections.append("```text\n" + dfs_text.strip() + "\n```\n\n")
 
     if shortest_paths:
         sections.append("### Shortest paths among seeds\n")
+        sections.append(desc_traversal_shortestpath)
         sections.append("```text\n")
         for p in shortest_paths:
             sections.append(p + "\n")
