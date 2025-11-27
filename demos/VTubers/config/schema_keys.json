@@ -1,0 +1,158 @@
+{
+  "entities": {
+    "vtuber": {
+      "id": {
+        "value": "",
+        "confidence": 0.0
+      },
+      "attributes": {
+        "name": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "synonyms": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "description": {
+          "value": "",
+          "confidence": 0.0
+        }
+      },
+      "confidence": 0.0
+    },
+    "agency": {
+      "id": {
+        "value": "",
+        "confidence": 0.0
+      },
+      "attributes": {
+        "name": {
+          "value": "",
+          "confidence": 0.0
+        }
+      },
+      "confidence": 0.0
+    },
+    "game": {
+      "id": {
+        "value": "",
+        "confidence": 0.0
+      },
+      "attributes": {
+        "name": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "genre": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "developer": {
+          "value": "",
+          "confidence": 0.0
+        }
+      },
+      "confidence": 0.0
+    },
+    "music_release": {
+      "id": {
+        "value": "",
+        "confidence": 0.0
+      },
+      "attributes": {
+        "name": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "genre": {
+          "value": "",
+          "confidence": 0.0
+        }
+      },
+      "confidence": 0.0
+    },
+    "event": {
+      "id": {
+        "value": "",
+        "confidence": 0.0
+      },
+      "attributes": {
+        "name": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "date": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "type": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "location": {
+          "value": "",
+          "confidence": 0.0
+        }
+      },
+      "confidence": 0.0
+    }
+  },
+  "relationships": {
+    "belongs_to": {
+      "source_type": "vtuber",
+      "target_type": "agency",
+      "properties": {},
+      "confidence": 0.0
+    },
+    "collaborated_with": {
+      "source_type": "vtuber",
+      "target_type": "vtuber",
+      "properties": {
+        "hours": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "times": {
+          "value": "",
+          "confidence": 0.0
+        }
+      },
+      "confidence": 0.0
+    },
+    "played": {
+      "source_type": "vtuber",
+      "target_type": "game",
+      "properties": {
+        "hours_streamed": {
+          "value": "",
+          "confidence": 0.0
+        }
+      },
+      "confidence": 0.0
+    },
+    "released": {
+      "source_type": "vtuber",
+      "target_type": "music_release",
+      "properties": {},
+      "confidence": 0.0
+    },
+    "performed_at": {
+      "source_type": "vtuber",
+      "target_type": "event",
+      "properties": {},
+      "confidence": 0.0
+    },
+    "held": {
+      "source_type": "agency",
+      "target_type": "event",
+      "properties": {
+        "description": {
+          "value": "",
+          "confidence": 0.0
+        }
+      },
+      "confidence": 0.0
+    }
+  }
+}

@@ -1,0 +1,1173 @@
+{
+  "entities": [
+    {
+      "id": "Hoshimachi Suisei",
+      "type": "vtuber",
+      "name": "Hoshimachi Suisei",
+      "confidence": 1.0,
+      "attributes": {
+        "name": {
+          "value": "Hoshimachi Suisei",
+          "confidence": 1.0
+        },
+        "synonyms": {
+          "value": "星街すいせい",
+          "confidence": 0.9
+        },
+        "description": {
+          "value": "Japanese singer and virtual YouTuber",
+          "confidence": 0.9
+        },
+        "youtube_subscribers": {
+          "value": "2.11 million",
+          "confidence": 0.8
+        },
+        "youtube_views": {
+          "value": "731 million",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "Hololive Production",
+      "type": "agency",
+      "name": "Hololive Production",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "Hololive Production",
+          "confidence": 0.0
+        },
+        "confidence": 0.9
+      }
+    },
+    {
+      "id": "INoNaKa Music",
+      "type": "music_label",
+      "name": "INoNaKa Music",
+      "confidence": 0.9,
+      "attributes": {
+        "name": "INoNaKa Music",
+        "confidence": 0.9
+      }
+    },
+    {
+      "id": "Next Color Planet",
+      "type": "music_release",
+      "name": "Next Color Planet",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "Next Color Planet",
+          "confidence": 0.0
+        },
+        "confidence": 0.9,
+        "release_date": {
+          "value": "March 2020",
+          "confidence": 0.8
+        },
+        "genre": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Ghost",
+      "type": "music_release",
+      "name": "Ghost",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "Ghost",
+          "confidence": 0.0
+        },
+        "confidence": 0.9,
+        "release_date": {
+          "value": "April 2021",
+          "confidence": 0.8
+        },
+        "genre": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Still Still Stellar",
+      "type": "music_release",
+      "name": "Still Still Stellar",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "Still Still Stellar",
+          "confidence": 0.0
+        },
+        "confidence": 0.9,
+        "release_date": {
+          "value": "29 September 2021",
+          "confidence": 0.8
+        },
+        "genre": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Budokan",
+      "type": "event",
+      "name": "Budokan",
+      "confidence": 0.8,
+      "attributes": {
+        "name": {
+          "value": "Budokan",
+          "confidence": 0.0
+        },
+        "confidence": 0.8,
+        "date": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "type": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "location": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Comet",
+      "type": "music_release",
+      "name": "Comet",
+      "confidence": 0.8,
+      "attributes": {
+        "name": {
+          "value": "Comet",
+          "confidence": 0.0
+        },
+        "confidence": 0.8,
+        "release_date": {
+          "value": "22 November 2018",
+          "confidence": 0.7
+        },
+        "genre": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Tenkyū, Suisei wa Yoru o Mataide",
+      "type": "music_release",
+      "name": "Tenkyū, Suisei wa Yoru o Mataide",
+      "confidence": 0.8,
+      "attributes": {
+        "name": {
+          "value": "Tenkyū, Suisei wa Yoru o Mataide",
+          "confidence": 0.0
+        },
+        "confidence": 0.8,
+        "synonyms": {
+          "value": "天球、彗星は夜を跨いで",
+          "confidence": 0.7
+        },
+        "release_date": {
+          "value": "22 March 2019",
+          "confidence": 0.7
+        },
+        "genre": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "AZKi",
+      "type": "vtuber",
+      "name": "AZKi",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "AZKi",
+          "confidence": 0.0
+        },
+        "confidence": 0.7,
+        "synonyms": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "description": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Cover Corp.",
+      "type": "company",
+      "name": "Cover Corp.",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "Cover Corp.",
+        "confidence": 0.7
+      }
+    },
+    {
+      "id": "Toyosu PIT",
+      "type": "location",
+      "name": "Toyosu PIT",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "Toyosu PIT",
+        "confidence": 0.7
+      }
+    },
+    {
+      "id": "Hololive 1st fes. Nonstop Story",
+      "type": "event",
+      "name": "Hololive 1st fes. Nonstop Story",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Hololive 1st fes. Nonstop Story",
+          "confidence": 0.0
+        },
+        "confidence": 0.7,
+        "date": {
+          "value": "24 January 2020",
+          "confidence": 0.6
+        },
+        "type": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "location": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Bluerose / Comet",
+      "type": "music_release",
+      "name": "Bluerose / Comet",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Bluerose / Comet",
+          "confidence": 0.0
+        },
+        "confidence": 0.7,
+        "release_date": {
+          "value": "25 June",
+          "confidence": 0.6
+        },
+        "genre": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Kakero / Tenkyū, Suisei wa Yoru o Mataide",
+      "type": "music_release",
+      "name": "Kakero / Tenkyū, Suisei wa Yoru o Mataide",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Kakero / Tenkyū, Suisei wa Yoru o Mataide",
+          "confidence": 0.0
+        },
+        "confidence": 0.7,
+        "release_date": {
+          "value": "8 July",
+          "confidence": 0.6
+        },
+        "genre": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Jibun Katte Dazzling / Bye Bye Rainy",
+      "type": "music_release",
+      "name": "Jibun Katte Dazzling / Bye Bye Rainy",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Jibun Katte Dazzling / Bye Bye Rainy",
+          "confidence": 0.0
+        },
+        "confidence": 0.7,
+        "release_date": {
+          "value": "21 August",
+          "confidence": 0.6
+        },
+        "genre": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "STELLAR into the GALAXY",
+      "type": "event",
+      "name": "STELLAR into the GALAXY",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "STELLAR into the GALAXY",
+          "confidence": 0.0
+        },
+        "confidence": 0.7,
+        "date": {
+          "value": "21 October 2021",
+          "confidence": 0.6
+        },
+        "location": {
+          "value": "Tokyo's Toyosu PIT",
+          "confidence": 0.6
+        },
+        "type": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Inui Toko",
+      "type": "vtuber",
+      "name": "Inui Toko",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Inui Toko",
+          "confidence": 0.0
+        },
+        "confidence": 0.7,
+        "synonyms": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "description": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Midnight Grand Orchestra",
+      "type": "music_group",
+      "name": "Midnight Grand Orchestra",
+      "confidence": 0.8,
+      "attributes": {
+        "name": "Midnight Grand Orchestra",
+        "confidence": 0.8
+      }
+    },
+    {
+      "id": "Taku Inoue",
+      "type": "person",
+      "name": "Taku Inoue",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "Taku Inoue",
+        "confidence": 0.7,
+        "description": {
+          "value": "composer",
+          "confidence": 0.6
+        }
+      }
+    },
+    {
+      "id": "Toy's Factory",
+      "type": "company",
+      "name": "Toy's Factory",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "Toy's Factory",
+        "confidence": 0.7
+      }
+    },
+    {
+      "id": "SOS",
+      "type": "music_release",
+      "name": "SOS",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "SOS",
+          "confidence": 0.0
+        },
+        "confidence": 0.7,
+        "release_date": {
+          "value": "13 April",
+          "confidence": 0.6
+        },
+        "genre": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "The First Take",
+      "type": "channel",
+      "name": "The First Take",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "The First Take",
+        "confidence": 0.7
+      }
+    },
+    {
+      "id": "Stellar Stellar",
+      "type": "music_release",
+      "name": "Stellar Stellar",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Stellar Stellar",
+          "confidence": 0.0
+        },
+        "confidence": 0.7,
+        "genre": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Specter",
+      "type": "music_release",
+      "name": "Specter",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Specter",
+          "confidence": 0.0
+        },
+        "confidence": 0.7,
+        "release_date": {
+          "value": "25 January 2023",
+          "confidence": 0.6
+        },
+        "genre": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Shout in Crisis",
+      "type": "event",
+      "name": "Shout in Crisis",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Shout in Crisis",
+          "confidence": 0.0
+        },
+        "confidence": 0.7,
+        "date": {
+          "value": "28 January",
+          "confidence": 0.6
+        },
+        "location": {
+          "value": "Tokyo Garden Theatre",
+          "confidence": 0.6
+        },
+        "type": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Bibbidiba",
+      "type": "music_release",
+      "name": "Bibbidiba",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Bibbidiba",
+          "confidence": 0.0
+        },
+        "confidence": 0.7,
+        "genre": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Spectra of Nova",
+      "type": "event",
+      "name": "Spectra of Nova",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Spectra of Nova",
+          "confidence": 0.0
+        },
+        "confidence": 0.7,
+        "date": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "type": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "location": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Hoshimatic Project",
+      "type": "music_group",
+      "name": "Hoshimatic Project",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "Hoshimatic Project",
+        "confidence": 0.7
+      }
+    },
+    {
+      "id": "KAF",
+      "type": "vtuber",
+      "name": "KAF",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "KAF",
+          "confidence": 0.0
+        },
+        "confidence": 0.7,
+        "synonyms": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "description": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Shiranui Constructions",
+      "type": "music_group",
+      "name": "Shiranui Constructions",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "Shiranui Constructions",
+        "confidence": 0.7
+      }
+    },
+    {
+      "id": "Udagawachō",
+      "type": "location",
+      "name": "Udagawachō",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "Udagawachō",
+        "confidence": 0.7
+      }
+    },
+    {
+      "id": "Shibuya",
+      "type": "location",
+      "name": "Shibuya",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "Shibuya",
+        "confidence": 0.7
+      }
+    },
+    {
+      "id": "Countdown Japan 24/25",
+      "type": "event",
+      "name": "Countdown Japan 24/25",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Countdown Japan 24/25",
+          "confidence": 0.0
+        },
+        "confidence": 0.7,
+        "date": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "type": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "location": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Zutomayo",
+      "type": "music_artist",
+      "name": "Zutomayo",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "Zutomayo",
+        "confidence": 0.7
+      }
+    },
+    {
+      "id": "Sumika",
+      "type": "music_artist",
+      "name": "Sumika",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "Sumika",
+        "confidence": 0.7
+      }
+    },
+    {
+      "id": "YouTube Fanfest 2024",
+      "type": "event",
+      "name": "YouTube Fanfest 2024",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "YouTube Fanfest 2024",
+          "confidence": 0.0
+        },
+        "confidence": 0.7,
+        "date": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "type": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "location": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Hajime Syacho",
+      "type": "youtuber",
+      "name": "Hajime Syacho",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "Hajime Syacho",
+        "confidence": 0.7
+      }
+    },
+    {
+      "id": "Hikakin",
+      "type": "youtuber",
+      "name": "Hikakin",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "Hikakin",
+        "confidence": 0.7
+      }
+    },
+    {
+      "id": "Nippon Budokan",
+      "type": "location",
+      "name": "Nippon Budokan",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "Nippon Budokan",
+        "confidence": 0.7
+      }
+    },
+    {
+      "id": "Forbes Japan",
+      "type": "organization",
+      "name": "Forbes Japan",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "Forbes Japan",
+        "confidence": 0.7
+      }
+    },
+    {
+      "id": "Hololive presents Hoshimachi Suisei's MUSIC SPACE",
+      "type": "radio_program",
+      "name": "Hololive presents Hoshimachi Suisei's MUSIC SPACE",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "Hololive presents Hoshimachi Suisei's MUSIC SPACE",
+        "confidence": 0.7,
+        "synonyms": {
+          "value": "ホロライブ presents 星街すいせいのMUSIC SPACE",
+          "confidence": 0.6
+        }
+      }
+    },
+    {
+      "id": "Nippon Cultural Broadcasting",
+      "type": "company",
+      "name": "Nippon Cultural Broadcasting",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "Nippon Cultural Broadcasting",
+        "confidence": 0.7
+      }
+    },
+    {
+      "id": "Encouraging Japan with Music!",
+      "type": "radio_program",
+      "name": "Encouraging Japan with Music!",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "Encouraging Japan with Music!",
+        "confidence": 0.7,
+        "synonyms": {
+          "value": "音楽で日本をアゲる",
+          "confidence": 0.6
+        }
+      }
+    },
+    {
+      "id": "Mokota Mememe",
+      "type": "vtuber",
+      "name": "Mokota Mememe",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Mokota Mememe",
+          "confidence": 0.0
+        },
+        "confidence": 0.7,
+        "synonyms": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "description": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Hanabasami Kyō",
+      "type": "vtuber",
+      "name": "Hanabasami Kyō",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Hanabasami Kyō",
+          "confidence": 0.0
+        },
+        "confidence": 0.7,
+        "synonyms": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "description": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Hoshimachi Suisei & Tadokoro Azusa's Parallel Scramble",
+      "type": "radio_program",
+      "name": "Hoshimachi Suisei & Tadokoro Azusa's Parallel Scramble",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "Hoshimachi Suisei & Tadokoro Azusa's Parallel Scramble",
+        "confidence": 0.7,
+        "synonyms": {
+          "value": "星街すいせい・田所あずさ　平行線すくらんぶる",
+          "confidence": 0.6
+        }
+      }
+    },
+    {
+      "id": "Azusa Tadokoro",
+      "type": "person",
+      "name": "Azusa Tadokoro",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "Azusa Tadokoro",
+        "confidence": 0.7,
+        "description": {
+          "value": "voice actress",
+          "confidence": 0.6
+        }
+      }
+    },
+    {
+      "id": "SCHOOL OF LOCK! Music Line",
+      "type": "radio_program",
+      "name": "SCHOOL OF LOCK! Music Line",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "SCHOOL OF LOCK! Music Line",
+        "confidence": 0.7
+      }
+    },
+    {
+      "id": "VR! ~VTuber Music Radio~",
+      "type": "radio_program",
+      "name": "VR! ~VTuber Music Radio~",
+      "confidence": 0.7,
+      "attributes": {
+        "name": "VR! ~VTuber Music Radio~",
+        "confidence": 0.7
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "affiliated_with",
+      "target": "Hololive Production",
+      "confidence": 0.9,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "affiliated_with",
+      "target": "INoNaKa Music",
+      "confidence": 0.8,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "released",
+      "target": "Next Color Planet",
+      "confidence": 0.9,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "released",
+      "target": "Ghost",
+      "confidence": 0.9,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "released",
+      "target": "Still Still Stellar",
+      "confidence": 0.9,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "dreamed_of_performing_at",
+      "target": "Budokan",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "released",
+      "target": "Comet",
+      "confidence": 0.8,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "released",
+      "target": "Tenkyū, Suisei wa Yoru o Mataide",
+      "confidence": 0.8,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "collaborated_with",
+      "target": "AZKi",
+      "confidence": 0.7,
+      "properties": {
+        "hours": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "times": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "performed_at",
+      "target": "Hololive 1st fes. Nonstop Story",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "released",
+      "target": "Bluerose / Comet",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "released",
+      "target": "Kakero / Tenkyū, Suisei wa Yoru o Mataide",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "released",
+      "target": "Jibun Katte Dazzling / Bye Bye Rainy",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "performed_at",
+      "target": "STELLAR into the GALAXY",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "guest_appearance",
+      "target": "Inui Toko",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Midnight Grand Orchestra",
+      "relation": "composed_of",
+      "target": "Hoshimachi Suisei",
+      "confidence": 0.8,
+      "properties": {}
+    },
+    {
+      "source": "Midnight Grand Orchestra",
+      "relation": "composed_of",
+      "target": "Taku Inoue",
+      "confidence": 0.8,
+      "properties": {}
+    },
+    {
+      "source": "Midnight Grand Orchestra",
+      "relation": "signed_to",
+      "target": "Toy's Factory",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Midnight Grand Orchestra",
+      "relation": "released",
+      "target": "SOS",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "performed_on",
+      "target": "The First Take",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "performed",
+      "target": "Stellar Stellar",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "released",
+      "target": "Specter",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "performed_at",
+      "target": "Shout in Crisis",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "released",
+      "target": "Bibbidiba",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "announced",
+      "target": "Spectra of Nova",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Spectra of Nova",
+      "relation": "featured",
+      "target": "Hoshimatic Project",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Spectra of Nova",
+      "relation": "featured",
+      "target": "KAF",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Spectra of Nova",
+      "relation": "featured",
+      "target": "Shiranui Constructions",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "performed_in",
+      "target": "Udagawachō",
+      "confidence": 0.7,
+      "properties": {
+        "location": {
+          "value": "Shibuya",
+          "confidence": 0.6
+        }
+      }
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "performed_at",
+      "target": "Countdown Japan 24/25",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Countdown Japan 24/25",
+      "relation": "featured",
+      "target": "Zutomayo",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Countdown Japan 24/25",
+      "relation": "featured",
+      "target": "Sumika",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "appeared_at",
+      "target": "YouTube Fanfest 2024",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "YouTube Fanfest 2024",
+      "relation": "featured",
+      "target": "Hajime Syacho",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "YouTube Fanfest 2024",
+      "relation": "featured",
+      "target": "Hikakin",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "performed_at",
+      "target": "Nippon Budokan",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "recognized_by",
+      "target": "Forbes Japan",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "hosted",
+      "target": "Hololive presents Hoshimachi Suisei's MUSIC SPACE",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "appeared_on",
+      "target": "Encouraging Japan with Music!",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Encouraging Japan with Music!",
+      "relation": "featured",
+      "target": "Mokota Mememe",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Encouraging Japan with Music!",
+      "relation": "featured",
+      "target": "Hanabasami Kyō",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "hosted",
+      "target": "Hoshimachi Suisei & Tadokoro Azusa's Parallel Scramble",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "collaborated_with",
+      "target": "Azusa Tadokoro",
+      "confidence": 0.7,
+      "properties": {
+        "hours": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "times": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "appeared_on",
+      "target": "SCHOOL OF LOCK! Music Line",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hoshimachi Suisei",
+      "relation": "appeared_on",
+      "target": "VR! ~VTuber Music Radio~",
+      "confidence": 0.7,
+      "properties": {}
+    }
+  ]
+}

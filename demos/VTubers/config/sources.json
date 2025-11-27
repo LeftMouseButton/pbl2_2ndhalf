@@ -1,0 +1,10 @@
+{
+  "medlineplus": {
+    "enabled": false,
+    "weight": 1.0
+  },
+  "wikipedia": {
+    "enabled": true,
+    "weight": 0.8
+  }
+}

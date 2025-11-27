@@ -1,0 +1,982 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd"><key id="d44" for="edge" attr.name="role_confidence" attr.type="double"/>
+<key id="d43" for="edge" attr.name="role" attr.type="string"/>
+<key id="d42" for="edge" attr.name="location_confidence" attr.type="double"/>
+<key id="d41" for="edge" attr.name="location" attr.type="string"/>
+<key id="d40" for="edge" attr.name="times_confidence" attr.type="double"/>
+<key id="d39" for="edge" attr.name="times" attr.type="string"/>
+<key id="d38" for="edge" attr.name="hours_confidence" attr.type="double"/>
+<key id="d37" for="edge" attr.name="hours" attr.type="string"/>
+<key id="d36" for="edge" attr.name="weight" attr.type="double"/>
+<key id="d35" for="edge" attr.name="confidence" attr.type="double"/>
+<key id="d34" for="edge" attr.name="type" attr.type="string"/>
+<key id="d33" for="node" attr.name="nickname_confidence" attr.type="double"/>
+<key id="d32" for="node" attr.name="nickname" attr.type="string"/>
+<key id="d31" for="node" attr.name="game_confidence" attr.type="double"/>
+<key id="d30" for="node" attr.name="game" attr.type="string"/>
+<key id="d29" for="node" attr.name="developer_confidence" attr.type="double"/>
+<key id="d28" for="node" attr.name="developer" attr.type="string"/>
+<key id="d27" for="node" attr.name="group_confidence" attr.type="double"/>
+<key id="d26" for="node" attr.name="group" attr.type="string"/>
+<key id="d25" for="node" attr.name="generation_confidence" attr.type="double"/>
+<key id="d24" for="node" attr.name="generation" attr.type="string"/>
+<key id="d23" for="node" attr.name="agency_confidence" attr.type="double"/>
+<key id="d22" for="node" attr.name="agency" attr.type="string"/>
+<key id="d21" for="node" attr.name="location_confidence" attr.type="double"/>
+<key id="d20" for="node" attr.name="location" attr.type="string"/>
+<key id="d19" for="node" attr.name="type_confidence" attr.type="double"/>
+<key id="d18" for="node" attr.name="date_confidence" attr.type="double"/>
+<key id="d17" for="node" attr.name="date" attr.type="string"/>
+<key id="d16" for="node" attr.name="genre_confidence" attr.type="double"/>
+<key id="d15" for="node" attr.name="genre" attr.type="string"/>
+<key id="d14" for="node" attr.name="release_date_confidence" attr.type="double"/>
+<key id="d13" for="node" attr.name="release_date" attr.type="string"/>
+<key id="d12" for="node" attr.name="youtube_views_confidence" attr.type="double"/>
+<key id="d11" for="node" attr.name="youtube_views" attr.type="string"/>
+<key id="d10" for="node" attr.name="youtube_subscribers_confidence" attr.type="double"/>
+<key id="d9" for="node" attr.name="youtube_subscribers" attr.type="string"/>
+<key id="d8" for="node" attr.name="description_confidence" attr.type="double"/>
+<key id="d7" for="node" attr.name="description" attr.type="string"/>
+<key id="d6" for="node" attr.name="synonyms_confidence" attr.type="double"/>
+<key id="d5" for="node" attr.name="synonyms" attr.type="string"/>
+<key id="d4" for="node" attr.name="name_confidence" attr.type="double"/>
+<key id="d3" for="node" attr.name="name" attr.type="string"/>
+<key id="d2" for="node" attr.name="confidence" attr.type="double"/>
+<key id="d1" for="node" attr.name="label" attr.type="string"/>
+<key id="d0" for="node" attr.name="type" attr.type="string"/>
+<graph edgedefault="undirected"><node id="hoshimachi_suisei">
+  <data key="d0">vtuber</data>
+  <data key="d1">Hoshimachi Suisei</data>
+  <data key="d2">0.8</data>
+  <data key="d3">Hoshimachi Suisei</data>
+  <data key="d4">0.8</data>
+  <data key="d5">星街すいせい</data>
+  <data key="d6">0.72</data>
+  <data key="d7">Japanese singer and virtual YouTuber</data>
+  <data key="d8">0.72</data>
+  <data key="d9">2.11 million</data>
+  <data key="d10">0.64</data>
+  <data key="d11">731 million</data>
+  <data key="d12">0.64</data>
+</node>
+<node id="hololive_production">
+  <data key="d0">agency</data>
+  <data key="d1">Hololive Production</data>
+  <data key="d2">0.81</data>
+  <data key="d3">Hololive Production</data>
+  <data key="d4">0.45</data>
+</node>
+<node id="inonaka_music">
+  <data key="d0">music_label</data>
+  <data key="d1">INoNaKa Music</data>
+  <data key="d2">0.72</data>
+</node>
+<node id="next_color_planet">
+  <data key="d0">music_release</data>
+  <data key="d1">Next Color Planet</data>
+  <data key="d2">0.72</data>
+  <data key="d3">Next Color Planet</data>
+  <data key="d4">0.0</data>
+  <data key="d13">March 2020</data>
+  <data key="d14">0.64</data>
+  <data key="d15"></data>
+  <data key="d16">0.0</data>
+</node>
+<node id="ghost">
+  <data key="d0">music_release</data>
+  <data key="d1">Ghost</data>
+  <data key="d2">0.72</data>
+  <data key="d3">Ghost</data>
+  <data key="d4">0.0</data>
+  <data key="d13">April 2021</data>
+  <data key="d14">0.64</data>
+  <data key="d15"></data>
+  <data key="d16">0.0</data>
+</node>
+<node id="still_still_stellar">
+  <data key="d0">music_release</data>
+  <data key="d1">Still Still Stellar</data>
+  <data key="d2">0.72</data>
+  <data key="d3">Still Still Stellar</data>
+  <data key="d4">0.0</data>
+  <data key="d13">29 September 2021</data>
+  <data key="d14">0.64</data>
+  <data key="d15"></data>
+  <data key="d16">0.0</data>
+</node>
+<node id="budokan">
+  <data key="d0"></data>
+  <data key="d1">Budokan</data>
+  <data key="d2">0.64</data>
+  <data key="d3">Budokan</data>
+  <data key="d4">0.0</data>
+  <data key="d17"></data>
+  <data key="d18">0.0</data>
+  <data key="d19">0.0</data>
+  <data key="d20"></data>
+  <data key="d21">0.0</data>
+</node>
+<node id="comet">
+  <data key="d0">music_release</data>
+  <data key="d1">Comet</data>
+  <data key="d2">0.64</data>
+  <data key="d3">Comet</data>
+  <data key="d4">0.0</data>
+  <data key="d13">22 November 2018</data>
+  <data key="d14">0.56</data>
+  <data key="d15"></data>
+  <data key="d16">0.0</data>
+</node>
+<node id="tenkyū_suisei_wa_yoru_o_mataide">
+  <data key="d0">music_release</data>
+  <data key="d1">Tenkyū, Suisei wa Yoru o Mataide</data>
+  <data key="d2">0.64</data>
+  <data key="d3">Tenkyū, Suisei wa Yoru o Mataide</data>
+  <data key="d4">0.0</data>
+  <data key="d5">天球、彗星は夜を跨いで</data>
+  <data key="d6">0.56</data>
+  <data key="d13">22 March 2019</data>
+  <data key="d14">0.56</data>
+  <data key="d15"></data>
+  <data key="d16">0.0</data>
+</node>
+<node id="azki">
+  <data key="d0">vtuber</data>
+  <data key="d1">AZKi</data>
+  <data key="d2">0.56</data>
+  <data key="d3">AZKi</data>
+  <data key="d4">0.0</data>
+  <data key="d5"></data>
+  <data key="d6">0.0</data>
+  <data key="d7"></data>
+  <data key="d8">0.0</data>
+</node>
+<node id="cover_corp">
+  <data key="d0">company</data>
+  <data key="d1">Cover Corp.</data>
+  <data key="d2">0.56</data>
+</node>
+<node id="toyosu_pit">
+  <data key="d0">location</data>
+  <data key="d1">Toyosu PIT</data>
+  <data key="d2">0.56</data>
+</node>
+<node id="hololive_1st_fes_nonstop_story">
+  <data key="d0">event</data>
+  <data key="d1">Hololive 1st fes. Nonstop Story</data>
+  <data key="d2">0.56</data>
+  <data key="d3">Hololive 1st fes. Nonstop Story</data>
+  <data key="d4">0.0</data>
+  <data key="d17">24 January 2020</data>
+  <data key="d18">0.48</data>
+  <data key="d19">0.0</data>
+  <data key="d20"></data>
+  <data key="d21">0.0</data>
+</node>
+<node id="bluerose__comet">
+  <data key="d0">music_release</data>
+  <data key="d1">Bluerose / Comet</data>
+  <data key="d2">0.56</data>
+  <data key="d3">Bluerose / Comet</data>
+  <data key="d4">0.0</data>
+  <data key="d13">25 June</data>
+  <data key="d14">0.48</data>
+  <data key="d15"></data>
+  <data key="d16">0.0</data>
+</node>
+<node id="kakero__tenkyū_suisei_wa_yoru_o_mataide">
+  <data key="d0">music_release</data>
+  <data key="d1">Kakero / Tenkyū, Suisei wa Yoru o Mataide</data>
+  <data key="d2">0.56</data>
+  <data key="d3">Kakero / Tenkyū, Suisei wa Yoru o Mataide</data>
+  <data key="d4">0.0</data>
+  <data key="d13">8 July</data>
+  <data key="d14">0.48</data>
+  <data key="d15"></data>
+  <data key="d16">0.0</data>
+</node>
+<node id="jibun_katte_dazzling__bye_bye_rainy">
+  <data key="d0">music_release</data>
+  <data key="d1">Jibun Katte Dazzling / Bye Bye Rainy</data>
+  <data key="d2">0.56</data>
+  <data key="d3">Jibun Katte Dazzling / Bye Bye Rainy</data>
+  <data key="d4">0.0</data>
+  <data key="d13">21 August</data>
+  <data key="d14">0.48</data>
+  <data key="d15"></data>
+  <data key="d16">0.0</data>
+</node>
+<node id="stellar_into_the_galaxy">
+  <data key="d0">event</data>
+  <data key="d1">STELLAR into the GALAXY</data>
+  <data key="d2">0.56</data>
+  <data key="d3">STELLAR into the GALAXY</data>
+  <data key="d4">0.0</data>
+  <data key="d17">21 October 2021</data>
+  <data key="d18">0.48</data>
+  <data key="d20">Tokyo's Toyosu PIT</data>
+  <data key="d21">0.48</data>
+  <data key="d19">0.0</data>
+</node>
+<node id="inui_toko">
+  <data key="d0">vtuber</data>
+  <data key="d1">Inui Toko</data>
+  <data key="d2">0.56</data>
+  <data key="d3">Inui Toko</data>
+  <data key="d4">0.0</data>
+  <data key="d5"></data>
+  <data key="d6">0.0</data>
+  <data key="d7"></data>
+  <data key="d8">0.0</data>
+</node>
+<node id="midnight_grand_orchestra">
+  <data key="d0">music_group</data>
+  <data key="d1">Midnight Grand Orchestra</data>
+  <data key="d2">0.64</data>
+</node>
+<node id="taku_inoue">
+  <data key="d0">person</data>
+  <data key="d1">Taku Inoue</data>
+  <data key="d2">0.56</data>
+  <data key="d7">composer</data>
+  <data key="d8">0.48</data>
+</node>
+<node id="toys_factory">
+  <data key="d0">company</data>
+  <data key="d1">Toy's Factory</data>
+  <data key="d2">0.56</data>
+</node>
+<node id="sos">
+  <data key="d0">music_release</data>
+  <data key="d1">SOS</data>
+  <data key="d2">0.56</data>
+  <data key="d3">SOS</data>
+  <data key="d4">0.0</data>
+  <data key="d13">13 April</data>
+  <data key="d14">0.48</data>
+  <data key="d15"></data>
+  <data key="d16">0.0</data>
+</node>
+<node id="the_first_take">
+  <data key="d0">channel</data>
+  <data key="d1">The First Take</data>
+  <data key="d2">0.56</data>
+</node>
+<node id="stellar_stellar">
+  <data key="d0">music_release</data>
+  <data key="d1">Stellar Stellar</data>
+  <data key="d2">0.56</data>
+  <data key="d3">Stellar Stellar</data>
+  <data key="d4">0.0</data>
+  <data key="d15"></data>
+  <data key="d16">0.0</data>
+</node>
+<node id="specter">
+  <data key="d0">music_release</data>
+  <data key="d1">Specter</data>
+  <data key="d2">0.56</data>
+  <data key="d3">Specter</data>
+  <data key="d4">0.0</data>
+  <data key="d13">25 January 2023</data>
+  <data key="d14">0.48</data>
+  <data key="d15"></data>
+  <data key="d16">0.0</data>
+</node>
+<node id="shout_in_crisis">
+  <data key="d0">event</data>
+  <data key="d1">Shout in Crisis</data>
+  <data key="d2">0.56</data>
+  <data key="d3">Shout in Crisis</data>
+  <data key="d4">0.0</data>
+  <data key="d17">28 January</data>
+  <data key="d18">0.48</data>
+  <data key="d20">Tokyo Garden Theatre</data>
+  <data key="d21">0.48</data>
+  <data key="d19">0.0</data>
+</node>
+<node id="bibbidiba">
+  <data key="d0">music_release</data>
+  <data key="d1">Bibbidiba</data>
+  <data key="d2">0.56</data>
+  <data key="d3">Bibbidiba</data>
+  <data key="d4">0.0</data>
+  <data key="d15"></data>
+  <data key="d16">0.0</data>
+</node>
+<node id="spectra_of_nova">
+  <data key="d0"></data>
+  <data key="d1">Spectra of Nova</data>
+  <data key="d2">0.56</data>
+  <data key="d3">Spectra of Nova</data>
+  <data key="d4">0.0</data>
+  <data key="d17"></data>
+  <data key="d18">0.0</data>
+  <data key="d19">0.0</data>
+  <data key="d20"></data>
+  <data key="d21">0.0</data>
+</node>
+<node id="hoshimatic_project">
+  <data key="d0">music_group</data>
+  <data key="d1">Hoshimatic Project</data>
+  <data key="d2">0.56</data>
+</node>
+<node id="kaf">
+  <data key="d0">vtuber</data>
+  <data key="d1">KAF</data>
+  <data key="d2">0.56</data>
+  <data key="d3">KAF</data>
+  <data key="d4">0.0</data>
+  <data key="d5"></data>
+  <data key="d6">0.0</data>
+  <data key="d7"></data>
+  <data key="d8">0.0</data>
+</node>
+<node id="shiranui_constructions">
+  <data key="d0">music_group</data>
+  <data key="d1">Shiranui Constructions</data>
+  <data key="d2">0.56</data>
+</node>
+<node id="udagawachō">
+  <data key="d0">location</data>
+  <data key="d1">Udagawachō</data>
+  <data key="d2">0.56</data>
+</node>
+<node id="shibuya">
+  <data key="d0">location</data>
+  <data key="d1">Shibuya</data>
+  <data key="d2">0.56</data>
+</node>
+<node id="countdown_japan_2425">
+  <data key="d0">event</data>
+  <data key="d1">Countdown Japan 24/25</data>
+  <data key="d2">0.56</data>
+  <data key="d3">Countdown Japan 24/25</data>
+  <data key="d4">0.0</data>
+  <data key="d17"></data>
+  <data key="d18">0.0</data>
+  <data key="d19">0.0</data>
+  <data key="d20"></data>
+  <data key="d21">0.0</data>
+</node>
+<node id="zutomayo">
+  <data key="d0">music_artist</data>
+  <data key="d1">Zutomayo</data>
+  <data key="d2">0.56</data>
+</node>
+<node id="sumika">
+  <data key="d0">music_artist</data>
+  <data key="d1">Sumika</data>
+  <data key="d2">0.56</data>
+</node>
+<node id="youtube_fanfest_2024">
+  <data key="d0"></data>
+  <data key="d1">YouTube Fanfest 2024</data>
+  <data key="d2">0.56</data>
+  <data key="d3">YouTube Fanfest 2024</data>
+  <data key="d4">0.0</data>
+  <data key="d17"></data>
+  <data key="d18">0.0</data>
+  <data key="d19">0.0</data>
+  <data key="d20"></data>
+  <data key="d21">0.0</data>
+</node>
+<node id="hajime_syacho">
+  <data key="d0">youtuber</data>
+  <data key="d1">Hajime Syacho</data>
+  <data key="d2">0.56</data>
+</node>
+<node id="hikakin">
+  <data key="d0">youtuber</data>
+  <data key="d1">Hikakin</data>
+  <data key="d2">0.56</data>
+</node>
+<node id="nippon_budokan">
+  <data key="d0">location</data>
+  <data key="d1">Nippon Budokan</data>
+  <data key="d2">0.56</data>
+</node>
+<node id="forbes_japan">
+  <data key="d0">organization</data>
+  <data key="d1">Forbes Japan</data>
+  <data key="d2">0.56</data>
+</node>
+<node id="hololive_presents_hoshimachi_suiseis_music_space">
+  <data key="d0">radio_program</data>
+  <data key="d1">Hololive presents Hoshimachi Suisei's MUSIC SPACE</data>
+  <data key="d2">0.56</data>
+  <data key="d5">ホロライブ presents 星街すいせいのMUSIC SPACE</data>
+  <data key="d6">0.48</data>
+</node>
+<node id="nippon_cultural_broadcasting">
+  <data key="d0">company</data>
+  <data key="d1">Nippon Cultural Broadcasting</data>
+  <data key="d2">0.56</data>
+</node>
+<node id="encouraging_japan_with_music">
+  <data key="d0">radio_program</data>
+  <data key="d1">Encouraging Japan with Music!</data>
+  <data key="d2">0.56</data>
+  <data key="d5">音楽で日本をアゲる</data>
+  <data key="d6">0.48</data>
+</node>
+<node id="mokota_mememe">
+  <data key="d0">vtuber</data>
+  <data key="d1">Mokota Mememe</data>
+  <data key="d2">0.56</data>
+  <data key="d3">Mokota Mememe</data>
+  <data key="d4">0.0</data>
+  <data key="d5"></data>
+  <data key="d6">0.0</data>
+  <data key="d7"></data>
+  <data key="d8">0.0</data>
+</node>
+<node id="hanabasami_kyō">
+  <data key="d0">vtuber</data>
+  <data key="d1">Hanabasami Kyō</data>
+  <data key="d2">0.56</data>
+  <data key="d3">Hanabasami Kyō</data>
+  <data key="d4">0.0</data>
+  <data key="d5"></data>
+  <data key="d6">0.0</data>
+  <data key="d7"></data>
+  <data key="d8">0.0</data>
+</node>
+<node id="hoshimachi_suisei__tadokoro_azusas_parallel_scramble">
+  <data key="d0">radio_program</data>
+  <data key="d1">Hoshimachi Suisei &amp; Tadokoro Azusa's Parallel Scramble</data>
+  <data key="d2">0.56</data>
+  <data key="d5">星街すいせい・田所あずさ　平行線すくらんぶる</data>
+  <data key="d6">0.48</data>
+</node>
+<node id="azusa_tadokoro">
+  <data key="d0">person</data>
+  <data key="d1">Azusa Tadokoro</data>
+  <data key="d2">0.56</data>
+  <data key="d7">voice actress</data>
+  <data key="d8">0.48</data>
+</node>
+<node id="school_of_lock_music_line">
+  <data key="d0">radio_program</data>
+  <data key="d1">SCHOOL OF LOCK! Music Line</data>
+  <data key="d2">0.56</data>
+</node>
+<node id="vr_vtuber_music_radio">
+  <data key="d0">radio_program</data>
+  <data key="d1">VR! ~VTuber Music Radio~</data>
+  <data key="d2">0.56</data>
+</node>
+<node id="usada_pekora">
+  <data key="d0">vtuber</data>
+  <data key="d1">Usada Pekora</data>
+  <data key="d2">0.8</data>
+  <data key="d3">Usada Pekora</data>
+  <data key="d4">0.8</data>
+  <data key="d5">兎田ぺこら</data>
+  <data key="d6">0.8</data>
+  <data key="d22">Hololive Production</data>
+  <data key="d23">0.8</data>
+  <data key="d24">3rd Generation</data>
+  <data key="d25">0.8</data>
+  <data key="d7">Japanese virtual YouTuber affiliated with Hololive Production. She is part of Hololive Japan's 3rd Generation, hololive Fantasy.</data>
+  <data key="d8">0.72</data>
+</node>
+<node id="hololive_fantasy">
+  <data key="d0">group</data>
+  <data key="d1">hololive Fantasy</data>
+  <data key="d2">0.8</data>
+  <data key="d3">hololive Fantasy</data>
+  <data key="d4">0.8</data>
+</node>
+<node id="uruha_rushia">
+  <data key="d0">vtuber</data>
+  <data key="d1">Uruha Rushia</data>
+  <data key="d2">0.72</data>
+  <data key="d3">Uruha Rushia</data>
+  <data key="d4">0.72</data>
+  <data key="d5"></data>
+  <data key="d6">0.0</data>
+  <data key="d7"></data>
+  <data key="d8">0.0</data>
+</node>
+<node id="houshou_marine">
+  <data key="d0">vtuber</data>
+  <data key="d1">Houshou Marine</data>
+  <data key="d2">0.72</data>
+  <data key="d3">Houshou Marine</data>
+  <data key="d4">0.72</data>
+  <data key="d5"></data>
+  <data key="d6">0.0</data>
+  <data key="d7"></data>
+  <data key="d8">0.0</data>
+</node>
+<node id="shiranui_flare">
+  <data key="d0">vtuber</data>
+  <data key="d1">Shiranui Flare</data>
+  <data key="d2">0.72</data>
+  <data key="d3">Shiranui Flare</data>
+  <data key="d4">0.72</data>
+  <data key="d5"></data>
+  <data key="d6">0.0</data>
+  <data key="d7"></data>
+  <data key="d8">0.0</data>
+</node>
+<node id="shirogane_noel">
+  <data key="d0">vtuber</data>
+  <data key="d1">Shirogane Noel</data>
+  <data key="d2">0.72</data>
+  <data key="d3">Shirogane Noel</data>
+  <data key="d4">0.72</data>
+  <data key="d5"></data>
+  <data key="d6">0.0</data>
+  <data key="d7"></data>
+  <data key="d8">0.0</data>
+</node>
+<node id="yuuki_hagure">
+  <data key="d0">person</data>
+  <data key="d1">Yuuki Hagure</data>
+  <data key="d2">0.64</data>
+  <data key="d3">Yuuki Hagure</data>
+  <data key="d4">0.64</data>
+</node>
+<node id="rariemonn">
+  <data key="d0">person</data>
+  <data key="d1">rariemonn</data>
+  <data key="d2">0.64</data>
+  <data key="d3">rariemonn</data>
+  <data key="d4">0.64</data>
+</node>
+<node id="momoko_tsugunaga">
+  <data key="d0">idol</data>
+  <data key="d1">Momoko Tsugunaga</data>
+  <data key="d2">0.64</data>
+  <data key="d3">Momoko Tsugunaga</data>
+  <data key="d4">0.64</data>
+  <data key="d26">Berryz Kobo</data>
+  <data key="d27">0.64</data>
+</node>
+<node id="berryz_kobo">
+  <data key="d0">group</data>
+  <data key="d1">Berryz Kobo</data>
+  <data key="d2">0.64</data>
+  <data key="d3">Berryz Kobo</data>
+  <data key="d4">0.64</data>
+</node>
+<node id="dragon_quest_treasures">
+  <data key="d0">game</data>
+  <data key="d1">Dragon Quest Treasures</data>
+  <data key="d2">0.72</data>
+  <data key="d3">Dragon Quest Treasures</data>
+  <data key="d4">0.72</data>
+  <data key="d15"></data>
+  <data key="d16">0.0</data>
+  <data key="d28"></data>
+  <data key="d29">0.0</data>
+</node>
+<node id="pekotte">
+  <data key="d0">character</data>
+  <data key="d1">Pekotte</data>
+  <data key="d2">0.72</data>
+  <data key="d3">Pekotte</data>
+  <data key="d4">0.72</data>
+  <data key="d30">Dragon Quest Treasures</data>
+  <data key="d31">0.72</data>
+</node>
+<node id="human_rabbitality_project">
+  <data key="d0">project</data>
+  <data key="d1">Human Rabbitality Project</data>
+  <data key="d2">0.72</data>
+  <data key="d3">Human Rabbitality Project</data>
+  <data key="d4">0.72</data>
+  <data key="d32">Rabbit Plan</data>
+  <data key="d33">0.72</data>
+</node>
+<node id="zenjinrui_usagika_keikaku">
+  <data key="d0">single</data>
+  <data key="d1">Zenjinrui Usagika Keikaku!</data>
+  <data key="d2">0.72</data>
+  <data key="d3">Zenjinrui Usagika Keikaku!</data>
+  <data key="d4">0.72</data>
+  <data key="d19">0.72</data>
+  <data key="d15"></data>
+  <data key="d16">0.0</data>
+</node>
+<node id="milky">
+  <data key="d0">brand</data>
+  <data key="d1">Milky</data>
+  <data key="d2">0.64</data>
+  <data key="d3">Milky</data>
+  <data key="d4">0.64</data>
+</node>
+<node id="bandai">
+  <data key="d0">company</data>
+  <data key="d1">Bandai</data>
+  <data key="d2">0.64</data>
+  <data key="d3">Bandai</data>
+  <data key="d4">0.64</data>
+</node>
+<node id="1st_usada_pekolive__usagi_the_megami_">
+  <data key="d0">solo live concert</data>
+  <data key="d1">1st Usada PekoLive -USAGI the MEGAMI!!-</data>
+  <data key="d2">0.72</data>
+  <data key="d3">1st Usada PekoLive -USAGI the MEGAMI!!-</data>
+  <data key="d4">0.72</data>
+  <data key="d19">0.72</data>
+  <data key="d20">Ariake Arena</data>
+  <data key="d21">0.72</data>
+  <data key="d17"></data>
+  <data key="d18">0.0</data>
+</node>
+<node id="ariake_arena">
+  <data key="d0">location</data>
+  <data key="d1">Ariake Arena</data>
+  <data key="d2">0.72</data>
+  <data key="d3">Ariake Arena</data>
+  <data key="d4">0.72</data>
+</node>
+<node id="idol_showdown">
+  <data key="d0">game</data>
+  <data key="d1">Idol Showdown</data>
+  <data key="d2">0.72</data>
+  <data key="d3">Idol Showdown</data>
+  <data key="d4">0.72</data>
+  <data key="d15">fangame</data>
+  <data key="d16">0.72</data>
+  <data key="d28"></data>
+  <data key="d29">0.0</data>
+</node>
+<node id="death_stranding_2_on_the_beach">
+  <data key="d0">game</data>
+  <data key="d1">Death Stranding 2: On the Beach</data>
+  <data key="d2">0.72</data>
+  <data key="d3">Death Stranding 2: On the Beach</data>
+  <data key="d4">0.72</data>
+  <data key="d15"></data>
+  <data key="d16">0.0</data>
+  <data key="d28"></data>
+  <data key="d29">0.0</data>
+</node>
+<edge source="hoshimachi_suisei" target="hololive_production">
+  <data key="d34">affiliated_with</data>
+  <data key="d35">0.72</data>
+  <data key="d36">0.72</data>
+</edge>
+<edge source="hoshimachi_suisei" target="inonaka_music">
+  <data key="d34">affiliated_with</data>
+  <data key="d35">0.64</data>
+  <data key="d36">0.64</data>
+</edge>
+<edge source="hoshimachi_suisei" target="next_color_planet">
+  <data key="d34">released</data>
+  <data key="d35">0.72</data>
+  <data key="d36">0.72</data>
+</edge>
+<edge source="hoshimachi_suisei" target="ghost">
+  <data key="d34">released</data>
+  <data key="d35">0.72</data>
+  <data key="d36">0.72</data>
+</edge>
+<edge source="hoshimachi_suisei" target="still_still_stellar">
+  <data key="d34">released</data>
+  <data key="d35">0.72</data>
+  <data key="d36">0.72</data>
+</edge>
+<edge source="hoshimachi_suisei" target="budokan">
+  <data key="d34">dreamed_of_performing_at</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="comet">
+  <data key="d34">released</data>
+  <data key="d35">0.64</data>
+  <data key="d36">0.64</data>
+</edge>
+<edge source="hoshimachi_suisei" target="tenkyū_suisei_wa_yoru_o_mataide">
+  <data key="d34">released</data>
+  <data key="d35">0.64</data>
+  <data key="d36">0.64</data>
+</edge>
+<edge source="hoshimachi_suisei" target="azki">
+  <data key="d34">collaborated_with</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+  <data key="d37"></data>
+  <data key="d38">0.0</data>
+  <data key="d39"></data>
+  <data key="d40">0.0</data>
+</edge>
+<edge source="hoshimachi_suisei" target="hololive_1st_fes_nonstop_story">
+  <data key="d34">performed_at</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="bluerose__comet">
+  <data key="d34">released</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="kakero__tenkyū_suisei_wa_yoru_o_mataide">
+  <data key="d34">released</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="jibun_katte_dazzling__bye_bye_rainy">
+  <data key="d34">released</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="stellar_into_the_galaxy">
+  <data key="d34">performed_at</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="inui_toko">
+  <data key="d34">guest_appearance</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="midnight_grand_orchestra">
+  <data key="d34">composed_of</data>
+  <data key="d35">0.64</data>
+  <data key="d36">0.64</data>
+</edge>
+<edge source="hoshimachi_suisei" target="the_first_take">
+  <data key="d34">performed_on</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="stellar_stellar">
+  <data key="d34">performed</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="specter">
+  <data key="d34">released</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="shout_in_crisis">
+  <data key="d34">performed_at</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="bibbidiba">
+  <data key="d34">released</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="spectra_of_nova">
+  <data key="d34">announced</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="udagawachō">
+  <data key="d34">performed_in</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+  <data key="d41">Shibuya</data>
+  <data key="d42">0.48</data>
+</edge>
+<edge source="hoshimachi_suisei" target="countdown_japan_2425">
+  <data key="d34">performed_at</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="youtube_fanfest_2024">
+  <data key="d34">appeared_at</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="nippon_budokan">
+  <data key="d34">performed_at</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="forbes_japan">
+  <data key="d34">recognized_by</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="hololive_presents_hoshimachi_suiseis_music_space">
+  <data key="d34">hosted</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="encouraging_japan_with_music">
+  <data key="d34">appeared_on</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="hoshimachi_suisei__tadokoro_azusas_parallel_scramble">
+  <data key="d34">hosted</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="azusa_tadokoro">
+  <data key="d34">collaborated_with</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+  <data key="d37"></data>
+  <data key="d38">0.0</data>
+  <data key="d39"></data>
+  <data key="d40">0.0</data>
+</edge>
+<edge source="hoshimachi_suisei" target="school_of_lock_music_line">
+  <data key="d34">appeared_on</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hoshimachi_suisei" target="vr_vtuber_music_radio">
+  <data key="d34">appeared_on</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="hololive_production" target="usada_pekora">
+  <data key="d34">affiliated_with</data>
+  <data key="d35">0.8</data>
+  <data key="d36">0.8</data>
+</edge>
+<edge source="midnight_grand_orchestra" target="taku_inoue">
+  <data key="d34">composed_of</data>
+  <data key="d35">0.64</data>
+  <data key="d36">0.64</data>
+</edge>
+<edge source="midnight_grand_orchestra" target="toys_factory">
+  <data key="d34">signed_to</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="midnight_grand_orchestra" target="sos">
+  <data key="d34">released</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="spectra_of_nova" target="hoshimatic_project">
+  <data key="d34">featured</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="spectra_of_nova" target="kaf">
+  <data key="d34">featured</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="spectra_of_nova" target="shiranui_constructions">
+  <data key="d34">featured</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="countdown_japan_2425" target="zutomayo">
+  <data key="d34">featured</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="countdown_japan_2425" target="sumika">
+  <data key="d34">featured</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="youtube_fanfest_2024" target="hajime_syacho">
+  <data key="d34">featured</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="youtube_fanfest_2024" target="hikakin">
+  <data key="d34">featured</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="encouraging_japan_with_music" target="mokota_mememe">
+  <data key="d34">featured</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="encouraging_japan_with_music" target="hanabasami_kyō">
+  <data key="d34">featured</data>
+  <data key="d35">0.56</data>
+  <data key="d36">0.56</data>
+</edge>
+<edge source="usada_pekora" target="hololive_fantasy">
+  <data key="d34">member_of</data>
+  <data key="d35">0.8</data>
+  <data key="d36">0.8</data>
+</edge>
+<edge source="usada_pekora" target="yuuki_hagure">
+  <data key="d34">designed_by</data>
+  <data key="d35">0.64</data>
+  <data key="d36">0.64</data>
+  <data key="d43">Live2D model</data>
+  <data key="d44">0.64</data>
+</edge>
+<edge source="usada_pekora" target="rariemonn">
+  <data key="d34">rigged_by</data>
+  <data key="d35">0.64</data>
+  <data key="d36">0.64</data>
+  <data key="d43">Live2D model</data>
+  <data key="d44">0.64</data>
+</edge>
+<edge source="usada_pekora" target="momoko_tsugunaga">
+  <data key="d34">inspired_by</data>
+  <data key="d35">0.64</data>
+  <data key="d36">0.64</data>
+</edge>
+<edge source="usada_pekora" target="pekotte">
+  <data key="d34">based_on</data>
+  <data key="d35">0.72</data>
+  <data key="d36">0.72</data>
+</edge>
+<edge source="usada_pekora" target="human_rabbitality_project">
+  <data key="d34">launched</data>
+  <data key="d35">0.72</data>
+  <data key="d36">0.72</data>
+</edge>
+<edge source="usada_pekora" target="zenjinrui_usagika_keikaku">
+  <data key="d34">released</data>
+  <data key="d35">0.72</data>
+  <data key="d36">0.72</data>
+</edge>
+<edge source="usada_pekora" target="1st_usada_pekolive__usagi_the_megami_">
+  <data key="d34">performed_at</data>
+  <data key="d35">0.72</data>
+  <data key="d36">0.72</data>
+</edge>
+<edge source="usada_pekora" target="idol_showdown">
+  <data key="d34">playable_character_in</data>
+  <data key="d35">0.72</data>
+  <data key="d36">0.72</data>
+</edge>
+<edge source="usada_pekora" target="death_stranding_2_on_the_beach">
+  <data key="d34">cameo_in</data>
+  <data key="d35">0.72</data>
+  <data key="d36">0.72</data>
+</edge>
+<edge source="hololive_fantasy" target="uruha_rushia">
+  <data key="d34">member</data>
+  <data key="d35">0.72</data>
+  <data key="d36">0.72</data>
+</edge>
+<edge source="hololive_fantasy" target="houshou_marine">
+  <data key="d34">member</data>
+  <data key="d35">0.72</data>
+  <data key="d36">0.72</data>
+</edge>
+<edge source="hololive_fantasy" target="shiranui_flare">
+  <data key="d34">member</data>
+  <data key="d35">0.72</data>
+  <data key="d36">0.72</data>
+</edge>
+<edge source="hololive_fantasy" target="shirogane_noel">
+  <data key="d34">member</data>
+  <data key="d35">0.72</data>
+  <data key="d36">0.72</data>
+</edge>
+<edge source="human_rabbitality_project" target="milky">
+  <data key="d34">collaboration</data>
+  <data key="d35">0.64</data>
+  <data key="d36">0.64</data>
+</edge>
+<edge source="human_rabbitality_project" target="bandai">
+  <data key="d34">collaboration</data>
+  <data key="d35">0.64</data>
+  <data key="d36">0.64</data>
+</edge>
+</graph></graphml>

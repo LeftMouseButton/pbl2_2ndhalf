@@ -1,0 +1,416 @@
+{
+  "entities": [
+    {
+      "id": "usada_pekora",
+      "type": "vtuber",
+      "name": "Usada Pekora",
+      "confidence": 1.0,
+      "attributes": {
+        "name": {
+          "value": "Usada Pekora",
+          "confidence": 1.0
+        },
+        "synonyms": {
+          "value": "兎田ぺこら",
+          "confidence": 1.0
+        },
+        "agency": {
+          "value": "Hololive Production",
+          "confidence": 1.0
+        },
+        "generation": {
+          "value": "3rd Generation",
+          "confidence": 1.0
+        },
+        "description": {
+          "value": "Japanese virtual YouTuber affiliated with Hololive Production. She is part of Hololive Japan's 3rd Generation, hololive Fantasy.",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "hololive_production",
+      "type": "agency",
+      "name": "Hololive Production",
+      "confidence": 1.0,
+      "attributes": {
+        "name": {
+          "value": "Hololive Production",
+          "confidence": 1.0
+        }
+      }
+    },
+    {
+      "id": "hololive_fantasy",
+      "type": "group",
+      "name": "hololive Fantasy",
+      "confidence": 1.0,
+      "attributes": {
+        "name": {
+          "value": "hololive Fantasy",
+          "confidence": 1.0
+        }
+      }
+    },
+    {
+      "id": "uruha_rushia",
+      "type": "vtuber",
+      "name": "Uruha Rushia",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "Uruha Rushia",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "houshou_marine",
+      "type": "vtuber",
+      "name": "Houshou Marine",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "Houshou Marine",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "shiranui_flare",
+      "type": "vtuber",
+      "name": "Shiranui Flare",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "Shiranui Flare",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "shirogane_noel",
+      "type": "vtuber",
+      "name": "Shirogane Noel",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "Shirogane Noel",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "yuuki_hagure",
+      "type": "person",
+      "name": "Yuuki Hagure",
+      "confidence": 0.8,
+      "attributes": {
+        "name": {
+          "value": "Yuuki Hagure",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "rariemonn",
+      "type": "person",
+      "name": "rariemonn",
+      "confidence": 0.8,
+      "attributes": {
+        "name": {
+          "value": "rariemonn",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "momoko_tsugunaga",
+      "type": "idol",
+      "name": "Momoko Tsugunaga",
+      "confidence": 0.8,
+      "attributes": {
+        "name": {
+          "value": "Momoko Tsugunaga",
+          "confidence": 0.8
+        },
+        "group": {
+          "value": "Berryz Kobo",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "berryz_kobo",
+      "type": "group",
+      "name": "Berryz Kobo",
+      "confidence": 0.8,
+      "attributes": {
+        "name": {
+          "value": "Berryz Kobo",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "dragon_quest_treasures",
+      "type": "game",
+      "name": "Dragon Quest Treasures",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "Dragon Quest Treasures",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "pekotte",
+      "type": "character",
+      "name": "Pekotte",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "Pekotte",
+          "confidence": 0.9
+        },
+        "game": {
+          "value": "Dragon Quest Treasures",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "human_rabbitality_project",
+      "type": "project",
+      "name": "Human Rabbitality Project",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "Human Rabbitality Project",
+          "confidence": 0.9
+        },
+        "nickname": {
+          "value": "Rabbit Plan",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "zenjinrui_usagika_keikaku",
+      "type": "music_release",
+      "name": "Zenjinrui Usagika Keikaku!",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "Zenjinrui Usagika Keikaku!",
+          "confidence": 0.9
+        },
+        "type": {
+          "value": "single",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "milky",
+      "type": "brand",
+      "name": "Milky",
+      "confidence": 0.8,
+      "attributes": {
+        "name": {
+          "value": "Milky",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "bandai",
+      "type": "company",
+      "name": "Bandai",
+      "confidence": 0.8,
+      "attributes": {
+        "name": {
+          "value": "Bandai",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "1st_usada_pekolive",
+      "type": "event",
+      "name": "1st Usada PekoLive -USAGI the MEGAMI!!-",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "1st Usada PekoLive -USAGI the MEGAMI!!-",
+          "confidence": 0.9
+        },
+        "type": {
+          "value": "solo live concert",
+          "confidence": 0.9
+        },
+        "location": {
+          "value": "Ariake Arena",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "ariake_arena",
+      "type": "location",
+      "name": "Ariake Arena",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "Ariake Arena",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "idol_showdown",
+      "type": "game",
+      "name": "Idol Showdown",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "Idol Showdown",
+          "confidence": 0.9
+        },
+        "genre": {
+          "value": "fangame",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "death_stranding_2",
+      "type": "game",
+      "name": "Death Stranding 2: On the Beach",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "Death Stranding 2: On the Beach",
+          "confidence": 0.9
+        }
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "source": "usada_pekora",
+      "relation": "affiliated_with",
+      "target": "hololive_production",
+      "confidence": 1.0
+    },
+    {
+      "source": "usada_pekora",
+      "relation": "member_of",
+      "target": "hololive_fantasy",
+      "confidence": 1.0
+    },
+    {
+      "source": "hololive_fantasy",
+      "relation": "member",
+      "target": "uruha_rushia",
+      "confidence": 0.9
+    },
+    {
+      "source": "hololive_fantasy",
+      "relation": "member",
+      "target": "houshou_marine",
+      "confidence": 0.9
+    },
+    {
+      "source": "hololive_fantasy",
+      "relation": "member",
+      "target": "shiranui_flare",
+      "confidence": 0.9
+    },
+    {
+      "source": "hololive_fantasy",
+      "relation": "member",
+      "target": "shirogane_noel",
+      "confidence": 0.9
+    },
+    {
+      "source": "usada_pekora",
+      "relation": "designed_by",
+      "target": "yuuki_hagure",
+      "confidence": 0.8,
+      "properties": {
+        "role": {
+          "value": "Live2D model",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "source": "usada_pekora",
+      "relation": "rigged_by",
+      "target": "rariemonn",
+      "confidence": 0.8,
+      "properties": {
+        "role": {
+          "value": "Live2D model",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "source": "usada_pekora",
+      "relation": "inspired_by",
+      "target": "momoko_tsugunaga",
+      "confidence": 0.8
+    },
+    {
+      "source": "pekotte",
+      "relation": "based_on",
+      "target": "usada_pekora",
+      "confidence": 0.9
+    },
+    {
+      "source": "usada_pekora",
+      "relation": "launched",
+      "target": "human_rabbitality_project",
+      "confidence": 0.9
+    },
+    {
+      "source": "usada_pekora",
+      "relation": "released",
+      "target": "zenjinrui_usagika_keikaku",
+      "confidence": 0.9
+    },
+    {
+      "source": "human_rabbitality_project",
+      "relation": "collaboration",
+      "target": "milky",
+      "confidence": 0.8
+    },
+    {
+      "source": "human_rabbitality_project",
+      "relation": "collaboration",
+      "target": "bandai",
+      "confidence": 0.8
+    },
+    {
+      "source": "usada_pekora",
+      "relation": "performed_at",
+      "target": "1st_usada_pekolive",
+      "confidence": 0.9
+    },
+    {
+      "source": "usada_pekora",
+      "relation": "playable_character_in",
+      "target": "idol_showdown",
+      "confidence": 0.9
+    },
+    {
+      "source": "usada_pekora",
+      "relation": "cameo_in",
+      "target": "death_stranding_2",
+      "confidence": 0.9
+    }
+  ]
+}
