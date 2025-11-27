@@ -44,11 +44,11 @@ BASE_DIR: Path | None = None
 INPUT_DIR: Path | None = None
 OUTPUT_DIR: Path | None = None
 ONTOLOGY_DIR: Path | None = None
+CONFIG_DIR: Path | None = None
 OUTPUT_FILE: Path | None = None
 MAPPING_FILE: Path | None = None
 STATS_FILE: Path | None = None
 UNMATCHED_FILE: Path | None = None
-
 
 def configure_paths(base_dir: Path):
     """
@@ -59,13 +59,14 @@ def configure_paths(base_dir: Path):
         data/{graph}/ontologies/
         data/{graph}/combined/
     """
-    global BASE_DIR, INPUT_DIR, OUTPUT_DIR, ONTOLOGY_DIR
+    global BASE_DIR, INPUT_DIR, OUTPUT_DIR, ONTOLOGY_DIR, CONFIG_DIR
     global OUTPUT_FILE, MAPPING_FILE, STATS_FILE, UNMATCHED_FILE
 
     BASE_DIR = base_dir
     INPUT_DIR = BASE_DIR / "json_validated"
     OUTPUT_DIR = BASE_DIR / "combined"
     ONTOLOGY_DIR = BASE_DIR / "ontologies"
+    CONFIG_DIR = BASE_DIR / "config" / "sources.json"
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     OUTPUT_FILE = OUTPUT_DIR / "all_entities.json"
@@ -164,8 +165,8 @@ def load_source_weights():
       "medlineplus": { "enabled": true, "weight": 1.0 }
     }
     """
-    cfg_path = Path("config") / "sources.json"
-    if not cfg_path.exists():
+    cfg_path = CONFIG_DIR
+    if not cfg_path or not cfg_path.exists():
         print(f"ℹ️  No source weight config found at {cfg_path} — skipping source weighting.")
         return {}
 
