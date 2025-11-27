@@ -119,25 +119,21 @@ def main():
                 str(combined_dir / "all_entities.json"),
             ],
         ),
-        
-
-    ]
-    '''(
+        (
             "Module 6: Graph Construction & Analysis",
             [
                 "python",
                 "-m",
                 "src.kg.module6_analysis.analyse",
-                "--data-location",
-                str(base_dir),
-                "--outdir",
-                str(analysis_dir),
+                "--graph-name",
+                str(args.graph_name),
                 "--validation",
                 "--enhanced-viz",
-                "--memory-monitor",
                 *sum([["--seed", s] for s in args.seed[:2]], []),
             ],
-        ),'''
+        ),
+    ]
+    
 
     print("\n" + "#" * 80)
     print("#               KNOWLEDGE GRAPH PIPELINE LAUNCHER")

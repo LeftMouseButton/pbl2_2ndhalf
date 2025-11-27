@@ -13,10 +13,44 @@ the original Module 6 output format.
 """
 
 from __future__ import annotations
-from typing import List, Tuple
+from typing import List, Tuple, Optional
+import re
 import networkx as nx
 
 from ..utils.normalize import _norm
+
+
+def _slugify_seed(text: str) -> str:
+    """
+    Create a slug-style key for seed matching, compatible with node IDs
+    produced by the graph builder for graph-document topics.
+    """
+    if not isinstance(text, str):
+        text = str(text)
+    s = text.strip().lower()
+    s = re.sub(r"\s+", "_", s)
+    s = s.replace("-", "_")
+    s = re.sub(r"[^\w_]+", "", s)
+    return s or "unknown"
+
+
+def _seed_to_key(G: nx.Graph, seed: str) -> Optional[str]:
+    """
+    Map a human-readable seed to an existing node key, trying slug form,
+    normalized form, and the raw string in that order.
+    """
+    slug = _slugify_seed(seed)
+    if slug in G:
+        return slug
+
+    norm = _norm(seed)
+    if norm in G:
+        return norm
+
+    if seed in G:
+        return seed
+
+    return None
 
 
 def traversal_demo(
@@ -42,9 +76,9 @@ def traversal_demo(
     dfs_lines: List[str] = []
 
     for s in seeds:
-        key = _norm(s)
+        key = _seed_to_key(G, s)
 
-        if key not in G:
+        if key is None:
             bfs_lines.append(f"[seed missing] {s}")
             dfs_lines.append(f"[seed missing] {s}")
             continue
@@ -89,11 +123,11 @@ def shortest_path_demos(
     """
     results: List[str] = []
 
-    # Normalize only seeds that exist in the graph
-    keys = [
-        _norm(s) for s in seeds
-        if _norm(s) in G
-    ]
+    keys: List[str] = []
+    for s in seeds:
+        key = _seed_to_key(G, s)
+        if key is not None and key not in keys:
+            keys.append(key)
 
     for i in range(len(keys)):
         for j in range(i + 1, len(keys)):

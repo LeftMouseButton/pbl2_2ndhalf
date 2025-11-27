@@ -129,7 +129,13 @@ def normalize_entities(raw_entities: Any) -> List[Dict[str, Any]]:
 
         ent["attributes"] = attrs
         ent["confidence"] = _ensure_float(ent.get("confidence"), ent_schema.get("confidence", 0.0))
-        ent["id"] = ent.get("name", "") or ""
+
+        # Preserve original synthetic IDs (e.g., "vtuber_1") here so that
+        # relationships can be rewired first. The final step that overwrites
+        # id → name now occurs in normalize_document(), after relationship
+        # endpoints have been updated.
+        ent_id = ent.get("id") or ent.get("name") or ""
+        ent["id"] = str(ent_id)
         ent["name"] = ent.get("name", "") or ""
         ent["type"] = ent_type
 
@@ -177,8 +183,92 @@ def normalize_document(data: dict) -> dict:
         return {}
 
     data = dict(data)  # shallow copy to avoid mutating original
-    data["entities"] = normalize_entities(data.get("entities"))
-    data["relationships"] = normalize_relationships(data.get("relationships"))
+
+    entities = normalize_entities(data.get("entities"))
+    relationships = normalize_relationships(data.get("relationships"))
+
+    # Optional list-based structures emitted by Module 3 for some topics
+    entities_list = data.get("entities_list")
+    relationships_list = data.get("relationships_list")
+
+    # ------------------------------------------------------------------
+    # Step 1: Build mapping from synthetic IDs to human-readable names.
+    #         We gather from both entities and entities_list if present.
+    # ------------------------------------------------------------------
+    id_to_name: Dict[str, str] = {}
+
+    # From normalized entities
+    for ent in entities:
+        ent_id = str(ent.get("id") or "").strip()
+        ent_name = str(ent.get("name") or "").strip()
+        if ent_id and ent_name:
+            id_to_name[ent_id] = ent_name
+
+    # From entities_list (graph-style docs like VTuber)
+    if isinstance(entities_list, list):
+        for ent in entities_list:
+            if not isinstance(ent, dict):
+                continue
+            ent_id = str(ent.get("id") or "").strip()
+            ent_name = str(ent.get("name") or "").strip()
+            if ent_id and ent_name:
+                id_to_name[ent_id] = ent_name
+
+    # ------------------------------------------------------------------
+    # Step 2a: Rewrite relationship endpoints (relationships) using names.
+    # ------------------------------------------------------------------
+    for rel in relationships:
+        if not isinstance(rel, dict):
+            continue
+
+        src = rel.get("source")
+        tgt = rel.get("target")
+
+        if isinstance(src, str) and src in id_to_name:
+            rel["source"] = id_to_name[src]
+        if isinstance(tgt, str) and tgt in id_to_name:
+            rel["target"] = id_to_name[tgt]
+
+    # ------------------------------------------------------------------
+    # Step 2b: Rewrite relationship endpoints in relationships_list too.
+    #          Example: source="vtuber_1" → "Usada Pekora"
+    #                   target="agency_2" → "Hololive Production"
+    # ------------------------------------------------------------------
+    if isinstance(relationships_list, list):
+        for rel in relationships_list:
+            if not isinstance(rel, dict):
+                continue
+            src = rel.get("source")
+            tgt = rel.get("target")
+            if isinstance(src, str) and src in id_to_name:
+                rel["source"] = id_to_name[src]
+            if isinstance(tgt, str) and tgt in id_to_name:
+                rel["target"] = id_to_name[tgt]
+
+    # ------------------------------------------------------------------
+    # Step 3: Overwrite entity IDs with their names, now that all
+    #         relationship endpoints have been updated.
+    #         Example: id="vtuber_1" → "Usada Pekora"
+    # ------------------------------------------------------------------
+    for ent in entities:
+        ent_name = ent.get("name")
+        if isinstance(ent_name, str) and ent_name:
+            ent["id"] = ent_name
+
+    if isinstance(entities_list, list):
+        for ent in entities_list:
+            if not isinstance(ent, dict):
+                continue
+            ent_name = ent.get("name")
+            if isinstance(ent_name, str) and ent_name:
+                ent["id"] = ent_name
+
+    data["entities"] = entities
+    data["relationships"] = relationships
+    if isinstance(entities_list, list):
+        data["entities_list"] = entities_list
+    if isinstance(relationships_list, list):
+        data["relationships_list"] = relationships_list
     return data
 
 
