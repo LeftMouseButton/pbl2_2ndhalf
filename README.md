@@ -1,5 +1,3 @@
---todo: add source reliability to the LLM input (module 3)
-
 # Knowledge Graph Pipeline
 
 Builds and analyses a **topic-agnostic knowledge graph**  
@@ -43,7 +41,11 @@ export GOOGLE_API_KEY="YOUR_API_KEY"
 ---
 
 ## How to Use
+### New: 
+- Use the GUI!
 
+---
+### Old / Manual:
 ### Per-graph inputs (user supplied -- edit these before running)
 - `data/{graph_name}/names.txt` – list of entities (eg: wikipedia page titles) to crawl.
 - `data/{graph_name}/schema/schema_keys.json` – schema tailored to the topic.
