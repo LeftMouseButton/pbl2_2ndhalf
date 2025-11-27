@@ -197,9 +197,14 @@ def _add_graph_document_record(
         tgt_raw = rel.get("target")
         if not (src_raw and tgt_raw):
             continue
+        src_label = str(src_raw)
+        tgt_label = str(tgt_raw)
 
-        src = str(src_raw)
-        tgt = str(tgt_raw)
+        # Use slugified node identifiers consistently throughout the graph.
+        src = _slugify(src_label)
+        tgt = _slugify(tgt_label)
+        if not src or not tgt:
+            continue
 
         relation = rel.get("relation") or rel.get("type") or "related"
         edge_type_cfg: Optional[EdgeTypeConfig] = (edge_cfg or {}).get(relation)
@@ -207,8 +212,8 @@ def _add_graph_document_record(
         tgt_type = edge_type_cfg.target_type if edge_type_cfg else None
 
         # Ensure endpoints exist; if they are not part of entities, infer type/label.
-        ensure_node(src, fallback_type=src_type)
-        ensure_node(tgt, fallback_type=tgt_type)
+        ensure_node(src, fallback_label=src_label, fallback_type=src_type)
+        ensure_node(tgt, fallback_label=tgt_label, fallback_type=tgt_type)
 
         # Build edge attributes.
         eattrs: Dict[str, Any] = {"type": relation}
