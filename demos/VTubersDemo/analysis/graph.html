@@ -1,0 +1,557 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 850px;
+                 background-color: #0d1117;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+
+<style id="themeStyles">
+body {
+  background-color: #0d1117;
+  color: #ddd;
+}
+#legend {
+  background: rgba(0,0,0,0.85);
+  border-color: #444;
+  color: #fff;
+}
+#searchBox {
+  background: #222;
+  color: #eee;
+  border-color: #555;
+}
+#darkLightToggle {
+  background: #222;
+  color: #eee;
+  border-color: #555;
+}
+</style>
+
+
+<h1 style="
+    text-align:center;
+    color:#ddd;
+    font-family:Arial, sans-serif;
+    margin-top:20px;
+">
+Enhanced VTubersDemo Knowledge Graph
+</h1>
+
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#9467bd", "font": {"color": "#eeeeee"}, "id": "vtuber", "label": "vtuber", "physics": true, "shape": "dot", "size": 25, "title": "vtuber\u003cbr\u003etype=vtuber\u003cbr\u003ecommunity=4", "type": "vtuber", "x": 65.90867177349186, "y": 297.1080681897215}, {"color": "#1f77b4", "font": {"color": "#eeeeee"}, "id": "innk_music", "label": "INNK Music", "physics": true, "shape": "dot", "size": 25, "title": "INNK Music\u003cbr\u003etype=agency\u003cbr\u003ecommunity=4", "type": "agency", "x": 50.007523022761994, "y": 241.15468939595624}, {"color": "#2ca02c", "font": {"color": "#eeeeee"}, "id": "game", "label": "game", "physics": true, "shape": "dot", "size": 25, "title": "game\u003cbr\u003etype=game\u003cbr\u003ecommunity=4", "type": "game", "x": 87.56601119577545, "y": 410.23889761838973}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "tenkyu_suisei_wa_yoru_o_koede", "label": "tenkyu_suisei_wa_yoru_o_koede", "physics": true, "shape": "dot", "size": 25, "title": "tenkyu_suisei_wa_yoru_o_koede\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=4", "type": "music_release", "x": 134.80997459238625, "y": 387.4664011480189}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "nonstop_story", "label": "Nonstop Story", "physics": true, "shape": "dot", "size": 25, "title": "Nonstop Story\u003cbr\u003etype=Hololive\u0027s 1st fest\u003cbr\u003ecommunity=4", "type": "Hololive\u0027s 1st fest", "x": -15.45989876345034, "y": 121.7572916776268}, {"color": "#9467bd", "font": {"color": "#eeeeee"}, "id": "inugami_korone", "label": "Inugami Korone", "physics": true, "shape": "dot", "size": 25, "title": "Inugami Korone\u003cbr\u003etype=vtuber\u003cbr\u003ecommunity=4", "type": "vtuber", "x": -116.76131577962114, "y": 55.97060712914193}, {"color": "#1f77b4", "font": {"color": "#eeeeee"}, "id": "hololive", "label": "Hololive", "physics": true, "shape": "dot", "size": 25, "title": "Hololive\u003cbr\u003etype=agency\u003cbr\u003ecommunity=2", "type": "agency", "x": -17.829214049539353, "y": 62.36974013787965}, {"color": "#2ca02c", "font": {"color": "#eeeeee"}, "id": "animal_crossing", "label": "Animal Crossing", "physics": true, "shape": "dot", "size": 25, "title": "Animal Crossing\u003cbr\u003etype=game\u003cbr\u003ecommunity=4", "type": "game", "x": -213.4590511649497, "y": 9.96663630767701}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "\u3053\u308d\u306d\u306e\u6700\u51f6\u5929\u707d\u308f\u3093\u3060\u3075\u3049\u30fc\u308f\u30fc\u308b\u3069", "label": "\u3053\u308d\u306d\u306e\u6700\u51f6\u5929\u707d\u308f\u3093\u3060\u3075\u3049\u30fc\u308f\u30fc\u308b\u3069", "physics": true, "shape": "dot", "size": 25, "title": "\u3053\u308d\u306d\u306e\u6700\u51f6\u5929\u707d\u308f\u3093\u3060\u3075\u3049\u30fc\u308f\u30fc\u308b\u3069\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=4", "type": "music_release", "x": -222.30340978617386, "y": 49.63929836601222}, {"color": "#9467bd", "font": {"color": "#eeeeee"}, "id": "nekomata_okayu", "label": "Nekomata Okayu", "physics": true, "shape": "dot", "size": 25, "title": "Nekomata Okayu\u003cbr\u003etype=vtuber\u003cbr\u003ecommunity=1", "type": "vtuber", "x": 53.65710608255094, "y": -244.06831424219837}, {"color": "#2ca02c", "font": {"color": "#eeeeee"}, "id": "gegege_no_kitaro_snes_game", "label": "Gegege no Kitaro SNES game", "physics": true, "shape": "dot", "size": 25, "title": "Gegege no Kitaro SNES game\u003cbr\u003etype=game\u003cbr\u003ecommunity=5", "type": "game", "x": 413.6530009577134, "y": -894.7050621240195}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "beyond_the_stage", "label": "Beyond the Stage", "physics": true, "shape": "dot", "size": 25, "title": "Beyond the Stage\u003cbr\u003etype=live event\u003cbr\u003ecommunity=2", "type": "live event", "x": 104.92272401004357, "y": 25.51917466016074}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "link_your_wish", "label": "Link Your Wish", "physics": true, "shape": "dot", "size": 25, "title": "Link Your Wish\u003cbr\u003etype=fes\u003cbr\u003ecommunity=6", "type": "fes", "x": 179.03782257946605, "y": 965.7421998013658}, {"color": "#2ca02c", "font": {"color": "#eeeeee"}, "id": "yo_kai_watch_punipuni", "label": "Yo-kai Watch PuniPuni", "physics": true, "shape": "dot", "size": 25, "title": "Yo-kai Watch PuniPuni\u003cbr\u003etype=game\u003cbr\u003ecommunity=1", "type": "game", "x": 18.958653816529566, "y": -40.46814408522261}, {"color": "#9467bd", "font": {"color": "#eeeeee"}, "id": "watame", "label": "Watame", "physics": true, "shape": "dot", "size": 25, "title": "Watame\u003cbr\u003etype=vtuber\u003cbr\u003ecommunity=7", "type": "vtuber", "x": 163.10028995473786, "y": -1000.0}, {"color": "#9467bd", "font": {"color": "#eeeeee"}, "id": "miko", "label": "Miko", "physics": true, "shape": "dot", "size": 25, "title": "Miko\u003cbr\u003etype=vtuber\u003cbr\u003ecommunity=8", "type": "vtuber", "x": 671.0694836546471, "y": -703.6218922606502}, {"color": "#9467bd", "font": {"color": "#eeeeee"}, "id": "botan", "label": "Botan", "physics": true, "shape": "dot", "size": 25, "title": "Botan\u003cbr\u003etype=vtuber\u003cbr\u003ecommunity=9", "type": "vtuber", "x": -615.8144049756789, "y": 900.1855802293574}, {"color": "#9467bd", "font": {"color": "#eeeeee"}, "id": "fubuki", "label": "Fubuki", "physics": true, "shape": "dot", "size": 25, "title": "Fubuki\u003cbr\u003etype=vtuber\u003cbr\u003ecommunity=10", "type": "vtuber", "x": 918.6514651439368, "y": 577.1864344770779}, {"color": "#9467bd", "font": {"color": "#eeeeee"}, "id": "pekora", "label": "Pekora", "physics": true, "shape": "dot", "size": 25, "title": "Pekora\u003cbr\u003etype=vtuber\u003cbr\u003ecommunity=11", "type": "vtuber", "x": -377.01577927545645, "y": -928.6093849091254}, {"color": "#9467bd", "font": {"color": "#eeeeee"}, "id": "marine", "label": "Marine", "physics": true, "shape": "dot", "size": 25, "title": "Marine\u003cbr\u003etype=vtuber\u003cbr\u003ecommunity=12", "type": "vtuber", "x": 926.6604629698656, "y": -173.15872663125364}, {"color": "#1f77b4", "font": {"color": "#eeeeee"}, "id": "hololive_gamers", "label": "Hololive GAMERS", "physics": true, "shape": "dot", "size": 25, "title": "Hololive GAMERS\u003cbr\u003etype=agency\u003cbr\u003ecommunity=1", "type": "agency", "x": 54.35966664339572, "y": -316.24736953909985}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "\u3082\u3050\u3082\u3050yummy", "label": "\u3082\u3050\u3082\u3050YUMMY!", "physics": true, "shape": "dot", "size": 25, "title": "\u3082\u3050\u3082\u3050YUMMY!\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=1", "type": "music_release", "x": -6.326215180469699, "y": -328.7725014883768}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "shiny_smily_story", "label": "Shiny Smily Story", "physics": true, "shape": "dot", "size": 25, "title": "Shiny Smily Story\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=3", "type": "music_release", "x": -59.95573653119087, "y": -68.58471403109932}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "\u307d\u3044\u305a\u306b\u3083\u3057\u3093\u3069\u308d\u30fc\u3080", "label": "\u307d\u3044\u305a\u306b\u3083\uff5e\u3057\u3093\u3069\u308d\u30fc\u3080", "physics": true, "shape": "dot", "size": 25, "title": "\u307d\u3044\u305a\u306b\u3083\uff5e\u3057\u3093\u3069\u308d\u30fc\u3080\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=1", "type": "music_release", "x": 124.93842731545203, "y": -287.1840686026208}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "holo27_originals_vol1", "label": "holo*27 Originals Vol.1", "physics": true, "shape": "dot", "size": 25, "title": "holo*27 Originals Vol.1\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=1", "type": "music_release", "x": 74.4242695068783, "y": -366.0528383919628}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "hololive_summer_2022", "label": "hololive Summer 2022", "physics": true, "shape": "dot", "size": 25, "title": "hololive Summer 2022\u003cbr\u003etype=3D swimsuit outfit debut\u003cbr\u003ecommunity=1", "type": "3D swimsuit outfit debut", "x": 111.19780809240851, "y": -346.43909198641586}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "poisonya_syndrome", "label": "POISONYA SYNDROME", "physics": true, "shape": "dot", "size": 25, "title": "POISONYA SYNDROME\u003cbr\u003etype=1st sololive\u003cbr\u003ecommunity=1", "type": "1st sololive", "x": 149.18378665256716, "y": -323.8391463047467}, {"color": "#2ca02c", "font": {"color": "#eeeeee"}, "id": "\u304a\u304b\u3086\u306b\u3085\u3080okayunyumu", "label": "\u304a\u304b\u3086\u306b\u3085\uff5e\uff5e\u3080\uff01~Okayunyumu~", "physics": true, "shape": "dot", "size": 25, "title": "\u304a\u304b\u3086\u306b\u3085\uff5e\uff5e\u3080\uff01~Okayunyumu~\u003cbr\u003etype=game\u003cbr\u003ecommunity=1", "type": "game", "x": 169.02841697548158, "y": -266.2483187506182}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "personya_respect", "label": "PERSONYA RESPECT", "physics": true, "shape": "dot", "size": 25, "title": "PERSONYA RESPECT\u003cbr\u003etype=2nd Sololive\u003cbr\u003ecommunity=1", "type": "2nd Sololive", "x": 27.807965698835375, "y": -362.7757725923443}, {"color": "#9467bd", "font": {"color": "#eeeeee"}, "id": "ookami_mio", "label": "ookami_mio", "physics": true, "shape": "dot", "size": 25, "title": "ookami_mio\u003cbr\u003etype=vtuber\u003cbr\u003ecommunity=3", "type": "vtuber", "x": -154.014981325425, "y": -36.139166812638955}, {"color": "#2ca02c", "font": {"color": "#eeeeee"}, "id": "minecraft", "label": "minecraft", "physics": true, "shape": "dot", "size": 25, "title": "minecraft\u003cbr\u003etype=game\u003cbr\u003ecommunity=3", "type": "game", "x": -266.9944546960757, "y": -142.67422616278995}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "howling", "label": "howling", "physics": true, "shape": "dot", "size": 25, "title": "howling\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=3", "type": "music_release", "x": -146.5830890065991, "y": -141.25448262973447}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "night_walk", "label": "night_walk", "physics": true, "shape": "dot", "size": 25, "title": "night_walk\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=3", "type": "music_release", "x": -234.0105623519637, "y": -100.65682768141605}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "bouquet", "label": "bouquet", "physics": true, "shape": "dot", "size": 25, "title": "bouquet\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=3", "type": "music_release", "x": -280.9143262477753, "y": -90.1260822482664}, {"color": "#9467bd", "font": {"color": "#eeeeee"}, "id": "shirakami_fubuki", "label": "shirakami_fubuki", "physics": true, "shape": "dot", "size": 25, "title": "shirakami_fubuki\u003cbr\u003etype=vtuber\u003cbr\u003ecommunity=0", "type": "vtuber", "x": -141.92602373574778, "y": 125.82034014656918}, {"color": "#9467bd", "font": {"color": "#eeeeee"}, "id": "nakiri_ayame", "label": "nakiri_ayame", "physics": true, "shape": "dot", "size": 25, "title": "nakiri_ayame\u003cbr\u003etype=vtuber\u003cbr\u003ecommunity=3", "type": "vtuber", "x": -207.79042790396684, "y": -161.0377559608683}, {"color": "#9467bd", "font": {"color": "#eeeeee"}, "id": "hakui_koyori", "label": "hakui_koyori", "physics": true, "shape": "dot", "size": 25, "title": "hakui_koyori\u003cbr\u003etype=vtuber\u003cbr\u003ecommunity=3", "type": "vtuber", "x": -280.84981590070004, "y": -47.54781498162347}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "our_sparkle", "label": "our_sparkle", "physics": true, "shape": "dot", "size": 25, "title": "our_sparkle\u003cbr\u003etype=sololive concert\u003cbr\u003ecommunity=2", "type": "sololive concert", "x": 64.52679505962581, "y": 135.29996984622179}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "my_sparkle", "label": "my_sparkle", "physics": true, "shape": "dot", "size": 25, "title": "my_sparkle\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=3", "type": "music_release", "x": -189.7767625765152, "y": -118.91459031198382}, {"color": "#2ca02c", "font": {"color": "#eeeeee"}, "id": "fortnite_battle_royale", "label": "Fortnite Battle Royale", "physics": true, "shape": "dot", "size": 25, "title": "Fortnite Battle Royale\u003cbr\u003etype=game\u003cbr\u003ecommunity=0", "type": "game", "x": -292.0560077083935, "y": 122.66620145363403}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "say\u30d5\u30a1\u30f3\u30d5\u30a1\u30fc\u30ec", "label": "Say!\u30d5\u30a1\u30f3\u30d5\u30a1\u30fc\u30ec!", "physics": true, "shape": "dot", "size": 25, "title": "Say!\u30d5\u30a1\u30f3\u30d5\u30a1\u30fc\u30ec!\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=0", "type": "music_release", "x": -115.68167473590115, "y": 233.08133685092346}, {"color": "#cccccc", "font": {"color": "#eeeeee"}, "id": "fbkbp2019", "label": "FBKBP2019", "physics": true, "shape": "dot", "size": 25, "title": "FBKBP2019\u003cbr\u003etype=birthday party event\u003cbr\u003ecommunity=0", "type": "birthday party event", "x": -70.33567362671255, "y": 112.22038853161071}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "shirakami_cafe_music", "label": "Shirakami Cafe Music", "physics": true, "shape": "dot", "size": 25, "title": "Shirakami Cafe Music\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=0", "type": "music_release", "x": -231.40897239875054, "y": 119.14758667852543}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "\u5e7b\u60f3\u90f7\u30db\u30ed\u30a4\u30ba\u30e0_gensokyoholoism", "label": "#\u5e7b\u60f3\u90f7\u30db\u30ed\u30a4\u30ba\u30e0 (#GENSOKYOholoism)", "physics": true, "shape": "dot", "size": 25, "title": "#\u5e7b\u60f3\u90f7\u30db\u30ed\u30a4\u30ba\u30e0 (#GENSOKYOholoism)\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=0", "type": "music_release", "x": -194.61820709434218, "y": 180.86047872589143}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "\u3082\u3063\u3075\u3082\u3075_de_\u3088\u3044\u306e\u3058\u3083\u3088_moffumoffu_de_yoi_no_ja_yo", "label": "\u3082\u3063\u3075\u3082\u3075 DE \u3088\u3044\u306e\u3058\u3083\u3088 (Moffumoffu DE Yoi no Ja yo)", "physics": true, "shape": "dot", "size": 25, "title": "\u3082\u3063\u3075\u3082\u3075 DE \u3088\u3044\u306e\u3058\u3083\u3088 (Moffumoffu DE Yoi no Ja yo)\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=0", "type": "music_release", "x": -79.66267843415778, "y": 217.7381487517684}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "\u30af\u30c3\u30af\u30d1\u30c3\u30c9\u304a\u3059\u3059\u3081\u30ec\u30b7\u30d4", "label": "\u30af\u30c3\u30af\u30d1\u30c3\u30c9\u304a\u3059\u3059\u3081\u30ec\u30b7\u30d4", "physics": true, "shape": "dot", "size": 25, "title": "\u30af\u30c3\u30af\u30d1\u30c3\u30c9\u304a\u3059\u3059\u3081\u30ec\u30b7\u30d4\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=0", "type": "music_release", "x": -225.8804837644654, "y": 218.8960861633886}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "\u671d\u304c\u6765\u3066", "label": "\u671d\u304c\u6765\u3066", "physics": true, "shape": "dot", "size": 25, "title": "\u671d\u304c\u6765\u3066\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=0", "type": "music_release", "x": -149.4942582320749, "y": 270.8526384252725}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "\u9999\u308a\u306e\u3084\u308b\u6c17\u30b9\u30a4\u30c3\u30c1", "label": "\u9999\u308a\u306e\u3084\u308b\u6c17\u30b9\u30a4\u30c3\u30c1\uff01", "physics": true, "shape": "dot", "size": 25, "title": "\u9999\u308a\u306e\u3084\u308b\u6c17\u30b9\u30a4\u30c3\u30c1\uff01\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=0", "type": "music_release", "x": -160.13946997615497, "y": 227.04930164646964}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "223_am", "label": "2:23 AM", "physics": true, "shape": "dot", "size": 25, "title": "2:23 AM\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=0", "type": "music_release", "x": -200.31129201507053, "y": 259.1149795782017}, {"color": "#2ca02c", "font": {"color": "#eeeeee"}, "id": "apex_legends", "label": "APEX Legends", "physics": true, "shape": "dot", "size": 25, "title": "APEX Legends\u003cbr\u003etype=game\u003cbr\u003ecommunity=0", "type": "game", "x": -293.6680053578832, "y": 183.94300425467878}, {"color": "#2ca02c", "font": {"color": "#eeeeee"}, "id": "phasmophobia", "label": "Phasmophobia", "physics": true, "shape": "dot", "size": 25, "title": "Phasmophobia\u003cbr\u003etype=game\u003cbr\u003ecommunity=0", "type": "game", "x": -261.54727332080364, "y": 239.45099151917088}, {"color": "#9467bd", "font": {"color": "#eeeeee"}, "id": "kurokami", "label": "Kurokami", "physics": true, "shape": "dot", "size": 25, "title": "Kurokami\u003cbr\u003etype=vtuber\u003cbr\u003ecommunity=0", "type": "vtuber", "x": -253.35190207314346, "y": 166.76715787274136}, {"color": "#9467bd", "font": {"color": "#eeeeee"}, "id": "usada_pekora", "label": "Usada Pekora", "physics": true, "shape": "dot", "size": 25, "title": "Usada Pekora\u003cbr\u003etype=vtuber\u003cbr\u003ecommunity=2", "type": "vtuber", "x": 144.6091682383711, "y": 69.06157009140856}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "\u307a\u3053\u3089\u3093\u3060\u3080\u3076\u308c\u3044\u3093", "label": "\u307a\u3053\u3089\u3093\u3060\u3080\u3076\u308c\u3044\u3093!", "physics": true, "shape": "dot", "size": 25, "title": "\u307a\u3053\u3089\u3093\u3060\u3080\u3076\u308c\u3044\u3093!\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=2", "type": "music_release", "x": 240.61492959547758, "y": 108.39500401552976}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "\u307a\u3053\u307f\u3053\u5927\u6226\u4e89", "label": "\u307a\u3053\u307f\u3053\u5927\u6226\u4e89\uff01\uff01", "physics": true, "shape": "dot", "size": 25, "title": "\u307a\u3053\u307f\u3053\u5927\u6226\u4e89\uff01\uff01\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=2", "type": "music_release", "x": 242.41795525599917, "y": 13.433092698169935}, {"color": "#d62728", "font": {"color": "#eeeeee"}, "id": "\u5e7b\u60f3\u90f7\u30db\u30ed\u30a4\u30ba\u30e0", "label": "#\u5e7b\u60f3\u90f7\u30db\u30ed\u30a4\u30ba\u30e0", "physics": true, "shape": "dot", "size": 25, "title": "#\u5e7b\u60f3\u90f7\u30db\u30ed\u30a4\u30ba\u30e0\u003cbr\u003etype=music_release\u003cbr\u003ecommunity=2", "type": "music_release", "x": 257.02193408282864, "y": 53.218057429123846}, {"color": "#ff7f0e", "font": {"color": "#eeeeee"}, "id": "bloom", "label": "Bloom", "physics": true, "shape": "dot", "size": 25, "title": "Bloom\u003cbr\u003etype=event\u003cbr\u003ecommunity=2", "type": "event", "x": 99.80071378216608, "y": 84.44801583733098}, {"color": "#ff7f0e", "font": {"color": "#eeeeee"}, "id": "pekora_24", "label": "Pekora 24", "physics": true, "shape": "dot", "size": 25, "title": "Pekora 24\u003cbr\u003etype=event\u003cbr\u003ecommunity=2", "type": "event", "x": 244.4310244109991, "y": 152.527553774784}, {"color": "#ff7f0e", "font": {"color": "#eeeeee"}, "id": "_usagi_the_megami_", "label": "-Usagi The MegaMi!!-", "physics": true, "shape": "dot", "size": 25, "title": "-Usagi The MegaMi!!-\u003cbr\u003etype=event\u003cbr\u003ecommunity=2", "type": "event", "x": 283.575316924758, "y": 90.82936929927467}]);
+                  edges = new vis.DataSet([{"color": "#e41a1c", "from": "vtuber", "title": "belongs_to", "to": "innk_music", "width": 2}, {"color": "#377eb8", "from": "vtuber", "title": "collaborated_with", "to": "vtuber", "width": 2}, {"color": "#ff7f00", "from": "vtuber", "title": "played", "to": "game", "width": 2}, {"color": "#a65628", "from": "vtuber", "title": "released", "to": "tenkyu_suisei_wa_yoru_o_koede", "width": 2}, {"color": "#984ea3", "from": "vtuber", "title": "performed_at", "to": "nonstop_story", "width": 2}, {"color": "#4daf4a", "from": "innk_music", "title": "held", "to": "nonstop_story", "width": 2}, {"color": "#984ea3", "from": "nonstop_story", "title": "performed_at", "to": "inugami_korone", "width": 2}, {"color": "#984ea3", "from": "nonstop_story", "title": "performed_at", "to": "ookami_mio", "width": 2}, {"color": "#984ea3", "from": "nonstop_story", "title": "performed_at", "to": "shirakami_fubuki", "width": 2}, {"color": "#4daf4a", "from": "nonstop_story", "title": "held", "to": "hololive", "width": 2}, {"color": "#984ea3", "from": "nonstop_story", "title": "performed_at", "to": "usada_pekora", "width": 2}, {"color": "#e41a1c", "from": "inugami_korone", "title": "belongs_to", "to": "hololive", "width": 2}, {"color": "#ff7f00", "from": "inugami_korone", "title": "played", "to": "animal_crossing", "width": 2}, {"color": "#a65628", "from": "inugami_korone", "title": "released", "to": "\u3053\u308d\u306d\u306e\u6700\u51f6\u5929\u707d\u308f\u3093\u3060\u3075\u3049\u30fc\u308f\u30fc\u308b\u3069", "width": 2}, {"color": "#e41a1c", "from": "hololive", "title": "belongs_to", "to": "ookami_mio", "width": 2}, {"color": "#4daf4a", "from": "hololive", "title": "held", "to": "our_sparkle", "width": 2}, {"color": "#e41a1c", "from": "hololive", "title": "belongs_to", "to": "shirakami_fubuki", "width": 2}, {"color": "#4daf4a", "from": "hololive", "title": "held", "to": "fbkbp2019", "width": 2}, {"color": "#e41a1c", "from": "hololive", "title": "belongs_to", "to": "usada_pekora", "width": 2}, {"color": "#4daf4a", "from": "hololive", "title": "held", "to": "beyond_the_stage", "width": 2}, {"color": "#4daf4a", "from": "hololive", "title": "held", "to": "bloom", "width": 2}, {"color": "#e41a1c", "from": "nekomata_okayu", "title": "belongs_to", "to": "hololive_gamers", "width": 2}, {"color": "#ff7f00", "from": "nekomata_okayu", "title": "played", "to": "yo_kai_watch_punipuni", "width": 2}, {"color": "#ff7f00", "from": "nekomata_okayu", "title": "played", "to": "\u304a\u304b\u3086\u306b\u3085\u3080okayunyumu", "width": 2}, {"color": "#a65628", "from": "nekomata_okayu", "title": "released", "to": "\u3082\u3050\u3082\u3050yummy", "width": 2}, {"color": "#a65628", "from": "nekomata_okayu", "title": "released", "to": "shiny_smily_story", "width": 2}, {"color": "#a65628", "from": "nekomata_okayu", "title": "released", "to": "\u307d\u3044\u305a\u306b\u3083\u3057\u3093\u3069\u308d\u30fc\u3080", "width": 2}, {"color": "#a65628", "from": "nekomata_okayu", "title": "released", "to": "holo27_originals_vol1", "width": 2}, {"color": "#984ea3", "from": "nekomata_okayu", "title": "performed_at", "to": "hololive_summer_2022", "width": 2}, {"color": "#984ea3", "from": "nekomata_okayu", "title": "performed_at", "to": "poisonya_syndrome", "width": 2}, {"color": "#984ea3", "from": "nekomata_okayu", "title": "performed_at", "to": "personya_respect", "width": 2}, {"color": "#984ea3", "from": "beyond_the_stage", "title": "performed_at", "to": "usada_pekora", "width": 2}, {"color": "#ff7f00", "from": "yo_kai_watch_punipuni", "title": "played", "to": "shirakami_fubuki", "width": 2}, {"color": "#ff7f00", "from": "yo_kai_watch_punipuni", "title": "played", "to": "usada_pekora", "width": 2}, {"color": "#a65628", "from": "shiny_smily_story", "title": "released", "to": "ookami_mio", "width": 2}, {"color": "#a65628", "from": "shiny_smily_story", "title": "released", "to": "shirakami_fubuki", "width": 2}, {"color": "#377eb8", "from": "ookami_mio", "title": "collaborated_with", "to": "shirakami_fubuki", "width": 2}, {"color": "#377eb8", "from": "ookami_mio", "title": "collaborated_with", "to": "nakiri_ayame", "width": 2}, {"color": "#377eb8", "from": "ookami_mio", "title": "collaborated_with", "to": "hakui_koyori", "width": 2}, {"color": "#ff7f00", "from": "ookami_mio", "title": "played", "to": "minecraft", "width": 2}, {"color": "#a65628", "from": "ookami_mio", "title": "released", "to": "howling", "width": 2}, {"color": "#a65628", "from": "ookami_mio", "title": "released", "to": "night_walk", "width": 2}, {"color": "#a65628", "from": "ookami_mio", "title": "released", "to": "bouquet", "width": 2}, {"color": "#a65628", "from": "ookami_mio", "title": "released", "to": "my_sparkle", "width": 2}, {"color": "#377eb8", "from": "shirakami_fubuki", "title": "collaborated_with", "to": "kurokami", "width": 2}, {"color": "#ff7f00", "from": "shirakami_fubuki", "title": "played", "to": "fortnite_battle_royale", "width": 2}, {"color": "#a65628", "from": "shirakami_fubuki", "title": "released", "to": "say\u30d5\u30a1\u30f3\u30d5\u30a1\u30fc\u30ec", "width": 2}, {"color": "#984ea3", "from": "shirakami_fubuki", "title": "performed_at", "to": "fbkbp2019", "width": 2}, {"color": "#a65628", "from": "shirakami_fubuki", "title": "released", "to": "shirakami_cafe_music", "width": 2}, {"color": "#a65628", "from": "shirakami_fubuki", "title": "released", "to": "\u5e7b\u60f3\u90f7\u30db\u30ed\u30a4\u30ba\u30e0_gensokyoholoism", "width": 2}, {"color": "#a65628", "from": "shirakami_fubuki", "title": "released", "to": "\u3082\u3063\u3075\u3082\u3075_de_\u3088\u3044\u306e\u3058\u3083\u3088_moffumoffu_de_yoi_no_ja_yo", "width": 2}, {"color": "#a65628", "from": "shirakami_fubuki", "title": "released", "to": "\u30af\u30c3\u30af\u30d1\u30c3\u30c9\u304a\u3059\u3059\u3081\u30ec\u30b7\u30d4", "width": 2}, {"color": "#a65628", "from": "shirakami_fubuki", "title": "released", "to": "\u671d\u304c\u6765\u3066", "width": 2}, {"color": "#a65628", "from": "shirakami_fubuki", "title": "released", "to": "\u9999\u308a\u306e\u3084\u308b\u6c17\u30b9\u30a4\u30c3\u30c1", "width": 2}, {"color": "#a65628", "from": "shirakami_fubuki", "title": "released", "to": "223_am", "width": 2}, {"color": "#ff7f00", "from": "shirakami_fubuki", "title": "played", "to": "apex_legends", "width": 2}, {"color": "#ff7f00", "from": "shirakami_fubuki", "title": "played", "to": "phasmophobia", "width": 2}, {"color": "#377eb8", "from": "usada_pekora", "title": "collaborated_with", "to": "usada_pekora", "width": 2}, {"color": "#a65628", "from": "usada_pekora", "title": "released", "to": "\u307a\u3053\u3089\u3093\u3060\u3080\u3076\u308c\u3044\u3093", "width": 2}, {"color": "#a65628", "from": "usada_pekora", "title": "released", "to": "\u307a\u3053\u307f\u3053\u5927\u6226\u4e89", "width": 2}, {"color": "#a65628", "from": "usada_pekora", "title": "released", "to": "\u5e7b\u60f3\u90f7\u30db\u30ed\u30a4\u30ba\u30e0", "width": 2}, {"color": "#984ea3", "from": "usada_pekora", "title": "performed_at", "to": "bloom", "width": 2}, {"color": "#984ea3", "from": "usada_pekora", "title": "performed_at", "to": "pekora_24", "width": 2}, {"color": "#984ea3", "from": "usada_pekora", "title": "performed_at", "to": "_usagi_the_megami_", "width": 2}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"physics": {"enabled": true, "barnesHut": {"gravitationalConstant": -5000, "centralGravity": 0.2, "springLength": 130, "springConstant": 0.02, "damping": 0.09, "avoidOverlap": 0}, "stabilization": {"enabled": true, "iterations": 300}}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+<!-- Dark/Light Toggle Button -->
+<button id="darkLightToggle" style="
+    position: fixed;
+    top: 15px;
+    right: 20px;
+    z-index: 9999;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #222;
+    color: #eee;
+    border: 1px solid #555;
+">🌙 Dark</button>
+
+<div id="legend" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 0;
+    background: rgba(0,0,0,0.85);
+    border: 2px solid #444;
+    border-radius: 10px;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    min-width: 260px;
+    z-index: 9999;
+    max-height: 450px;
+">
+
+    <div id="legendDragHandle" style="
+        width: 100%;
+        padding: 8px;
+        background: rgba(255,255,255,0.05);
+        border-bottom: 1px solid #555;
+        cursor: grab;
+        font-weight: bold;
+        user-select: none;
+    ">Legend</div>
+
+    <div id="legendContent" style="padding:15px; max-height:380px; overflow:auto;">
+
+        <div style="font-weight:bold; margin-bottom:10px;">Search Node</div>
+        <input id="searchBox" placeholder="Type name…" style="
+            width:95%;
+            padding:6px;
+            margin-bottom:12px;
+            border-radius:5px;
+            border:1px solid #555;
+            background:#222;
+            color:#eee;
+        ">
+
+        <div style="font-weight:bold; margin-bottom:10px;">Physics</div>
+        <label style="display:block;margin-bottom:12px;cursor:pointer;">
+            <input type="checkbox" id="physicsToggle" checked style="margin-right:6px;">
+            <span>Enable physics (layout updates)</span>
+        </label>
+
+        <div style="font-weight:bold; margin-bottom:10px;">Node Types (Toggle)</div>
+        <div id="nodeTypeControls"></div>
+
+        <hr style="border-color:#666; margin:10px 0;">
+        <div style="font-weight:bold; margin-bottom:10px;">Edge Types (Toggle)</div>
+        <div id="edgeTypeControls"></div>
+    </div>
+
+    <div id="legendResizeHandle" style="
+        position:absolute;
+        width:14px;
+        height:14px;
+        bottom:2px;
+        right:2px;
+        cursor:se-resize;
+        background:rgba(255,255,255,0.2);
+        border-radius:3px;
+    "></div>
+</div>
+
+<script>
+// Helper: set canvas background to match theme
+function applyGraphBackground(isDark) {
+    var bg = isDark ? "#0d1117" : "#ffffff";
+    var canvas = document.querySelector("canvas");
+    if (canvas) {
+        canvas.style.background = bg;
+    }
+}
+
+// ======================================================================
+// Node-type Filters (hide/show nodes only)
+// ======================================================================
+function addLegendControls() {
+    if (typeof network === 'undefined') return setTimeout(addLegendControls, 200);
+
+    var container = document.getElementById('nodeTypeControls');
+    var allNodes = network.body.nodes;
+    var typeColors = {};
+
+    Object.values(allNodes).forEach(function(n) {
+        var t = n.options.type || '';
+        if (!typeColors[t]) {
+            var col = (n.options.color && n.options.color.background)
+                ? n.options.color.background
+                : '#cccccc';
+            typeColors[t] = col;
+        }
+    });
+
+    Object.keys(typeColors).forEach(function(t) {
+        var col = typeColors[t];
+        var id = "toggle_" + t.replace(/[^a-zA-Z0-9]/g, '_');
+
+        container.innerHTML += ''
+            + '<label style="display:block;margin-bottom:6px;cursor:pointer;">'
+            +   '<input type="checkbox" id="' + id + '" checked style="margin-right:6px;">'
+            +   '<span style="color:' + col + '">' + t.replace(/_/g,' ') + '</span>'
+            + '</label>';
+
+        setTimeout(function() {
+            var cb = document.getElementById(id);
+            if (!cb) return;
+            cb.onchange = function() {
+                var visible = cb.checked;
+                var nodeDS = network.body.data.nodes;
+                var updates = [];
+
+                // Batch updates to avoid repeated heavy work
+                Object.values(network.body.nodes).forEach(function(n) {
+                    if ((n.options.type || '') === t) {
+                        updates.push({ id: n.id, hidden: !visible });
+                    }
+                });
+
+                if (updates.length > 0) {
+                    nodeDS.update(updates);
+                }
+                // No explicit redraw() here – vis handles it efficiently
+            };
+        }, 50);
+    });
+}
+setTimeout(addLegendControls, 300);
+
+
+// ======================================================================
+// Edge-type Filters (hide/show edges by type)
+// ======================================================================
+function addEdgeFilters() {
+    if (typeof network === 'undefined') return setTimeout(addEdgeFilters, 200);
+
+    var container = document.getElementById('edgeTypeControls');
+    var allEdges = network.body.edges;
+    var typeColors = {};
+
+    Object.values(allEdges).forEach(function(e) {
+        var t = e.options.title || '';
+        if (!typeColors[t]) {
+            var col = e.options.color || '#cccccc';
+            var colStr = (typeof col === 'string') ? col : (col.color || '#cccccc');
+            typeColors[t] = colStr;
+        }
+    });
+
+    Object.keys(typeColors).forEach(function(etype) {
+        var color = typeColors[etype];
+        var id = "edge_toggle_" + etype.replace(/[^a-zA-Z0-9]/g, '_');
+
+        container.innerHTML += ''
+            + '<label style="display:block;margin-bottom:6px;cursor:pointer;">'
+            +   '<input type="checkbox" id="' + id + '" checked style="margin-right:6px;">'
+            +   '<span style="color:' + color + '">' + etype.replace(/_/g,' ') + '</span>'
+            + '</label>';
+
+        setTimeout(function() {
+            var cb = document.getElementById(id);
+            if (!cb) return;
+            cb.onchange = function() {
+                var visible = cb.checked;
+                var edgeDS = network.body.data.edges;
+                var updates = [];
+
+                Object.values(allEdges).forEach(function(edge) {
+                    if ((edge.options.title || '') === etype) {
+                        updates.push({ id: edge.id, hidden: !visible });
+                    }
+                });
+
+                if (updates.length > 0) {
+                    edgeDS.update(updates);
+                }
+                // Again, rely on internal redraw
+            };
+        }, 50);
+    });
+}
+setTimeout(addEdgeFilters, 350);
+
+
+// ======================================================================
+// Search Bar with highlight + auto-zoom
+// ======================================================================
+function setupSearchBar() {
+    if (typeof network === 'undefined') return setTimeout(setupSearchBar, 200);
+
+    var box = document.getElementById("searchBox");
+    var allNodes = network.body.nodes;
+
+    box.addEventListener("input", function() {
+        var q = box.value.trim().toLowerCase();
+
+        if (q === "") {
+            Object.values(allNodes).forEach(function(n) {
+                var orig = n.options._origColor || n.options.color;
+                n.setOptions({ color: orig });
+            });
+            return;
+        }
+
+        var found = null;
+
+        Object.values(allNodes).forEach(function(n) {
+            var label = (n.options.label || "").toLowerCase();
+            var idStr = String(n.id).toLowerCase();
+
+            if (label.includes(q) || idStr.includes(q)) {
+                found = n;
+                n.setOptions({
+                    _origColor: n.options.color,
+                    color: { background:"#ffcc00", border:"#ffaa00" }
+                });
+            } else {
+                n.setOptions({
+                    _origColor: n.options.color,
+                    color: { background:"#444", border:"#222" }
+                });
+            }
+        });
+
+        if (found) {
+            network.focus(found.id, {
+                scale: 1.2,
+                animation: { duration: 500, easingFunction: "easeInOutQuad" }
+            });
+        }
+    });
+}
+setTimeout(setupSearchBar, 300);
+
+
+// ======================================================================
+// Dark/Light Mode Toggle (including canvas background)
+// ======================================================================
+function setupDarkLightToggle() {
+    var btn = document.getElementById("darkLightToggle");
+    var styleTag = document.getElementById("themeStyles");
+    var mode = "dark";
+
+    // ensure initial canvas matches dark theme
+    applyGraphBackground(true);
+
+    btn.onclick = function() {
+        if (mode === "dark") {
+            mode = "light";
+            btn.textContent = "☀️ Light";
+            styleTag.innerHTML = ''
+                + 'body { background:#f4f4f4; color:#222; }'
+                + '#legend { background:rgba(255,255,255,0.85);color:#222;border-color:#bbb; }'
+                + '#searchBox { background:#fff;color:#000;border-color:#aaa; }'
+                + '#darkLightToggle { background:#fff;color:#000;border-color:#aaa; }';
+            applyGraphBackground(false);
+        } else {
+            mode = "dark";
+            btn.textContent = "🌙 Dark";
+            styleTag.innerHTML = ''
+                + 'body { background:#0d1117; color:#ddd; }'
+                + '#legend { background:rgba(0,0,0,0.85);color:#fff;border-color:#444; }'
+                + '#searchBox { background:#222;color:#eee;border-color:#555; }'
+                + '#darkLightToggle { background:#222;color:#eee;border-color:#555; }';
+            applyGraphBackground(true);
+        }
+    };
+}
+setTimeout(setupDarkLightToggle, 300);
+
+
+// ======================================================================
+// Physics Toggle Checkbox
+// ======================================================================
+function setupPhysicsToggle() {
+    if (typeof network === 'undefined') return setTimeout(setupPhysicsToggle, 200);
+    var cb = document.getElementById("physicsToggle");
+    if (!cb) return;
+
+    cb.onchange = function() {
+        var enable = cb.checked;
+        network.setOptions({ physics: { enabled: enable } });
+    };
+}
+setTimeout(setupPhysicsToggle, 350);
+
+
+// ======================================================================
+// Disable physics after initial stabilization
+// ======================================================================
+function disablePhysicsAfterStabilization() {
+    if (typeof network === 'undefined') {
+        setTimeout(disablePhysicsAfterStabilization, 200);
+        return;
+    }
+    network.once("stabilizationIterationsDone", function () {
+        network.setOptions({ physics: { enabled: false } });
+        var cb = document.getElementById("physicsToggle");
+        if (cb) cb.checked = false;
+    });
+}
+disablePhysicsAfterStabilization();
+
+
+// ======================================================================
+// DRAGGABLE + RESIZABLE LEGEND (with boundaries)
+// ======================================================================
+function setupLegendDragResize() {
+    var legend = document.getElementById("legend");
+    var handle = document.getElementById("legendDragHandle");
+    var resize = document.getElementById("legendResizeHandle");
+    if (!legend || !handle || !resize) return;
+
+    // Dragging
+    var dragging = false, offsetX = 0, offsetY = 0;
+
+    handle.addEventListener("mousedown", function(e) {
+        dragging = true;
+        handle.style.cursor = "grabbing";
+        var rect = legend.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+    });
+
+    document.addEventListener("mousemove", function(e) {
+        if (!dragging) return;
+        var vw = window.innerWidth;
+        var vh = window.innerHeight;
+        var rect = legend.getBoundingClientRect();
+
+        var left = e.clientX - offsetX;
+        var top = e.clientY - offsetY;
+
+        left = Math.max(0, Math.min(left, vw - rect.width));
+        top = Math.max(0, Math.min(top, vh - rect.height));
+
+        legend.style.left = left + "px";
+        legend.style.top = top + "px";
+        legend.style.right = "auto";
+        legend.style.bottom = "auto";
+        legend.style.position = "fixed";
+    });
+
+    document.addEventListener("mouseup", function() {
+        dragging = false;  // FIX: JS boolean
+        handle.style.cursor = "grab";
+    });
+
+    // Resizing
+    var resizing = false, startW = 0, startH = 0, startX = 0, startY = 0;
+
+    resize.addEventListener("mousedown", function(e) {
+        e.preventDefault();
+        resizing = true;
+        var rect = legend.getBoundingClientRect();
+        startW = rect.width;
+        startH = rect.height;
+        startX = e.clientX;
+        startY = e.clientY;
+    });
+
+    document.addEventListener("mousemove", function(e) {
+        if (!resizing) return;
+
+        var newW = Math.max(260, startW + (e.clientX - startX));
+        var newH = Math.max(220, startH + (e.clientY - startY));
+
+        legend.style.width = newW + "px";
+        legend.style.height = newH + "px";
+
+        var inner = document.getElementById("legendContent");
+        inner.style.maxHeight = (newH - 60) + "px";
+    });
+
+    document.addEventListener("mouseup", function() {
+        resizing = false;
+    });
+}
+setTimeout(setupLegendDragResize, 400);
+</script>
+
+</body>
+</html>

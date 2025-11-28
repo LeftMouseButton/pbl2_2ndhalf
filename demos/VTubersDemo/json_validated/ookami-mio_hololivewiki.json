@@ -1,0 +1,406 @@
+{
+  "entities_list": [
+    {
+      "id": "ookami_mio",
+      "type": "vtuber",
+      "attributes": {
+        "name": {
+          "value": "Ookami Mio",
+          "confidence": 0.99
+        },
+        "synonyms": {
+          "value": "大神ミオ, Miosha, Mio Mama, 澪媽, 狼媽",
+          "confidence": 0.9
+        },
+        "description": {
+          "value": "A black-haired wolf girl who appeared on our radar randomly. She often shows up around shrines. She likes gaming.",
+          "confidence": 0.8
+        }
+      },
+      "confidence": 0.95
+    },
+    {
+      "id": "hololive",
+      "type": "agency",
+      "attributes": {
+        "name": {
+          "value": "Hololive",
+          "confidence": 0.95
+        }
+      },
+      "confidence": 0.9
+    },
+    {
+      "id": "minecraft",
+      "type": "game",
+      "attributes": {
+        "name": {
+          "value": "Minecraft",
+          "confidence": 0.7
+        }
+      },
+      "confidence": 0.6
+    },
+    {
+      "id": "howling",
+      "type": "music_release",
+      "attributes": {
+        "name": {
+          "value": "Howling",
+          "confidence": 0.9
+        }
+      },
+      "confidence": 0.8
+    },
+    {
+      "id": "nonstop_story",
+      "type": "event",
+      "attributes": {
+        "name": {
+          "value": "Nonstop Story",
+          "confidence": 0.8
+        },
+        "date": {
+          "value": "January 24, 2020",
+          "confidence": 0.7
+        }
+      },
+      "confidence": 0.7
+    },
+    {
+      "id": "shiny_smily_story",
+      "type": "music_release",
+      "attributes": {
+        "name": {
+          "value": "Shiny Smily Story",
+          "confidence": 0.8
+        }
+      },
+      "confidence": 0.7
+    },
+    {
+      "id": "night_walk",
+      "type": "music_release",
+      "attributes": {
+        "name": {
+          "value": "Night walk",
+          "confidence": 0.9
+        },
+        "genre": {
+          "value": "J-Pop",
+          "confidence": 0.6
+        }
+      },
+      "confidence": 0.8
+    },
+    {
+      "id": "bouquet",
+      "type": "music_release",
+      "attributes": {
+        "name": {
+          "value": "Bouquet",
+          "confidence": 0.8
+        }
+      },
+      "confidence": 0.7
+    },
+    {
+      "id": "shirakami_fubuki",
+      "type": "vtuber",
+      "attributes": {
+        "name": {
+          "value": "Shirakami Fubuki",
+          "confidence": 0.8
+        }
+      },
+      "confidence": 0.7
+    },
+    {
+      "id": "nakiri_ayame",
+      "type": "vtuber",
+      "attributes": {
+        "name": {
+          "value": "Nakiri Ayame",
+          "confidence": 0.8
+        }
+      },
+      "confidence": 0.7
+    },
+    {
+      "id": "hakui_koyori",
+      "type": "vtuber",
+      "attributes": {
+        "name": {
+          "value": "Hakui Koyori",
+          "confidence": 0.7
+        }
+      },
+      "confidence": 0.6
+    },
+    {
+      "id": "our_sparkle",
+      "type": "event",
+      "attributes": {
+        "name": {
+          "value": "Our Sparkle",
+          "confidence": 0.7
+        },
+        "type": {
+          "value": "sololive concert",
+          "confidence": 0.7
+        },
+        "location": {
+          "value": "Pia Arena MM",
+          "confidence": 0.7
+        },
+        "date": {
+          "value": "May 4, 2025",
+          "confidence": 0.6
+        }
+      },
+      "confidence": 0.6
+    },
+    {
+      "id": "my_sparkle",
+      "type": "music_release",
+      "attributes": {
+        "name": {
+          "value": "My Sparkle",
+          "confidence": 0.7
+        }
+      },
+      "confidence": 0.6
+    }
+  ],
+  "relationships_list": [
+    {
+      "source": "ookami_mio",
+      "relation": "belongs_to",
+      "target": "Hololive",
+      "confidence": 0.9
+    },
+    {
+      "source": "ookami_mio",
+      "relation": "collaborated_with",
+      "target": "shirakami_fubuki",
+      "confidence": 0.7
+    },
+    {
+      "source": "ookami_mio",
+      "relation": "collaborated_with",
+      "target": "nakiri_ayame",
+      "confidence": 0.7
+    },
+    {
+      "source": "ookami_mio",
+      "relation": "collaborated_with",
+      "target": "Hakui Koyori",
+      "confidence": 0.7
+    },
+    {
+      "source": "ookami_mio",
+      "relation": "played",
+      "target": "Minecraft",
+      "confidence": 0.6
+    },
+    {
+      "source": "ookami_mio",
+      "relation": "released",
+      "target": "howling",
+      "confidence": 0.8
+    },
+    {
+      "source": "ookami_mio",
+      "relation": "performed_at",
+      "target": "nonstop_story",
+      "confidence": 0.7
+    },
+    {
+      "source": "ookami_mio",
+      "relation": "released",
+      "target": "shiny_smily_story",
+      "confidence": 0.8
+    },
+    {
+      "source": "ookami_mio",
+      "relation": "released",
+      "target": "night_walk",
+      "confidence": 0.8
+    },
+    {
+      "source": "ookami_mio",
+      "relation": "released",
+      "target": "bouquet",
+      "confidence": 0.7
+    },
+    {
+      "source": "Hololive",
+      "relation": "held",
+      "target": "Our Sparkle",
+      "confidence": 0.6
+    },
+    {
+      "source": "ookami_mio",
+      "relation": "released",
+      "target": "My Sparkle",
+      "confidence": 0.8
+    }
+  ],
+  "entities": [
+    {
+      "id": "Hakui Koyori",
+      "type": "vtuber",
+      "name": "Hakui Koyori",
+      "confidence": 0.6,
+      "attributes": {
+        "name": {
+          "value": "Hakui Koyori",
+          "confidence": 0.7
+        },
+        "synonyms": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "description": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Hololive",
+      "type": "agency",
+      "name": "Hololive",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "Hololive",
+          "confidence": 0.95
+        }
+      }
+    },
+    {
+      "id": "Minecraft",
+      "type": "game",
+      "name": "Minecraft",
+      "confidence": 0.6,
+      "attributes": {
+        "name": {
+          "value": "Minecraft",
+          "confidence": 0.7
+        },
+        "genre": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "developer": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "My Sparkle",
+      "type": "music_release",
+      "name": "My Sparkle",
+      "confidence": 0.6,
+      "attributes": {
+        "name": {
+          "value": "My Sparkle",
+          "confidence": 0.7
+        },
+        "genre": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Our Sparkle",
+      "type": "event",
+      "name": "Our Sparkle",
+      "confidence": 0.6,
+      "attributes": {
+        "name": {
+          "value": "Our Sparkle",
+          "confidence": 0.7
+        },
+        "type": {
+          "value": "sololive concert",
+          "confidence": 0.7
+        },
+        "location": {
+          "value": "Pia Arena MM",
+          "confidence": 0.7
+        },
+        "date": {
+          "value": "May 4, 2025",
+          "confidence": 0.6
+        }
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "source": "Hakui Koyori",
+      "relation": "belongs_to",
+      "target": "Hololive",
+      "confidence": 0.9,
+      "properties": {}
+    },
+    {
+      "source": "Hakui Koyori",
+      "relation": "collaborated_with",
+      "target": "Hakui Koyori",
+      "confidence": 0.7,
+      "properties": {
+        "hours": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "times": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "source": "Hakui Koyori",
+      "relation": "played",
+      "target": "Minecraft",
+      "confidence": 0.6,
+      "properties": {
+        "hours_streamed": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "source": "Hakui Koyori",
+      "relation": "released",
+      "target": "My Sparkle",
+      "confidence": 0.8,
+      "properties": {}
+    },
+    {
+      "source": "Hakui Koyori",
+      "relation": "performed_at",
+      "target": "Our Sparkle",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "Hololive",
+      "relation": "held",
+      "target": "Our Sparkle",
+      "confidence": 0.6,
+      "properties": {
+        "description": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    }
+  ]
+}

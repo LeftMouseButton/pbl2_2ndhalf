@@ -1,0 +1,160 @@
+{
+  "entities": [
+    {
+      "id": "vtuber",
+      "type": "vtuber",
+      "name": "",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "synonyms": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "description": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "INNK Music",
+      "type": "agency",
+      "name": "INNK Music",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "INNK Music",
+          "confidence": 0.7
+        }
+      }
+    },
+    {
+      "id": "game",
+      "type": "game",
+      "name": "",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "genre": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "developer": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "tenkyu_suisei_wa_yoru_o_koede",
+      "type": "music_release",
+      "name": "tenkyu_suisei_wa_yoru_o_koede",
+      "confidence": 0.8,
+      "attributes": {
+        "name": {
+          "value": "天球、彗星は夜を跨いで",
+          "confidence": 0.0
+        },
+        "confidence": 0.8,
+        "genre": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "Nonstop Story",
+      "type": "event",
+      "name": "Nonstop Story",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Nonstop Story",
+          "confidence": 0.7
+        },
+        "date": {
+          "value": "January 24",
+          "confidence": 0.6
+        },
+        "type": {
+          "value": "Hololive's 1st fest",
+          "confidence": 0.7
+        },
+        "location": {
+          "value": null,
+          "confidence": 0.0
+        }
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "source": "vtuber",
+      "relation": "belongs_to",
+      "target": "INNK Music",
+      "confidence": 0.9,
+      "properties": {}
+    },
+    {
+      "source": "vtuber",
+      "relation": "collaborated_with",
+      "target": "vtuber",
+      "confidence": 0.7,
+      "properties": {
+        "hours": {
+          "value": null,
+          "confidence": 0.0
+        },
+        "times": {
+          "value": null,
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "source": "vtuber",
+      "relation": "played",
+      "target": "game",
+      "confidence": 0.8,
+      "properties": {
+        "hours_streamed": {
+          "value": null,
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "source": "vtuber",
+      "relation": "released",
+      "target": "tenkyu_suisei_wa_yoru_o_koede",
+      "confidence": 0.8,
+      "properties": {}
+    },
+    {
+      "source": "vtuber",
+      "relation": "performed_at",
+      "target": "Nonstop Story",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "INNK Music",
+      "relation": "held",
+      "target": "Nonstop Story",
+      "confidence": 0.6,
+      "properties": {
+        "description": {
+          "value": null,
+          "confidence": 0.0
+        }
+      }
+    }
+  ]
+}

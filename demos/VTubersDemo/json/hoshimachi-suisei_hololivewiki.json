@@ -1,0 +1,118 @@
+{
+  "entities": {
+    "vtuber": {
+      "id": "housohu_marine",
+      "confidence": 0.7
+    },
+    "agency": {
+      "id": {
+        "value": "innk_music",
+        "confidence": 0.7
+      },
+      "attributes": {
+        "name": {
+          "value": "INNK Music",
+          "confidence": 0.7
+        }
+      },
+      "confidence": 0.7
+    },
+    "game": {
+      "id": "hitman",
+      "confidence": 0.7
+    },
+    "music_release": {
+      "id": {
+        "value": "tenkyu_suisei_wa_yoru_o_koede",
+        "confidence": 0.8
+      },
+      "attributes": {
+        "name": "天球、彗星は夜を跨いで",
+        "confidence": 0.8
+      },
+      "confidence": 0.8
+    },
+    "event": {
+      "id": {
+        "value": "nonstop_story",
+        "confidence": 0.7
+      },
+      "attributes": {
+        "name": {
+          "value": "Nonstop Story",
+          "confidence": 0.7
+        },
+        "date": {
+          "value": "January 24",
+          "confidence": 0.6
+        },
+        "type": {
+          "value": "Hololive's 1st fest",
+          "confidence": 0.7
+        },
+        "location": {
+          "value": null,
+          "confidence": 0.0
+        }
+      },
+      "confidence": 0.7
+    }
+  },
+  "relationships": {
+    "belongs_to": {
+      "source_type": "vtuber",
+      "target_type": "agency",
+      "properties": {},
+      "confidence": 0.9
+    },
+    "collaborated_with": {
+      "source_type": "vtuber",
+      "target_type": "vtuber",
+      "properties": {
+        "hours": {
+          "value": null,
+          "confidence": 0.0
+        },
+        "times": {
+          "value": null,
+          "confidence": 0.0
+        }
+      },
+      "confidence": 0.7
+    },
+    "played": {
+      "source_type": "vtuber",
+      "target_type": "game",
+      "properties": {
+        "hours_streamed": {
+          "value": null,
+          "confidence": 0.0
+        }
+      },
+      "confidence": 0.8
+    },
+    "released": {
+      "source_type": "vtuber",
+      "target_type": "music_release",
+      "properties": {},
+      "confidence": 0.8
+    },
+    "performed_at": {
+      "source_type": "vtuber",
+      "target_type": "event",
+      "properties": {},
+      "confidence": 0.7
+    },
+    "held": {
+      "source_type": "agency",
+      "target_type": "event",
+      "properties": {
+        "description": {
+          "value": null,
+          "confidence": 0.0
+        }
+      },
+      "confidence": 0.6
+    }
+  }
+}

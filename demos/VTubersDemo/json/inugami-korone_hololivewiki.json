@@ -1,0 +1,356 @@
+{
+  "entities": [
+    {
+      "id": "inugami_korone",
+      "type": "vtuber",
+      "name": "Inugami Korone",
+      "confidence": 0.95,
+      "attributes": {
+        "name": {
+          "value": "Inugami Korone",
+          "confidence": 1.0
+        },
+        "synonyms": {
+          "value": "戌神ころね, 戌神沁音, Koro-san",
+          "confidence": 0.9
+        },
+        "description": {
+          "value": "A dog girl VTuber in the Hololive Gamers sub-unit. She is 95 years old. She works at a bakery.",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "hololive",
+      "type": "agency",
+      "name": "Hololive",
+      "confidence": 0.95,
+      "attributes": {
+        "name": {
+          "value": "Hololive",
+          "confidence": 1.0
+        }
+      }
+    },
+    {
+      "id": "animal_crossing",
+      "type": "game",
+      "name": "Animal Crossing",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Animal Crossing",
+          "confidence": 0.7
+        },
+        "genre": {
+          "value": null,
+          "confidence": 0.0
+        },
+        "developer": {
+          "value": null,
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "korone_no_saikyo_tensai_wonderul_world",
+      "type": "music_release",
+      "name": "ころねの最凶天災わんだふぉーわーるど",
+      "confidence": 0.8,
+      "attributes": {
+        "name": {
+          "value": "ころねの最凶天災わんだふぉーわーるど",
+          "confidence": 0.8
+        },
+        "genre": {
+          "value": null,
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "nonstop_story",
+      "type": "event",
+      "name": "Nonstop Story",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Nonstop Story",
+          "confidence": 0.7
+        },
+        "date": {
+          "value": "January 24",
+          "confidence": 0.6
+        },
+        "type": {
+          "value": "live",
+          "confidence": 0.6
+        },
+        "location": {
+          "value": null,
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "nekomata_okayu",
+      "type": "vtuber",
+      "name": "Nekomata Okayu",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "Nekomata Okayu",
+          "confidence": 0.9
+        },
+        "synonyms": {
+          "value": null,
+          "confidence": 0.0
+        },
+        "description": {
+          "value": null,
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "gegege_no_kitaro_snes_game",
+      "type": "game",
+      "name": "Gegege no Kitaro SNES game",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Gegege no Kitaro SNES game",
+          "confidence": 0.7
+        },
+        "genre": {
+          "value": null,
+          "confidence": 0.0
+        },
+        "developer": {
+          "value": null,
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "beyond_the_stage",
+      "type": "event",
+      "name": "Beyond the Stage",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Beyond the Stage",
+          "confidence": 0.7
+        },
+        "date": {
+          "value": "Dec. 22",
+          "confidence": 0.6
+        },
+        "type": {
+          "value": "live event",
+          "confidence": 0.6
+        },
+        "location": {
+          "value": null,
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "link_your_wish",
+      "type": "event",
+      "name": "Link Your Wish",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Link Your Wish",
+          "confidence": 0.7
+        },
+        "date": {
+          "value": "Mar. 19",
+          "confidence": 0.6
+        },
+        "type": {
+          "value": "fes",
+          "confidence": 0.6
+        },
+        "location": {
+          "value": null,
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "yo-kai_watch_punipuni",
+      "type": "game",
+      "name": "Yo-kai Watch PuniPuni",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Yo-kai Watch PuniPuni",
+          "confidence": 0.7
+        },
+        "genre": {
+          "value": null,
+          "confidence": 0.0
+        },
+        "developer": {
+          "value": null,
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "watame",
+      "type": "vtuber",
+      "name": "Watame",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Watame",
+          "confidence": 0.7
+        },
+        "synonyms": {
+          "value": null,
+          "confidence": 0.0
+        },
+        "description": {
+          "value": null,
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "miko",
+      "type": "vtuber",
+      "name": "Miko",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Miko",
+          "confidence": 0.7
+        },
+        "synonyms": {
+          "value": null,
+          "confidence": 0.0
+        },
+        "description": {
+          "value": null,
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "botan",
+      "type": "vtuber",
+      "name": "Botan",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Botan",
+          "confidence": 0.7
+        },
+        "synonyms": {
+          "value": null,
+          "confidence": 0.0
+        },
+        "description": {
+          "value": null,
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "fubuki",
+      "type": "vtuber",
+      "name": "Fubuki",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Fubuki",
+          "confidence": 0.7
+        },
+        "synonyms": {
+          "value": null,
+          "confidence": 0.0
+        },
+        "description": {
+          "value": null,
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "pekora",
+      "type": "vtuber",
+      "name": "Pekora",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Pekora",
+          "confidence": 0.7
+        },
+        "synonyms": {
+          "value": null,
+          "confidence": 0.0
+        },
+        "description": {
+          "value": null,
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "id": "marine",
+      "type": "vtuber",
+      "name": "Marine",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Marine",
+          "confidence": 0.7
+        },
+        "synonyms": {
+          "value": null,
+          "confidence": 0.0
+        },
+        "description": {
+          "value": null,
+          "confidence": 0.0
+        }
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "source": "inugami_korone",
+      "relation": "belongs_to",
+      "target": "hololive",
+      "confidence": 0.95
+    },
+    {
+      "source": "inugami_korone",
+      "relation": "played",
+      "target": "animal_crossing",
+      "confidence": 0.7,
+      "properties": {
+        "hours_streamed": {
+          "value": null,
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "source": "inugami_korone",
+      "relation": "released",
+      "target": "korone_no_saikyo_tensai_wonderul_world",
+      "confidence": 0.8
+    },
+    {
+      "source": "inugami_korone",
+      "relation": "performed_at",
+      "target": "nonstop_story",
+      "confidence": 0.7
+    }
+  ]
+}

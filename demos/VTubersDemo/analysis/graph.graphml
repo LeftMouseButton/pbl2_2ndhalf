@@ -1,0 +1,910 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd"><key id="d38" for="edge" attr.name="times" attr.type="string"/>
+<key id="d37" for="edge" attr.name="hours" attr.type="string"/>
+<key id="d36" for="edge" attr.name="hours_streamed" attr.type="string"/>
+<key id="d35" for="edge" attr.name="description" attr.type="string"/>
+<key id="d34" for="edge" attr.name="description_confidence" attr.type="double"/>
+<key id="d33" for="edge" attr.name="hours_streamed_confidence" attr.type="double"/>
+<key id="d32" for="edge" attr.name="times_confidence" attr.type="double"/>
+<key id="d31" for="edge" attr.name="hours_confidence" attr.type="double"/>
+<key id="d30" for="edge" attr.name="weight" attr.type="double"/>
+<key id="d29" for="edge" attr.name="confidence" attr.type="double"/>
+<key id="d28" for="edge" attr.name="type" attr.type="string"/>
+<key id="d27" for="node" attr.name="location" attr.type="string"/>
+<key id="d26" for="node" attr.name="description_alt1_confidence" attr.type="double"/>
+<key id="d25" for="node" attr.name="description_alt1" attr.type="string"/>
+<key id="d24" for="node" attr.name="synonyms_alt1_confidence" attr.type="double"/>
+<key id="d23" for="node" attr.name="synonyms_alt1" attr.type="string"/>
+<key id="d22" for="node" attr.name="date_alt1_confidence" attr.type="double"/>
+<key id="d21" for="node" attr.name="date_alt1" attr.type="string"/>
+<key id="d20" for="node" attr.name="type_alt2_confidence" attr.type="double"/>
+<key id="d19" for="node" attr.name="type_alt2" attr.type="string"/>
+<key id="d18" for="node" attr.name="type_alt1_confidence" attr.type="double"/>
+<key id="d17" for="node" attr.name="type_alt1" attr.type="string"/>
+<key id="d16" for="node" attr.name="location_confidence" attr.type="double"/>
+<key id="d15" for="node" attr.name="type_confidence" attr.type="double"/>
+<key id="d14" for="node" attr.name="date_confidence" attr.type="double"/>
+<key id="d13" for="node" attr.name="date" attr.type="string"/>
+<key id="d12" for="node" attr.name="developer_confidence" attr.type="double"/>
+<key id="d11" for="node" attr.name="developer" attr.type="string"/>
+<key id="d10" for="node" attr.name="genre_confidence" attr.type="double"/>
+<key id="d9" for="node" attr.name="genre" attr.type="string"/>
+<key id="d8" for="node" attr.name="description_confidence" attr.type="double"/>
+<key id="d7" for="node" attr.name="description" attr.type="string"/>
+<key id="d6" for="node" attr.name="synonyms_confidence" attr.type="double"/>
+<key id="d5" for="node" attr.name="synonyms" attr.type="string"/>
+<key id="d4" for="node" attr.name="name_confidence" attr.type="double"/>
+<key id="d3" for="node" attr.name="name" attr.type="string"/>
+<key id="d2" for="node" attr.name="confidence" attr.type="double"/>
+<key id="d1" for="node" attr.name="label" attr.type="string"/>
+<key id="d0" for="node" attr.name="type" attr.type="string"/>
+<graph edgedefault="undirected"><node id="vtuber">
+  <data key="d0">vtuber</data>
+  <data key="d1">vtuber</data>
+  <data key="d2">0.7</data>
+  <data key="d3"></data>
+  <data key="d4">0.0</data>
+  <data key="d5"></data>
+  <data key="d6">0.0</data>
+  <data key="d7"></data>
+  <data key="d8">0.0</data>
+</node>
+<node id="innk_music">
+  <data key="d0">agency</data>
+  <data key="d1">INNK Music</data>
+  <data key="d2">0.7</data>
+  <data key="d3">INNK Music</data>
+  <data key="d4">0.7</data>
+</node>
+<node id="game">
+  <data key="d0">game</data>
+  <data key="d1">game</data>
+  <data key="d2">0.7</data>
+  <data key="d3"></data>
+  <data key="d4">0.0</data>
+  <data key="d9"></data>
+  <data key="d10">0.0</data>
+  <data key="d11"></data>
+  <data key="d12">0.0</data>
+</node>
+<node id="tenkyu_suisei_wa_yoru_o_koede">
+  <data key="d0">music_release</data>
+  <data key="d1">tenkyu_suisei_wa_yoru_o_koede</data>
+  <data key="d2">0.8</data>
+  <data key="d3">天球、彗星は夜を跨いで</data>
+  <data key="d4">0.0</data>
+  <data key="d9"></data>
+  <data key="d10">0.0</data>
+</node>
+<node id="nonstop_story">
+  <data key="d0">Hololive's 1st fest</data>
+  <data key="d1">Nonstop Story</data>
+  <data key="d2">0.7875</data>
+  <data key="d3">Nonstop Story</data>
+  <data key="d4">0.8625</data>
+  <data key="d13">January 24</data>
+  <data key="d14">0.65</data>
+  <data key="d15">0.7</data>
+  <data key="d16">0.05</data>
+  <data key="d17">live</data>
+  <data key="d18">0.6</data>
+  <data key="d19">live festival</data>
+  <data key="d20">0.8</data>
+  <data key="d21">Jan. 24, 2020</data>
+  <data key="d22">0.8</data>
+</node>
+<node id="inugami_korone">
+  <data key="d0">vtuber</data>
+  <data key="d1">Inugami Korone</data>
+  <data key="d2">0.95</data>
+  <data key="d3">Inugami Korone</data>
+  <data key="d4">1.0</data>
+  <data key="d5">戌神ころね, 戌神沁音, Koro-san</data>
+  <data key="d6">0.9</data>
+  <data key="d7">A dog girl VTuber in the Hololive Gamers sub-unit. She is 95 years old. She works at a bakery.</data>
+  <data key="d8">0.9</data>
+</node>
+<node id="hololive">
+  <data key="d0">agency</data>
+  <data key="d1">Hololive</data>
+  <data key="d2">1.0</data>
+  <data key="d3">Hololive</data>
+  <data key="d4">1.0</data>
+</node>
+<node id="animal_crossing">
+  <data key="d0">game</data>
+  <data key="d1">Animal Crossing</data>
+  <data key="d2">0.7</data>
+  <data key="d3">Animal Crossing</data>
+  <data key="d4">0.7</data>
+  <data key="d10">0.0</data>
+  <data key="d12">0.0</data>
+</node>
+<node id="ころねの最凶天災わんだふぉーわーるど">
+  <data key="d0">music_release</data>
+  <data key="d1">ころねの最凶天災わんだふぉーわーるど</data>
+  <data key="d2">0.8</data>
+  <data key="d3">ころねの最凶天災わんだふぉーわーるど</data>
+  <data key="d4">0.8</data>
+  <data key="d10">0.0</data>
+</node>
+<node id="nekomata_okayu">
+  <data key="d0">vtuber</data>
+  <data key="d1">Nekomata Okayu</data>
+  <data key="d2">0.995</data>
+  <data key="d3">Nekomata Okayu</data>
+  <data key="d4">0.995</data>
+  <data key="d6">0.0</data>
+  <data key="d8">0.0</data>
+  <data key="d23">猫又おかゆ, 猫又小粥, Okayun, Okazu, Okayu</data>
+  <data key="d24">0.9</data>
+  <data key="d25">A cat girl VTuber in the Hololive Gamers unit known for her relaxing voice and calm disposition.</data>
+  <data key="d26">0.9</data>
+</node>
+<node id="gegege_no_kitaro_snes_game">
+  <data key="d0">game</data>
+  <data key="d1">Gegege no Kitaro SNES game</data>
+  <data key="d2">0.7</data>
+  <data key="d3">Gegege no Kitaro SNES game</data>
+  <data key="d4">0.7</data>
+  <data key="d10">0.0</data>
+  <data key="d12">0.0</data>
+</node>
+<node id="beyond_the_stage">
+  <data key="d0">live event</data>
+  <data key="d1">Beyond the Stage</data>
+  <data key="d2">0.75</data>
+  <data key="d3">Beyond the Stage</data>
+  <data key="d4">0.8</data>
+  <data key="d13">Dec. 22</data>
+  <data key="d14">0.6</data>
+  <data key="d15">0.6</data>
+  <data key="d16">0.0</data>
+</node>
+<node id="link_your_wish">
+  <data key="d0">fes</data>
+  <data key="d1">Link Your Wish</data>
+  <data key="d2">0.7</data>
+  <data key="d3">Link Your Wish</data>
+  <data key="d4">0.7</data>
+  <data key="d13">Mar. 19</data>
+  <data key="d14">0.6</data>
+  <data key="d15">0.6</data>
+  <data key="d16">0.0</data>
+</node>
+<node id="yo_kai_watch_punipuni">
+  <data key="d0">game</data>
+  <data key="d1">Yo-kai Watch PuniPuni</data>
+  <data key="d2">0.75</data>
+  <data key="d3">Yo-kai Watch PuniPuni</data>
+  <data key="d4">0.8</data>
+  <data key="d10">0.3</data>
+  <data key="d12">0.3</data>
+</node>
+<node id="watame">
+  <data key="d0">vtuber</data>
+  <data key="d1">Watame</data>
+  <data key="d2">0.7</data>
+  <data key="d3">Watame</data>
+  <data key="d4">0.7</data>
+  <data key="d6">0.0</data>
+  <data key="d8">0.0</data>
+</node>
+<node id="miko">
+  <data key="d0">vtuber</data>
+  <data key="d1">Miko</data>
+  <data key="d2">0.7</data>
+  <data key="d3">Miko</data>
+  <data key="d4">0.7</data>
+  <data key="d6">0.0</data>
+  <data key="d8">0.0</data>
+</node>
+<node id="botan">
+  <data key="d0">vtuber</data>
+  <data key="d1">Botan</data>
+  <data key="d2">0.7</data>
+  <data key="d3">Botan</data>
+  <data key="d4">0.7</data>
+  <data key="d6">0.0</data>
+  <data key="d8">0.0</data>
+</node>
+<node id="fubuki">
+  <data key="d0">vtuber</data>
+  <data key="d1">Fubuki</data>
+  <data key="d2">0.7</data>
+  <data key="d3">Fubuki</data>
+  <data key="d4">0.7</data>
+  <data key="d6">0.0</data>
+  <data key="d8">0.0</data>
+</node>
+<node id="pekora">
+  <data key="d0">vtuber</data>
+  <data key="d1">Pekora</data>
+  <data key="d2">0.7</data>
+  <data key="d3">Pekora</data>
+  <data key="d4">0.7</data>
+  <data key="d6">0.0</data>
+  <data key="d8">0.0</data>
+</node>
+<node id="marine">
+  <data key="d0">vtuber</data>
+  <data key="d1">Marine</data>
+  <data key="d2">0.7</data>
+  <data key="d3">Marine</data>
+  <data key="d4">0.7</data>
+  <data key="d6">0.0</data>
+  <data key="d8">0.0</data>
+</node>
+<node id="hololive_gamers">
+  <data key="d0">agency</data>
+  <data key="d1">Hololive GAMERS</data>
+  <data key="d2">0.95</data>
+  <data key="d3">Hololive GAMERS</data>
+  <data key="d4">0.95</data>
+</node>
+<node id="もぐもぐyummy">
+  <data key="d0">music_release</data>
+  <data key="d1">もぐもぐYUMMY!</data>
+  <data key="d2">0.9</data>
+  <data key="d3">もぐもぐYUMMY!</data>
+  <data key="d4">0.9</data>
+  <data key="d10">0.6</data>
+</node>
+<node id="shiny_smily_story">
+  <data key="d0">music_release</data>
+  <data key="d1">Shiny Smily Story</data>
+  <data key="d2">0.85</data>
+  <data key="d3">Shiny Smily Story</data>
+  <data key="d4">0.9</data>
+  <data key="d10">0.6</data>
+</node>
+<node id="ぽいずにゃしんどろーむ">
+  <data key="d0">music_release</data>
+  <data key="d1">ぽいずにゃ～しんどろーむ</data>
+  <data key="d2">0.9</data>
+  <data key="d3">ぽいずにゃ～しんどろーむ</data>
+  <data key="d4">0.9</data>
+  <data key="d10">0.6</data>
+</node>
+<node id="holo27_originals_vol1">
+  <data key="d0">music_release</data>
+  <data key="d1">holo*27 Originals Vol.1</data>
+  <data key="d2">0.9</data>
+  <data key="d3">holo*27 Originals Vol.1</data>
+  <data key="d4">0.9</data>
+  <data key="d10">0.6</data>
+</node>
+<node id="hololive_summer_2022">
+  <data key="d0">3D swimsuit outfit debut</data>
+  <data key="d1">hololive Summer 2022</data>
+  <data key="d2">0.8</data>
+  <data key="d3">hololive Summer 2022</data>
+  <data key="d4">0.8</data>
+  <data key="d13">August 11, 2022</data>
+  <data key="d14">0.7</data>
+  <data key="d15">0.7</data>
+  <data key="d16">0.5</data>
+</node>
+<node id="poisonya_syndrome">
+  <data key="d0">1st sololive</data>
+  <data key="d1">POISONYA SYNDROME</data>
+  <data key="d2">0.8</data>
+  <data key="d3">POISONYA SYNDROME</data>
+  <data key="d4">0.8</data>
+  <data key="d13">September 30, 2022</data>
+  <data key="d14">0.7</data>
+  <data key="d15">0.7</data>
+  <data key="d16">0.5</data>
+</node>
+<node id="おかゆにゅむokayunyumu">
+  <data key="d0">game</data>
+  <data key="d1">おかゆにゅ～～む！~Okayunyumu~</data>
+  <data key="d2">0.8</data>
+  <data key="d3">おかゆにゅ～～む！~Okayunyumu~</data>
+  <data key="d4">0.8</data>
+  <data key="d9">visual novel</data>
+  <data key="d10">0.7</data>
+  <data key="d11">ENTERGRAM</data>
+  <data key="d12">0.8</data>
+</node>
+<node id="personya_respect">
+  <data key="d0">2nd Sololive</data>
+  <data key="d1">PERSONYA RESPECT</data>
+  <data key="d2">0.8</data>
+  <data key="d3">PERSONYA RESPECT</data>
+  <data key="d4">0.8</data>
+  <data key="d13">May 28, 2025</data>
+  <data key="d14">0.7</data>
+  <data key="d15">0.7</data>
+  <data key="d16">0.5</data>
+</node>
+<node id="ookami_mio">
+  <data key="d0">vtuber</data>
+  <data key="d1">ookami_mio</data>
+  <data key="d2">0.95</data>
+  <data key="d3">Ookami Mio</data>
+  <data key="d4">0.99</data>
+  <data key="d5">大神ミオ, Miosha, Mio Mama, 澪媽, 狼媽</data>
+  <data key="d6">0.9</data>
+  <data key="d7">A black-haired wolf girl who appeared on our radar randomly. She often shows up around shrines. She likes gaming.</data>
+  <data key="d8">0.8</data>
+</node>
+<node id="minecraft">
+  <data key="d0">game</data>
+  <data key="d1">minecraft</data>
+  <data key="d2">0.6</data>
+  <data key="d3">Minecraft</data>
+  <data key="d4">0.7</data>
+</node>
+<node id="howling">
+  <data key="d0">music_release</data>
+  <data key="d1">howling</data>
+  <data key="d2">0.8</data>
+  <data key="d3">Howling</data>
+  <data key="d4">0.9</data>
+</node>
+<node id="night_walk">
+  <data key="d0">music_release</data>
+  <data key="d1">night_walk</data>
+  <data key="d2">0.8</data>
+  <data key="d3">Night walk</data>
+  <data key="d4">0.9</data>
+  <data key="d9">J-Pop</data>
+  <data key="d10">0.6</data>
+</node>
+<node id="bouquet">
+  <data key="d0">music_release</data>
+  <data key="d1">bouquet</data>
+  <data key="d2">0.7</data>
+  <data key="d3">Bouquet</data>
+  <data key="d4">0.8</data>
+</node>
+<node id="shirakami_fubuki">
+  <data key="d0">vtuber</data>
+  <data key="d1">shirakami_fubuki</data>
+  <data key="d2">0.7</data>
+  <data key="d3">Shirakami Fubuki</data>
+  <data key="d4">0.8</data>
+</node>
+<node id="nakiri_ayame">
+  <data key="d0">vtuber</data>
+  <data key="d1">nakiri_ayame</data>
+  <data key="d2">0.7</data>
+  <data key="d3">Nakiri Ayame</data>
+  <data key="d4">0.8</data>
+</node>
+<node id="hakui_koyori">
+  <data key="d0">vtuber</data>
+  <data key="d1">hakui_koyori</data>
+  <data key="d2">0.6</data>
+  <data key="d3">Hakui Koyori</data>
+  <data key="d4">0.7</data>
+</node>
+<node id="our_sparkle">
+  <data key="d0">sololive concert</data>
+  <data key="d1">our_sparkle</data>
+  <data key="d2">0.6</data>
+  <data key="d3">Our Sparkle</data>
+  <data key="d4">0.7</data>
+  <data key="d15">0.7</data>
+  <data key="d27">Pia Arena MM</data>
+  <data key="d16">0.7</data>
+  <data key="d13">May 4, 2025</data>
+  <data key="d14">0.6</data>
+</node>
+<node id="my_sparkle">
+  <data key="d0">music_release</data>
+  <data key="d1">my_sparkle</data>
+  <data key="d2">0.6</data>
+  <data key="d3">My Sparkle</data>
+  <data key="d4">0.7</data>
+</node>
+<node id="fortnite_battle_royale">
+  <data key="d0">game</data>
+  <data key="d1">Fortnite Battle Royale</data>
+  <data key="d2">0.65</data>
+  <data key="d3">Fortnite Battle Royale</data>
+  <data key="d4">0.7</data>
+  <data key="d9">FPS</data>
+  <data key="d10">0.6</data>
+</node>
+<node id="sayファンファーレ">
+  <data key="d0">music_release</data>
+  <data key="d1">Say!ファンファーレ!</data>
+  <data key="d2">0.8</data>
+  <data key="d3">Say!ファンファーレ!</data>
+  <data key="d4">0.9</data>
+  <data key="d9">J-Pop</data>
+  <data key="d10">0.6</data>
+</node>
+<node id="fbkbp2019">
+  <data key="d0">birthday party event</data>
+  <data key="d1">FBKBP2019</data>
+  <data key="d2">0.65</data>
+  <data key="d3">FBKBP2019</data>
+  <data key="d4">0.7</data>
+  <data key="d13">Nov. 16, 2019</data>
+  <data key="d14">0.7</data>
+  <data key="d15">0.7</data>
+</node>
+<node id="shirakami_cafe_music">
+  <data key="d0">music_release</data>
+  <data key="d1">Shirakami Cafe Music</data>
+  <data key="d2">0.7</data>
+  <data key="d3">Shirakami Cafe Music</data>
+  <data key="d4">0.8</data>
+</node>
+<node id="幻想郷ホロイズム_gensokyoholoism">
+  <data key="d0">music_release</data>
+  <data key="d1">#幻想郷ホロイズム (#GENSOKYOholoism)</data>
+  <data key="d2">0.7</data>
+  <data key="d3">#幻想郷ホロイズム (#GENSOKYOholoism)</data>
+  <data key="d4">0.8</data>
+</node>
+<node id="もっふもふ_de_よいのじゃよ_moffumoffu_de_yoi_no_ja_yo">
+  <data key="d0">music_release</data>
+  <data key="d1">もっふもふ DE よいのじゃよ (Moffumoffu DE Yoi no Ja yo)</data>
+  <data key="d2">0.6</data>
+  <data key="d3">もっふもふ DE よいのじゃよ (Moffumoffu DE Yoi no Ja yo)</data>
+  <data key="d4">0.7</data>
+</node>
+<node id="クックパッドおすすめレシピ">
+  <data key="d0">music_release</data>
+  <data key="d1">クックパッドおすすめレシピ</data>
+  <data key="d2">0.6</data>
+  <data key="d3">クックパッドおすすめレシピ</data>
+  <data key="d4">0.7</data>
+</node>
+<node id="朝が来て">
+  <data key="d0">music_release</data>
+  <data key="d1">朝が来て</data>
+  <data key="d2">0.6</data>
+  <data key="d3">朝が来て</data>
+  <data key="d4">0.7</data>
+</node>
+<node id="香りのやる気スイッチ">
+  <data key="d0">music_release</data>
+  <data key="d1">香りのやる気スイッチ！</data>
+  <data key="d2">0.6</data>
+  <data key="d3">香りのやる気スイッチ！</data>
+  <data key="d4">0.7</data>
+</node>
+<node id="223_am">
+  <data key="d0">music_release</data>
+  <data key="d1">2:23 AM</data>
+  <data key="d2">0.6</data>
+  <data key="d3">2:23 AM</data>
+  <data key="d4">0.7</data>
+</node>
+<node id="apex_legends">
+  <data key="d0">game</data>
+  <data key="d1">APEX Legends</data>
+  <data key="d2">0.6</data>
+  <data key="d3">APEX Legends</data>
+  <data key="d4">0.7</data>
+</node>
+<node id="phasmophobia">
+  <data key="d0">game</data>
+  <data key="d1">Phasmophobia</data>
+  <data key="d2">0.6</data>
+  <data key="d3">Phasmophobia</data>
+  <data key="d4">0.7</data>
+</node>
+<node id="kurokami">
+  <data key="d0">vtuber</data>
+  <data key="d1">Kurokami</data>
+  <data key="d2">0.8</data>
+  <data key="d3">Kurokami</data>
+  <data key="d4">0.9</data>
+  <data key="d5">alter persona</data>
+  <data key="d6">0.7</data>
+  <data key="d7">Fubuki's alter persona, appeared at some point in February of 2019. She has a more aggressive and harsh nature in contrast to the shy and calm Fubuki everyone knows, often not having any tact, coming off verbally strong to people, pushes her work to other people and absolutely hates doing embarrassing things.</data>
+  <data key="d8">0.8</data>
+</node>
+<node id="usada_pekora">
+  <data key="d0">vtuber</data>
+  <data key="d1">Usada Pekora</data>
+  <data key="d2">0.95</data>
+  <data key="d3">Usada Pekora</data>
+  <data key="d4">1.0</data>
+  <data key="d5">兎田ぺこら, 兔田佩克拉, Peko-chan, Shachou, War Criminal, Comedian</data>
+  <data key="d6">0.9</data>
+  <data key="d7">A lonely rabbit-eared girl who loves carrots. Part of the 3rd generation, Hololive Fantasy, she is eternally 111 years old.</data>
+  <data key="d8">0.9</data>
+</node>
+<node id="ぺこらんだむぶれいん">
+  <data key="d0">music_release</data>
+  <data key="d1">ぺこらんだむぶれいん!</data>
+  <data key="d2">0.75</data>
+  <data key="d3">ぺこらんだむぶれいん!</data>
+  <data key="d4">0.8</data>
+</node>
+<node id="ぺこみこ大戦争">
+  <data key="d0">music_release</data>
+  <data key="d1">ぺこみこ大戦争！！</data>
+  <data key="d2">0.75</data>
+  <data key="d3">ぺこみこ大戦争！！</data>
+  <data key="d4">0.8</data>
+</node>
+<node id="幻想郷ホロイズム">
+  <data key="d0">music_release</data>
+  <data key="d1">#幻想郷ホロイズム</data>
+  <data key="d2">0.75</data>
+  <data key="d3">#幻想郷ホロイズム</data>
+  <data key="d4">0.8</data>
+</node>
+<node id="bloom">
+  <data key="d0">event</data>
+  <data key="d1">Bloom</data>
+  <data key="d2">0.7</data>
+  <data key="d3">Bloom</data>
+  <data key="d4">0.8</data>
+</node>
+<node id="pekora_24">
+  <data key="d0">event</data>
+  <data key="d1">Pekora 24</data>
+  <data key="d2">0.7</data>
+  <data key="d3">Pekora 24</data>
+  <data key="d4">0.8</data>
+</node>
+<node id="_usagi_the_megami_">
+  <data key="d0">event</data>
+  <data key="d1">-Usagi The MegaMi!!-</data>
+  <data key="d2">0.7</data>
+  <data key="d3">-Usagi The MegaMi!!-</data>
+  <data key="d4">0.8</data>
+</node>
+<edge source="vtuber" target="innk_music">
+  <data key="d28">belongs_to</data>
+  <data key="d29">0.9</data>
+  <data key="d30">0.9</data>
+</edge>
+<edge source="vtuber" target="vtuber">
+  <data key="d28">collaborated_with</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+  <data key="d31">0.0</data>
+  <data key="d32">0.0</data>
+</edge>
+<edge source="vtuber" target="game">
+  <data key="d28">played</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+  <data key="d33">0.0</data>
+</edge>
+<edge source="vtuber" target="tenkyu_suisei_wa_yoru_o_koede">
+  <data key="d28">released</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+</edge>
+<edge source="vtuber" target="nonstop_story">
+  <data key="d28">performed_at</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+</edge>
+<edge source="innk_music" target="nonstop_story">
+  <data key="d28">held</data>
+  <data key="d29">0.6</data>
+  <data key="d30">0.6</data>
+  <data key="d34">0.0</data>
+</edge>
+<edge source="nonstop_story" target="inugami_korone">
+  <data key="d28">performed_at</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+</edge>
+<edge source="nonstop_story" target="ookami_mio">
+  <data key="d28">performed_at</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+</edge>
+<edge source="nonstop_story" target="shirakami_fubuki">
+  <data key="d28">performed_at</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+</edge>
+<edge source="nonstop_story" target="hololive">
+  <data key="d28">held</data>
+  <data key="d29">0.6</data>
+  <data key="d30">0.6</data>
+  <data key="d35"></data>
+  <data key="d34">0.05</data>
+</edge>
+<edge source="nonstop_story" target="usada_pekora">
+  <data key="d28">performed_at</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+</edge>
+<edge source="inugami_korone" target="hololive">
+  <data key="d28">belongs_to</data>
+  <data key="d29">0.95</data>
+  <data key="d30">0.95</data>
+</edge>
+<edge source="inugami_korone" target="animal_crossing">
+  <data key="d28">played</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+  <data key="d33">0.0</data>
+</edge>
+<edge source="inugami_korone" target="ころねの最凶天災わんだふぉーわーるど">
+  <data key="d28">released</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+</edge>
+<edge source="hololive" target="ookami_mio">
+  <data key="d28">belongs_to</data>
+  <data key="d29">0.9</data>
+  <data key="d30">0.9</data>
+</edge>
+<edge source="hololive" target="our_sparkle">
+  <data key="d28">held</data>
+  <data key="d29">0.6</data>
+  <data key="d30">0.6</data>
+</edge>
+<edge source="hololive" target="shirakami_fubuki">
+  <data key="d28">belongs_to</data>
+  <data key="d29">0.95</data>
+  <data key="d30">0.95</data>
+</edge>
+<edge source="hololive" target="fbkbp2019">
+  <data key="d28">held</data>
+  <data key="d29">0.6</data>
+  <data key="d30">0.6</data>
+  <data key="d35"></data>
+  <data key="d34">0.0</data>
+</edge>
+<edge source="hololive" target="usada_pekora">
+  <data key="d28">belongs_to</data>
+  <data key="d29">0.9</data>
+  <data key="d30">0.9</data>
+</edge>
+<edge source="hololive" target="beyond_the_stage">
+  <data key="d28">held</data>
+  <data key="d29">0.5</data>
+  <data key="d30">0.5</data>
+  <data key="d35"></data>
+  <data key="d34">0.0</data>
+</edge>
+<edge source="hololive" target="bloom">
+  <data key="d28">held</data>
+  <data key="d29">0.5</data>
+  <data key="d30">0.5</data>
+  <data key="d35"></data>
+  <data key="d34">0.0</data>
+</edge>
+<edge source="nekomata_okayu" target="hololive_gamers">
+  <data key="d28">belongs_to</data>
+  <data key="d29">0.95</data>
+  <data key="d30">0.95</data>
+</edge>
+<edge source="nekomata_okayu" target="yo_kai_watch_punipuni">
+  <data key="d28">played</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+  <data key="d33">0.5</data>
+</edge>
+<edge source="nekomata_okayu" target="おかゆにゅむokayunyumu">
+  <data key="d28">played</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+  <data key="d33">0.5</data>
+</edge>
+<edge source="nekomata_okayu" target="もぐもぐyummy">
+  <data key="d28">released</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+</edge>
+<edge source="nekomata_okayu" target="shiny_smily_story">
+  <data key="d28">released</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+</edge>
+<edge source="nekomata_okayu" target="ぽいずにゃしんどろーむ">
+  <data key="d28">released</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+</edge>
+<edge source="nekomata_okayu" target="holo27_originals_vol1">
+  <data key="d28">released</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+</edge>
+<edge source="nekomata_okayu" target="hololive_summer_2022">
+  <data key="d28">performed_at</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+</edge>
+<edge source="nekomata_okayu" target="poisonya_syndrome">
+  <data key="d28">performed_at</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+</edge>
+<edge source="nekomata_okayu" target="personya_respect">
+  <data key="d28">performed_at</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+</edge>
+<edge source="beyond_the_stage" target="usada_pekora">
+  <data key="d28">performed_at</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+</edge>
+<edge source="yo_kai_watch_punipuni" target="shirakami_fubuki">
+  <data key="d28">played</data>
+  <data key="d29">0.6</data>
+  <data key="d30">0.6</data>
+  <data key="d36"></data>
+  <data key="d33">0.6</data>
+</edge>
+<edge source="yo_kai_watch_punipuni" target="usada_pekora">
+  <data key="d28">played</data>
+  <data key="d29">0.6</data>
+  <data key="d30">0.6</data>
+  <data key="d36"></data>
+  <data key="d33">0.0</data>
+</edge>
+<edge source="shiny_smily_story" target="ookami_mio">
+  <data key="d28">released</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+</edge>
+<edge source="shiny_smily_story" target="shirakami_fubuki">
+  <data key="d28">released</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+</edge>
+<edge source="ookami_mio" target="shirakami_fubuki">
+  <data key="d28">collaborated_with</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+</edge>
+<edge source="ookami_mio" target="nakiri_ayame">
+  <data key="d28">collaborated_with</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+</edge>
+<edge source="ookami_mio" target="hakui_koyori">
+  <data key="d28">collaborated_with</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+</edge>
+<edge source="ookami_mio" target="minecraft">
+  <data key="d28">played</data>
+  <data key="d29">0.6</data>
+  <data key="d30">0.6</data>
+</edge>
+<edge source="ookami_mio" target="howling">
+  <data key="d28">released</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+</edge>
+<edge source="ookami_mio" target="night_walk">
+  <data key="d28">released</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+</edge>
+<edge source="ookami_mio" target="bouquet">
+  <data key="d28">released</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+</edge>
+<edge source="ookami_mio" target="my_sparkle">
+  <data key="d28">released</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+</edge>
+<edge source="shirakami_fubuki" target="kurokami">
+  <data key="d28">collaborated_with</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+  <data key="d37"></data>
+  <data key="d31">0.0</data>
+  <data key="d38"></data>
+  <data key="d32">0.0</data>
+</edge>
+<edge source="shirakami_fubuki" target="fortnite_battle_royale">
+  <data key="d28">played</data>
+  <data key="d29">0.6</data>
+  <data key="d30">0.6</data>
+  <data key="d36"></data>
+  <data key="d33">0.6</data>
+</edge>
+<edge source="shirakami_fubuki" target="sayファンファーレ">
+  <data key="d28">released</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+</edge>
+<edge source="shirakami_fubuki" target="fbkbp2019">
+  <data key="d28">performed_at</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+</edge>
+<edge source="shirakami_fubuki" target="shirakami_cafe_music">
+  <data key="d28">released</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+</edge>
+<edge source="shirakami_fubuki" target="幻想郷ホロイズム_gensokyoholoism">
+  <data key="d28">released</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+</edge>
+<edge source="shirakami_fubuki" target="もっふもふ_de_よいのじゃよ_moffumoffu_de_yoi_no_ja_yo">
+  <data key="d28">released</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+</edge>
+<edge source="shirakami_fubuki" target="クックパッドおすすめレシピ">
+  <data key="d28">released</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+</edge>
+<edge source="shirakami_fubuki" target="朝が来て">
+  <data key="d28">released</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+</edge>
+<edge source="shirakami_fubuki" target="香りのやる気スイッチ">
+  <data key="d28">released</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+</edge>
+<edge source="shirakami_fubuki" target="223_am">
+  <data key="d28">released</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+</edge>
+<edge source="shirakami_fubuki" target="apex_legends">
+  <data key="d28">played</data>
+  <data key="d29">0.6</data>
+  <data key="d30">0.6</data>
+  <data key="d36"></data>
+  <data key="d33">0.6</data>
+</edge>
+<edge source="shirakami_fubuki" target="phasmophobia">
+  <data key="d28">played</data>
+  <data key="d29">0.6</data>
+  <data key="d30">0.6</data>
+  <data key="d36"></data>
+  <data key="d33">0.6</data>
+</edge>
+<edge source="usada_pekora" target="usada_pekora">
+  <data key="d28">collaborated_with</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+  <data key="d37"></data>
+  <data key="d31">0.0</data>
+  <data key="d38"></data>
+  <data key="d32">0.0</data>
+</edge>
+<edge source="usada_pekora" target="ぺこらんだむぶれいん">
+  <data key="d28">released</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+</edge>
+<edge source="usada_pekora" target="ぺこみこ大戦争">
+  <data key="d28">released</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+</edge>
+<edge source="usada_pekora" target="幻想郷ホロイズム">
+  <data key="d28">released</data>
+  <data key="d29">0.8</data>
+  <data key="d30">0.8</data>
+</edge>
+<edge source="usada_pekora" target="bloom">
+  <data key="d28">performed_at</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+</edge>
+<edge source="usada_pekora" target="pekora_24">
+  <data key="d28">performed_at</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+</edge>
+<edge source="usada_pekora" target="_usagi_the_megami_">
+  <data key="d28">performed_at</data>
+  <data key="d29">0.7</data>
+  <data key="d30">0.7</data>
+</edge>
+</graph></graphml>

@@ -1,0 +1,450 @@
+{
+  "entities": {
+    "vtuber": {
+      "id": {
+        "value": "nekomata_okayu",
+        "confidence": 0.99
+      },
+      "attributes": {
+        "name": {
+          "value": "Nekomata Okayu",
+          "confidence": 0.99
+        },
+        "synonyms": {
+          "value": "猫又おかゆ, 猫又小粥, Okayun, Okazu, Okayu",
+          "confidence": 0.9
+        },
+        "description": {
+          "value": "A cat girl VTuber in the Hololive Gamers unit known for her relaxing voice and calm disposition.",
+          "confidence": 0.9
+        }
+      },
+      "confidence": 0.95
+    },
+    "agency": {
+      "id": {
+        "value": "hololive_gamers",
+        "confidence": 0.95
+      },
+      "attributes": {
+        "name": {
+          "value": "Hololive GAMERS",
+          "confidence": 0.95
+        }
+      },
+      "confidence": 0.9
+    },
+    "music_release": {
+      "id": {
+        "value": "holo27_originals_vol1",
+        "confidence": 0.9
+      },
+      "attributes": {
+        "name": {
+          "value": "holo*27 Originals Vol.1",
+          "confidence": 0.9
+        },
+        "genre": {
+          "value": null,
+          "confidence": 0.6
+        }
+      },
+      "confidence": 0.8
+    },
+    "game": {
+      "id": {
+        "value": "okayunyumu",
+        "confidence": 0.8
+      },
+      "attributes": {
+        "name": {
+          "value": "おかゆにゅ～～む！~Okayunyumu~",
+          "confidence": 0.8
+        },
+        "genre": {
+          "value": "visual novel",
+          "confidence": 0.7
+        },
+        "developer": {
+          "value": "ENTERGRAM",
+          "confidence": 0.8
+        }
+      },
+      "confidence": 0.7
+    },
+    "event": {
+      "id": {
+        "value": "personya_respect_sololive",
+        "confidence": 0.8
+      },
+      "attributes": {
+        "name": {
+          "value": "PERSONYA RESPECT",
+          "confidence": 0.8
+        },
+        "date": {
+          "value": "May 28, 2025",
+          "confidence": 0.7
+        },
+        "type": {
+          "value": "2nd Sololive",
+          "confidence": 0.7
+        },
+        "location": {
+          "value": null,
+          "confidence": 0.5
+        }
+      },
+      "confidence": 0.7
+    }
+  },
+  "relationships": {
+    "belongs_to": {
+      "source_type": "vtuber",
+      "target_type": "agency",
+      "properties": {},
+      "confidence": 0.95
+    },
+    "collaborated_with": {
+      "source_type": "vtuber",
+      "target_type": "vtuber",
+      "properties": {
+        "hours": {
+          "value": null,
+          "confidence": 0.5
+        },
+        "times": {
+          "value": null,
+          "confidence": 0.5
+        }
+      },
+      "confidence": 0.7
+    },
+    "played": {
+      "source_type": "vtuber",
+      "target_type": "game",
+      "properties": {
+        "hours_streamed": {
+          "value": null,
+          "confidence": 0.5
+        }
+      },
+      "confidence": 0.7
+    },
+    "released": {
+      "source_type": "vtuber",
+      "target_type": "music_release",
+      "properties": {},
+      "confidence": 0.8
+    },
+    "performed_at": {
+      "source_type": "vtuber",
+      "target_type": "event",
+      "properties": {},
+      "confidence": 0.8
+    },
+    "held": {
+      "source_type": "agency",
+      "target_type": "event",
+      "properties": {
+        "description": {
+          "value": null,
+          "confidence": 0.5
+        }
+      },
+      "confidence": 0.6
+    }
+  },
+  "entities_list": [
+    {
+      "id": "nekomata_okayu",
+      "type": "vtuber",
+      "name": "Nekomata Okayu",
+      "confidence": 0.99,
+      "attributes": {
+        "name": {
+          "value": "Nekomata Okayu",
+          "confidence": 0.99
+        },
+        "synonyms": {
+          "value": "猫又おかゆ, 猫又小粥, Okayun, Okazu, Okayu",
+          "confidence": 0.9
+        },
+        "description": {
+          "value": "A cat girl VTuber in the Hololive Gamers unit known for her relaxing voice and calm disposition.",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "hololive_gamers",
+      "type": "agency",
+      "name": "Hololive GAMERS",
+      "confidence": 0.95,
+      "attributes": {
+        "name": {
+          "value": "Hololive GAMERS",
+          "confidence": 0.95
+        }
+      }
+    },
+    {
+      "id": "mogu_mogu_yummy",
+      "type": "music_release",
+      "name": "もぐもぐYUMMY!",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "もぐもぐYUMMY!",
+          "confidence": 0.9
+        },
+        "genre": {
+          "value": null,
+          "confidence": 0.6
+        }
+      }
+    },
+    {
+      "id": "shiny_smily_story",
+      "type": "music_release",
+      "name": "Shiny Smily Story",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "Shiny Smily Story",
+          "confidence": 0.9
+        },
+        "genre": {
+          "value": null,
+          "confidence": 0.6
+        }
+      }
+    },
+    {
+      "id": "poisonya_syndrome",
+      "type": "music_release",
+      "name": "ぽいずにゃ～しんどろーむ",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "ぽいずにゃ～しんどろーむ",
+          "confidence": 0.9
+        },
+        "genre": {
+          "value": null,
+          "confidence": 0.6
+        }
+      }
+    },
+    {
+      "id": "holo27_originals_vol1",
+      "type": "music_release",
+      "name": "holo*27 Originals Vol.1",
+      "confidence": 0.9,
+      "attributes": {
+        "name": {
+          "value": "holo*27 Originals Vol.1",
+          "confidence": 0.9
+        },
+        "genre": {
+          "value": null,
+          "confidence": 0.6
+        }
+      }
+    },
+    {
+      "id": "yo_kai_watch_punipuni",
+      "type": "game",
+      "name": "Yo-kai Watch PuniPuni",
+      "confidence": 0.8,
+      "attributes": {
+        "name": {
+          "value": "Yo-kai Watch PuniPuni",
+          "confidence": 0.8
+        },
+        "genre": {
+          "value": null,
+          "confidence": 0.5
+        },
+        "developer": {
+          "value": null,
+          "confidence": 0.5
+        }
+      }
+    },
+    {
+      "id": "hololive_summer_2022",
+      "type": "event",
+      "name": "hololive Summer 2022",
+      "confidence": 0.8,
+      "attributes": {
+        "name": {
+          "value": "hololive Summer 2022",
+          "confidence": 0.8
+        },
+        "date": {
+          "value": "August 11, 2022",
+          "confidence": 0.7
+        },
+        "type": {
+          "value": "3D swimsuit outfit debut",
+          "confidence": 0.7
+        },
+        "location": {
+          "value": null,
+          "confidence": 0.5
+        }
+      }
+    },
+    {
+      "id": "poisonya_syndrome_sololive",
+      "type": "event",
+      "name": "POISONYA SYNDROME",
+      "confidence": 0.8,
+      "attributes": {
+        "name": {
+          "value": "POISONYA SYNDROME",
+          "confidence": 0.8
+        },
+        "date": {
+          "value": "September 30, 2022",
+          "confidence": 0.7
+        },
+        "type": {
+          "value": "1st sololive",
+          "confidence": 0.7
+        },
+        "location": {
+          "value": null,
+          "confidence": 0.5
+        }
+      }
+    },
+    {
+      "id": "okayunyumu",
+      "type": "game",
+      "name": "おかゆにゅ～～む！~Okayunyumu~",
+      "confidence": 0.8,
+      "attributes": {
+        "name": {
+          "value": "おかゆにゅ～～む！~Okayunyumu~",
+          "confidence": 0.8
+        },
+        "genre": {
+          "value": "visual novel",
+          "confidence": 0.7
+        },
+        "developer": {
+          "value": "ENTERGRAM",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "personya_respect_sololive",
+      "type": "event",
+      "name": "PERSONYA RESPECT",
+      "confidence": 0.8,
+      "attributes": {
+        "name": {
+          "value": "PERSONYA RESPECT",
+          "confidence": 0.8
+        },
+        "date": {
+          "value": "May 28, 2025",
+          "confidence": 0.7
+        },
+        "type": {
+          "value": "2nd Sololive",
+          "confidence": 0.7
+        },
+        "location": {
+          "value": null,
+          "confidence": 0.5
+        }
+      }
+    }
+  ],
+  "relationships_list": [
+    {
+      "source": "nekomata_okayu",
+      "relation": "belongs_to",
+      "target": "hololive_gamers",
+      "confidence": 0.95,
+      "properties": {}
+    },
+    {
+      "source": "nekomata_okayu",
+      "relation": "played",
+      "target": "yo_kai_watch_punipuni",
+      "confidence": 0.7,
+      "properties": {
+        "hours_streamed": {
+          "value": null,
+          "confidence": 0.5
+        }
+      }
+    },
+    {
+      "source": "nekomata_okayu",
+      "relation": "played",
+      "target": "okayunyumu",
+      "confidence": 0.7,
+      "properties": {
+        "hours_streamed": {
+          "value": null,
+          "confidence": 0.5
+        }
+      }
+    },
+    {
+      "source": "nekomata_okayu",
+      "relation": "released",
+      "target": "mogu_mogu_yummy",
+      "confidence": 0.8,
+      "properties": {}
+    },
+    {
+      "source": "nekomata_okayu",
+      "relation": "released",
+      "target": "shiny_smily_story",
+      "confidence": 0.8,
+      "properties": {}
+    },
+    {
+      "source": "nekomata_okayu",
+      "relation": "released",
+      "target": "poisonya_syndrome",
+      "confidence": 0.8,
+      "properties": {}
+    },
+    {
+      "source": "nekomata_okayu",
+      "relation": "released",
+      "target": "holo27_originals_vol1",
+      "confidence": 0.8,
+      "properties": {}
+    },
+    {
+      "source": "nekomata_okayu",
+      "relation": "performed_at",
+      "target": "hololive_summer_2022",
+      "confidence": 0.8,
+      "properties": {}
+    },
+    {
+      "source": "nekomata_okayu",
+      "relation": "performed_at",
+      "target": "poisonya_syndrome_sololive",
+      "confidence": 0.8,
+      "properties": {}
+    },
+    {
+      "source": "nekomata_okayu",
+      "relation": "performed_at",
+      "target": "personya_respect_sololive",
+      "confidence": 0.8,
+      "properties": {}
+    }
+  ]
+}

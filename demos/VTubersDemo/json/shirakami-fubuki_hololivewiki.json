@@ -1,0 +1,565 @@
+{
+  "entities": {
+    "vtuber": {
+      "id": "Kurokami",
+      "attributes": {
+        "name": {
+          "value": "Kurokami",
+          "confidence": 0.9
+        },
+        "synonyms": {
+          "value": "alter persona",
+          "confidence": 0.7
+        },
+        "description": {
+          "value": "Fubuki's alter persona, appeared at some point in February of 2019. She has a more aggressive and harsh nature in contrast to the shy and calm Fubuki everyone knows, often not having any tact, coming off verbally strong to people, pushes her work to other people and absolutely hates doing embarrassing things.",
+          "confidence": 0.8
+        }
+      },
+      "confidence": 0.8
+    },
+    "agency": {
+      "id": {
+        "value": "hololive",
+        "confidence": 0.99
+      },
+      "attributes": {
+        "name": {
+          "value": "Hololive",
+          "confidence": 0.99
+        }
+      },
+      "confidence": 0.98
+    },
+    "game": {
+      "id": "Yo-kai Watch PuniPuni",
+      "attributes": {
+        "name": {
+          "value": "Yo-kai Watch PuniPuni",
+          "confidence": 0.7
+        }
+      },
+      "confidence": 0.6
+    },
+    "music_release": {
+      "id": {
+        "value": "2:23 AM",
+        "confidence": 0.7
+      },
+      "attributes": {
+        "name": {
+          "value": "2:23 AM",
+          "confidence": 0.7
+        }
+      },
+      "confidence": 0.6
+    },
+    "event": {
+      "id": "Nonstop Story",
+      "attributes": {
+        "name": {
+          "value": "Nonstop Story",
+          "confidence": 0.8
+        },
+        "type": {
+          "value": "live festival",
+          "confidence": 0.8
+        },
+        "date": {
+          "value": "Jan. 24, 2020",
+          "confidence": 0.8
+        }
+      },
+      "confidence": 0.7
+    }
+  },
+  "relationships": {
+    "belongs_to": {
+      "source_type": "vtuber",
+      "target_type": "agency",
+      "properties": {},
+      "confidence": 0.95
+    },
+    "collaborated_with": {
+      "source_type": "vtuber",
+      "target_type": "vtuber",
+      "properties": {
+        "hours": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "times": {
+          "value": "",
+          "confidence": 0.0
+        }
+      },
+      "confidence": 0.7
+    },
+    "played": {
+      "source_type": "vtuber",
+      "target_type": "game",
+      "properties": {
+        "hours_streamed": {
+          "value": "",
+          "confidence": 0.6
+        }
+      },
+      "confidence": 0.6
+    },
+    "released": {
+      "source_type": "vtuber",
+      "target_type": "music_release",
+      "properties": {},
+      "confidence": 0.8
+    },
+    "performed_at": {
+      "source_type": "vtuber",
+      "target_type": "event",
+      "properties": {},
+      "confidence": 0.7
+    },
+    "held": {
+      "source_type": "agency",
+      "target_type": "event",
+      "properties": {
+        "description": {
+          "value": "",
+          "confidence": 0.0
+        }
+      },
+      "confidence": 0.6
+    }
+  },
+  "entities_list": [
+    {
+      "id": "shirakami_fubuki",
+      "type": "vtuber",
+      "name": "Shirakami Fubuki",
+      "confidence": 0.95,
+      "attributes": {
+        "name": {
+          "value": "Shirakami Fubuki",
+          "confidence": 0.99
+        },
+        "synonyms": {
+          "value": "白上フブキ, FBK, Fox Burger King, Waifriend, Foobs, Scatman, Meme Queen, Cat, Alien, 狐狸、朋友、 猫 、好狐、少主、主子",
+          "confidence": 0.9
+        },
+        "description": {
+          "value": "White-haired animal-eared otaku fox. She loves talking with people and will be happy if you give her the time of day. She aims to become a top otaku idol while enjoying each and every day.",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "hololive",
+      "type": "agency",
+      "name": "Hololive",
+      "confidence": 0.98,
+      "attributes": {
+        "name": {
+          "value": "Hololive",
+          "confidence": 0.99
+        }
+      }
+    },
+    {
+      "id": "Fortnite Battle Royale",
+      "type": "game",
+      "name": "Fortnite Battle Royale",
+      "confidence": 0.65,
+      "attributes": {
+        "name": {
+          "value": "Fortnite Battle Royale",
+          "confidence": 0.7
+        },
+        "genre": {
+          "value": "FPS",
+          "confidence": 0.6
+        }
+      }
+    },
+    {
+      "id": "Say!ファンファーレ!",
+      "type": "music_release",
+      "name": "Say!ファンファーレ!",
+      "confidence": 0.8,
+      "attributes": {
+        "name": {
+          "value": "Say!ファンファーレ!",
+          "confidence": 0.9
+        },
+        "genre": {
+          "value": "J-Pop",
+          "confidence": 0.6
+        }
+      }
+    },
+    {
+      "id": "FBKBP2019",
+      "type": "event",
+      "name": "FBKBP2019",
+      "confidence": 0.65,
+      "attributes": {
+        "name": {
+          "value": "FBKBP2019",
+          "confidence": 0.7
+        },
+        "date": {
+          "value": "Nov. 16, 2019",
+          "confidence": 0.7
+        },
+        "type": {
+          "value": "birthday party event",
+          "confidence": 0.7
+        }
+      }
+    },
+    {
+      "id": "Shiny Smily Story",
+      "type": "music_release",
+      "name": "Shiny Smily Story",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Shiny Smily Story",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "Shirakami Cafe Music",
+      "type": "music_release",
+      "name": "Shirakami Cafe Music",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Shirakami Cafe Music",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "#幻想郷ホロイズム (#GENSOKYOholoism)",
+      "type": "music_release",
+      "name": "#幻想郷ホロイズム (#GENSOKYOholoism)",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "#幻想郷ホロイズム (#GENSOKYOholoism)",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "もっふもふ DE よいのじゃよ (Moffumoffu DE Yoi no Ja yo)",
+      "type": "music_release",
+      "name": "もっふもふ DE よいのじゃよ (Moffumoffu DE Yoi no Ja yo)",
+      "confidence": 0.6,
+      "attributes": {
+        "name": {
+          "value": "もっふもふ DE よいのじゃよ (Moffumoffu DE Yoi no Ja yo)",
+          "confidence": 0.7
+        }
+      }
+    },
+    {
+      "id": "クックパッドおすすめレシピ",
+      "type": "music_release",
+      "name": "クックパッドおすすめレシピ",
+      "confidence": 0.6,
+      "attributes": {
+        "name": {
+          "value": "クックパッドおすすめレシピ",
+          "confidence": 0.7
+        }
+      }
+    },
+    {
+      "id": "朝が来て",
+      "type": "music_release",
+      "name": "朝が来て",
+      "confidence": 0.6,
+      "attributes": {
+        "name": {
+          "value": "朝が来て",
+          "confidence": 0.7
+        }
+      }
+    },
+    {
+      "id": "香りのやる気スイッチ！",
+      "type": "music_release",
+      "name": "香りのやる気スイッチ！",
+      "confidence": 0.6,
+      "attributes": {
+        "name": {
+          "value": "香りのやる気スイッチ！",
+          "confidence": 0.7
+        }
+      }
+    },
+    {
+      "id": "2:23 AM",
+      "type": "music_release",
+      "name": "2:23 AM",
+      "confidence": 0.6,
+      "attributes": {
+        "name": {
+          "value": "2:23 AM",
+          "confidence": 0.7
+        }
+      }
+    },
+    {
+      "id": "Nonstop Story",
+      "type": "event",
+      "name": "Nonstop Story",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Nonstop Story",
+          "confidence": 0.8
+        },
+        "type": {
+          "value": "live festival",
+          "confidence": 0.8
+        },
+        "date": {
+          "value": "Jan. 24, 2020",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "APEX Legends",
+      "type": "game",
+      "name": "APEX Legends",
+      "confidence": 0.6,
+      "attributes": {
+        "name": {
+          "value": "APEX Legends",
+          "confidence": 0.7
+        }
+      }
+    },
+    {
+      "id": "Phasmophobia",
+      "type": "game",
+      "name": "Phasmophobia",
+      "confidence": 0.6,
+      "attributes": {
+        "name": {
+          "value": "Phasmophobia",
+          "confidence": 0.7
+        }
+      }
+    },
+    {
+      "id": "Yo-kai Watch PuniPuni",
+      "type": "game",
+      "name": "Yo-kai Watch PuniPuni",
+      "confidence": 0.6,
+      "attributes": {
+        "name": {
+          "value": "Yo-kai Watch PuniPuni",
+          "confidence": 0.7
+        }
+      }
+    },
+    {
+      "id": "Kurokami",
+      "type": "vtuber",
+      "name": "Kurokami",
+      "confidence": 0.8,
+      "attributes": {
+        "name": {
+          "value": "Kurokami",
+          "confidence": 0.9
+        },
+        "synonyms": {
+          "value": "alter persona",
+          "confidence": 0.7
+        },
+        "description": {
+          "value": "Fubuki's alter persona, appeared at some point in February of 2019. She has a more aggressive and harsh nature in contrast to the shy and calm Fubuki everyone knows, often not having any tact, coming off verbally strong to people, pushes her work to other people and absolutely hates doing embarrassing things.",
+          "confidence": 0.8
+        }
+      }
+    }
+  ],
+  "relationships_list": [
+    {
+      "source": "shirakami_fubuki",
+      "relation": "belongs_to",
+      "target": "hololive",
+      "confidence": 0.95,
+      "properties": {}
+    },
+    {
+      "source": "shirakami_fubuki",
+      "relation": "collaborated_with",
+      "target": "Kurokami",
+      "confidence": 0.7,
+      "properties": {
+        "hours": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "times": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "source": "shirakami_fubuki",
+      "relation": "played",
+      "target": "Fortnite Battle Royale",
+      "confidence": 0.6,
+      "properties": {
+        "hours_streamed": {
+          "value": "",
+          "confidence": 0.6
+        }
+      }
+    },
+    {
+      "source": "shirakami_fubuki",
+      "relation": "released",
+      "target": "Say!ファンファーレ!",
+      "confidence": 0.8,
+      "properties": {}
+    },
+    {
+      "source": "shirakami_fubuki",
+      "relation": "performed_at",
+      "target": "FBKBP2019",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "hololive",
+      "relation": "held",
+      "target": "FBKBP2019",
+      "confidence": 0.6,
+      "properties": {
+        "description": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "source": "shirakami_fubuki",
+      "relation": "released",
+      "target": "Shiny Smily Story",
+      "confidence": 0.8,
+      "properties": {}
+    },
+    {
+      "source": "shirakami_fubuki",
+      "relation": "released",
+      "target": "Shirakami Cafe Music",
+      "confidence": 0.8,
+      "properties": {}
+    },
+    {
+      "source": "shirakami_fubuki",
+      "relation": "released",
+      "target": "#幻想郷ホロイズム (#GENSOKYOholoism)",
+      "confidence": 0.8,
+      "properties": {}
+    },
+    {
+      "source": "shirakami_fubuki",
+      "relation": "released",
+      "target": "もっふもふ DE よいのじゃよ (Moffumoffu DE Yoi no Ja yo)",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "shirakami_fubuki",
+      "relation": "released",
+      "target": "クックパッドおすすめレシピ",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "shirakami_fubuki",
+      "relation": "released",
+      "target": "朝が来て",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "shirakami_fubuki",
+      "relation": "released",
+      "target": "香りのやる気スイッチ！",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "shirakami_fubuki",
+      "relation": "released",
+      "target": "2:23 AM",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "shirakami_fubuki",
+      "relation": "performed_at",
+      "target": "Nonstop Story",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "hololive",
+      "relation": "held",
+      "target": "Nonstop Story",
+      "confidence": 0.6,
+      "properties": {
+        "description": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "source": "shirakami_fubuki",
+      "relation": "played",
+      "target": "APEX Legends",
+      "confidence": 0.6,
+      "properties": {
+        "hours_streamed": {
+          "value": "",
+          "confidence": 0.6
+        }
+      }
+    },
+    {
+      "source": "shirakami_fubuki",
+      "relation": "played",
+      "target": "Phasmophobia",
+      "confidence": 0.6,
+      "properties": {
+        "hours_streamed": {
+          "value": "",
+          "confidence": 0.6
+        }
+      }
+    },
+    {
+      "source": "shirakami_fubuki",
+      "relation": "played",
+      "target": "Yo-kai Watch PuniPuni",
+      "confidence": 0.6,
+      "properties": {
+        "hours_streamed": {
+          "value": "",
+          "confidence": 0.6
+        }
+      }
+    }
+  ]
+}

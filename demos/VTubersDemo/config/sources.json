@@ -1,0 +1,14 @@
+{
+  "hololivewiki": {
+    "enabled": true,
+    "weight": 1.0
+  },
+  "medlineplus": {
+    "enabled": false,
+    "weight": 1.0
+  },
+  "wikipedia": {
+    "enabled": false,
+    "weight": 1.0
+  }
+}

@@ -1,0 +1,396 @@
+{
+  "entities": {
+    "vtuber": {
+      "id": {
+        "value": "usada_pekora",
+        "confidence": 1.0
+      },
+      "attributes": {
+        "name": {
+          "value": "Usada Pekora",
+          "confidence": 1.0
+        },
+        "synonyms": {
+          "value": "兎田ぺこら, 兔田佩克拉, Peko-chan, Shachou, War Criminal, Comedian",
+          "confidence": 0.9
+        },
+        "description": {
+          "value": "A lonely rabbit-eared girl who loves carrots. Part of the 3rd generation, Hololive Fantasy, she is eternally 111 years old.",
+          "confidence": 0.9
+        }
+      },
+      "confidence": 0.95
+    },
+    "agency": {
+      "id": {
+        "value": "hololive",
+        "confidence": 1.0
+      },
+      "attributes": {
+        "name": {
+          "value": "Hololive",
+          "confidence": 1.0
+        }
+      },
+      "confidence": 0.95
+    },
+    "music_release": {
+      "id": {
+        "value": "gensokyo_holoism",
+        "confidence": 0.8
+      },
+      "attributes": {
+        "name": "#幻想郷ホロイズム",
+        "confidence": 0.8
+      },
+      "confidence": 0.75
+    },
+    "game": {
+      "id": {
+        "value": "yo-kai_watch_punipuni",
+        "confidence": 0.7
+      },
+      "attributes": {
+        "name": "Yo-kai Watch PuniPuni",
+        "confidence": 0.7
+      },
+      "confidence": 0.65
+    },
+    "event": {
+      "id": "usagi_the_megami",
+      "attributes": {
+        "name": "-Usagi The MegaMi!!-",
+        "confidence": 0.8
+      },
+      "confidence": 0.7
+    }
+  },
+  "relationships": {
+    "belongs_to": {
+      "source_type": "vtuber",
+      "target_type": "agency",
+      "properties": {},
+      "confidence": 0.9
+    },
+    "collaborated_with": {
+      "source_type": "vtuber",
+      "target_type": "vtuber",
+      "properties": {
+        "hours": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "times": {
+          "value": "",
+          "confidence": 0.0
+        }
+      },
+      "confidence": 0.7
+    },
+    "played": {
+      "source_type": "vtuber",
+      "target_type": "game",
+      "properties": {
+        "hours_streamed": {
+          "value": "",
+          "confidence": 0.0
+        }
+      },
+      "confidence": 0.6
+    },
+    "released": {
+      "source_type": "vtuber",
+      "target_type": "music_release",
+      "properties": {},
+      "confidence": 0.8
+    },
+    "performed_at": {
+      "source_type": "vtuber",
+      "target_type": "event",
+      "properties": {},
+      "confidence": 0.7
+    },
+    "held": {
+      "source_type": "agency",
+      "target_type": "event",
+      "properties": {
+        "description": {
+          "value": "",
+          "confidence": 0.0
+        }
+      },
+      "confidence": 0.5
+    }
+  },
+  "entities_list": [
+    {
+      "id": "usada_pekora",
+      "type": "vtuber",
+      "name": "Usada Pekora",
+      "confidence": 0.95,
+      "attributes": {
+        "name": {
+          "value": "Usada Pekora",
+          "confidence": 1.0
+        },
+        "synonyms": {
+          "value": "兎田ぺこら, 兔田佩克拉, Peko-chan, Shachou, War Criminal, Comedian",
+          "confidence": 0.9
+        },
+        "description": {
+          "value": "A lonely rabbit-eared girl who loves carrots. Part of the 3rd generation, Hololive Fantasy, she is eternally 111 years old.",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "hololive",
+      "type": "agency",
+      "name": "Hololive",
+      "confidence": 0.95,
+      "attributes": {
+        "name": {
+          "value": "Hololive",
+          "confidence": 1.0
+        }
+      }
+    },
+    {
+      "id": "pekorandombrain",
+      "type": "music_release",
+      "name": "ぺこらんだむぶれいん!",
+      "confidence": 0.75,
+      "attributes": {
+        "name": {
+          "value": "ぺこらんだむぶれいん!",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "pekomiko_daisensou",
+      "type": "music_release",
+      "name": "ぺこみこ大戦争！！",
+      "confidence": 0.75,
+      "attributes": {
+        "name": {
+          "value": "ぺこみこ大戦争！！",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "gensokyo_holoism",
+      "type": "music_release",
+      "name": "#幻想郷ホロイズム",
+      "confidence": 0.75,
+      "attributes": {
+        "name": {
+          "value": "#幻想郷ホロイズム",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "yo-kai_watch_punipuni",
+      "type": "game",
+      "name": "Yo-kai Watch PuniPuni",
+      "confidence": 0.65,
+      "attributes": {
+        "name": {
+          "value": "Yo-kai Watch PuniPuni",
+          "confidence": 0.7
+        }
+      }
+    },
+    {
+      "id": "nonstop_story",
+      "type": "event",
+      "name": "Nonstop Story",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Nonstop Story",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "beyond_the_stage",
+      "type": "event",
+      "name": "Beyond the Stage",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Beyond the Stage",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "bloom",
+      "type": "event",
+      "name": "Bloom",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Bloom",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "pekora_24",
+      "type": "event",
+      "name": "Pekora 24",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "Pekora 24",
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "usagi_the_megami",
+      "type": "event",
+      "name": "-Usagi The MegaMi!!-",
+      "confidence": 0.7,
+      "attributes": {
+        "name": {
+          "value": "-Usagi The MegaMi!!-",
+          "confidence": 0.8
+        }
+      }
+    }
+  ],
+  "relationships_list": [
+    {
+      "source": "usada_pekora",
+      "relation": "belongs_to",
+      "target": "hololive",
+      "confidence": 0.9,
+      "properties": {}
+    },
+    {
+      "source": "usada_pekora",
+      "relation": "collaborated_with",
+      "target": "usada_pekora",
+      "confidence": 0.7,
+      "properties": {
+        "hours": {
+          "value": "",
+          "confidence": 0.0
+        },
+        "times": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "source": "usada_pekora",
+      "relation": "played",
+      "target": "yo-kai_watch_punipuni",
+      "confidence": 0.6,
+      "properties": {
+        "hours_streamed": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "source": "usada_pekora",
+      "relation": "released",
+      "target": "pekorandombrain",
+      "confidence": 0.8,
+      "properties": {}
+    },
+    {
+      "source": "usada_pekora",
+      "relation": "released",
+      "target": "pekomiko_daisensou",
+      "confidence": 0.8,
+      "properties": {}
+    },
+    {
+      "source": "usada_pekora",
+      "relation": "released",
+      "target": "gensokyo_holoism",
+      "confidence": 0.8,
+      "properties": {}
+    },
+    {
+      "source": "usada_pekora",
+      "relation": "performed_at",
+      "target": "nonstop_story",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "usada_pekora",
+      "relation": "performed_at",
+      "target": "beyond_the_stage",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "usada_pekora",
+      "relation": "performed_at",
+      "target": "bloom",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "usada_pekora",
+      "relation": "performed_at",
+      "target": "pekora_24",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "usada_pekora",
+      "relation": "performed_at",
+      "target": "usagi_the_megami",
+      "confidence": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "hololive",
+      "relation": "held",
+      "target": "nonstop_story",
+      "confidence": 0.5,
+      "properties": {
+        "description": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "source": "hololive",
+      "relation": "held",
+      "target": "beyond_the_stage",
+      "confidence": 0.5,
+      "properties": {
+        "description": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    },
+    {
+      "source": "hololive",
+      "relation": "held",
+      "target": "bloom",
+      "confidence": 0.5,
+      "properties": {
+        "description": {
+          "value": "",
+          "confidence": 0.0
+        }
+      }
+    }
+  ]
+}

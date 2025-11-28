@@ -1,0 +1,1585 @@
+{
+  "records": [
+    {
+      "entities": [
+        {
+          "id": "vtuber",
+          "type": "vtuber",
+          "name": "",
+          "confidence": 0.7,
+          "attributes": {
+            "name": {
+              "value": "",
+              "confidence": 0.0
+            },
+            "synonyms": {
+              "value": "",
+              "confidence": 0.0
+            },
+            "description": {
+              "value": "",
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "id": "INNK Music",
+          "type": "agency",
+          "name": "INNK Music",
+          "confidence": 0.7,
+          "attributes": {
+            "name": {
+              "value": "INNK Music",
+              "confidence": 0.7
+            }
+          }
+        },
+        {
+          "id": "game",
+          "type": "game",
+          "name": "",
+          "confidence": 0.7,
+          "attributes": {
+            "name": {
+              "value": "",
+              "confidence": 0.0
+            },
+            "genre": {
+              "value": "",
+              "confidence": 0.0
+            },
+            "developer": {
+              "value": "",
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "id": "tenkyu_suisei_wa_yoru_o_koede",
+          "type": "music_release",
+          "name": "tenkyu_suisei_wa_yoru_o_koede",
+          "confidence": 0.8,
+          "attributes": {
+            "name": {
+              "value": "天球、彗星は夜を跨いで",
+              "confidence": 0.0
+            },
+            "confidence": 0.8,
+            "genre": {
+              "value": "",
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "id": "Nonstop Story",
+          "type": "event",
+          "name": "Nonstop Story",
+          "confidence": 0.7875,
+          "attributes": {
+            "name": {
+              "value": "Nonstop Story",
+              "confidence": 0.8625
+            },
+            "date": {
+              "value": "January 24",
+              "confidence": 0.65
+            },
+            "type": {
+              "value": "Hololive's 1st fest",
+              "confidence": 0.7
+            },
+            "location": {
+              "value": null,
+              "confidence": 0.05
+            },
+            "type_alt1": {
+              "value": "live",
+              "confidence": 0.6
+            },
+            "type_alt2": {
+              "value": "live festival",
+              "confidence": 0.8
+            },
+            "date_alt1": {
+              "value": "Jan. 24, 2020",
+              "confidence": 0.8
+            }
+          }
+        },
+        {
+          "id": "Inugami Korone",
+          "type": "vtuber",
+          "name": "Inugami Korone",
+          "confidence": 0.95,
+          "attributes": {
+            "name": {
+              "value": "Inugami Korone",
+              "confidence": 1.0
+            },
+            "synonyms": {
+              "value": "戌神ころね, 戌神沁音, Koro-san",
+              "confidence": 0.9
+            },
+            "description": {
+              "value": "A dog girl VTuber in the Hololive Gamers sub-unit. She is 95 years old. She works at a bakery.",
+              "confidence": 0.9
+            }
+          }
+        },
+        {
+          "id": "Hololive",
+          "type": "agency",
+          "name": "Hololive",
+          "confidence": 1.0,
+          "attributes": {
+            "name": {
+              "value": "Hololive",
+              "confidence": 1.0
+            }
+          }
+        },
+        {
+          "id": "Animal Crossing",
+          "type": "game",
+          "name": "Animal Crossing",
+          "confidence": 0.7,
+          "attributes": {
+            "name": {
+              "value": "Animal Crossing",
+              "confidence": 0.7
+            },
+            "genre": {
+              "value": null,
+              "confidence": 0.0
+            },
+            "developer": {
+              "value": null,
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "id": "ころねの最凶天災わんだふぉーわーるど",
+          "type": "music_release",
+          "name": "ころねの最凶天災わんだふぉーわーるど",
+          "confidence": 0.8,
+          "attributes": {
+            "name": {
+              "value": "ころねの最凶天災わんだふぉーわーるど",
+              "confidence": 0.8
+            },
+            "genre": {
+              "value": null,
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "id": "Nekomata Okayu",
+          "type": "vtuber",
+          "name": "Nekomata Okayu",
+          "confidence": 0.995,
+          "attributes": {
+            "name": {
+              "value": "Nekomata Okayu",
+              "confidence": 0.995
+            },
+            "synonyms": {
+              "value": null,
+              "confidence": 0.0
+            },
+            "description": {
+              "value": null,
+              "confidence": 0.0
+            },
+            "synonyms_alt1": {
+              "value": "猫又おかゆ, 猫又小粥, Okayun, Okazu, Okayu",
+              "confidence": 0.9
+            },
+            "description_alt1": {
+              "value": "A cat girl VTuber in the Hololive Gamers unit known for her relaxing voice and calm disposition.",
+              "confidence": 0.9
+            }
+          }
+        },
+        {
+          "id": "Gegege no Kitaro SNES game",
+          "type": "game",
+          "name": "Gegege no Kitaro SNES game",
+          "confidence": 0.7,
+          "attributes": {
+            "name": {
+              "value": "Gegege no Kitaro SNES game",
+              "confidence": 0.7
+            },
+            "genre": {
+              "value": null,
+              "confidence": 0.0
+            },
+            "developer": {
+              "value": null,
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "id": "Beyond the Stage",
+          "type": "event",
+          "name": "Beyond the Stage",
+          "confidence": 0.75,
+          "attributes": {
+            "name": {
+              "value": "Beyond the Stage",
+              "confidence": 0.8
+            },
+            "date": {
+              "value": "Dec. 22",
+              "confidence": 0.6
+            },
+            "type": {
+              "value": "live event",
+              "confidence": 0.6
+            },
+            "location": {
+              "value": null,
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "id": "Link Your Wish",
+          "type": "event",
+          "name": "Link Your Wish",
+          "confidence": 0.7,
+          "attributes": {
+            "name": {
+              "value": "Link Your Wish",
+              "confidence": 0.7
+            },
+            "date": {
+              "value": "Mar. 19",
+              "confidence": 0.6
+            },
+            "type": {
+              "value": "fes",
+              "confidence": 0.6
+            },
+            "location": {
+              "value": null,
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "id": "Yo-kai Watch PuniPuni",
+          "type": "game",
+          "name": "Yo-kai Watch PuniPuni",
+          "confidence": 0.75,
+          "attributes": {
+            "name": {
+              "value": "Yo-kai Watch PuniPuni",
+              "confidence": 0.8
+            },
+            "genre": {
+              "value": null,
+              "confidence": 0.3
+            },
+            "developer": {
+              "value": null,
+              "confidence": 0.3
+            }
+          }
+        },
+        {
+          "id": "Watame",
+          "type": "vtuber",
+          "name": "Watame",
+          "confidence": 0.7,
+          "attributes": {
+            "name": {
+              "value": "Watame",
+              "confidence": 0.7
+            },
+            "synonyms": {
+              "value": null,
+              "confidence": 0.0
+            },
+            "description": {
+              "value": null,
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "id": "Miko",
+          "type": "vtuber",
+          "name": "Miko",
+          "confidence": 0.7,
+          "attributes": {
+            "name": {
+              "value": "Miko",
+              "confidence": 0.7
+            },
+            "synonyms": {
+              "value": null,
+              "confidence": 0.0
+            },
+            "description": {
+              "value": null,
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "id": "Botan",
+          "type": "vtuber",
+          "name": "Botan",
+          "confidence": 0.7,
+          "attributes": {
+            "name": {
+              "value": "Botan",
+              "confidence": 0.7
+            },
+            "synonyms": {
+              "value": null,
+              "confidence": 0.0
+            },
+            "description": {
+              "value": null,
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "id": "Fubuki",
+          "type": "vtuber",
+          "name": "Fubuki",
+          "confidence": 0.7,
+          "attributes": {
+            "name": {
+              "value": "Fubuki",
+              "confidence": 0.7
+            },
+            "synonyms": {
+              "value": null,
+              "confidence": 0.0
+            },
+            "description": {
+              "value": null,
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "id": "Pekora",
+          "type": "vtuber",
+          "name": "Pekora",
+          "confidence": 0.7,
+          "attributes": {
+            "name": {
+              "value": "Pekora",
+              "confidence": 0.7
+            },
+            "synonyms": {
+              "value": null,
+              "confidence": 0.0
+            },
+            "description": {
+              "value": null,
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "id": "Marine",
+          "type": "vtuber",
+          "name": "Marine",
+          "confidence": 0.7,
+          "attributes": {
+            "name": {
+              "value": "Marine",
+              "confidence": 0.7
+            },
+            "synonyms": {
+              "value": null,
+              "confidence": 0.0
+            },
+            "description": {
+              "value": null,
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "id": "Hololive GAMERS",
+          "type": "agency",
+          "name": "Hololive GAMERS",
+          "confidence": 0.95,
+          "attributes": {
+            "name": {
+              "value": "Hololive GAMERS",
+              "confidence": 0.95
+            }
+          }
+        },
+        {
+          "id": "もぐもぐYUMMY!",
+          "type": "music_release",
+          "name": "もぐもぐYUMMY!",
+          "confidence": 0.9,
+          "attributes": {
+            "name": {
+              "value": "もぐもぐYUMMY!",
+              "confidence": 0.9
+            },
+            "genre": {
+              "value": null,
+              "confidence": 0.6
+            }
+          }
+        },
+        {
+          "id": "Shiny Smily Story",
+          "type": "music_release",
+          "name": "Shiny Smily Story",
+          "confidence": 0.85,
+          "attributes": {
+            "name": {
+              "value": "Shiny Smily Story",
+              "confidence": 0.9
+            },
+            "genre": {
+              "value": null,
+              "confidence": 0.6
+            }
+          }
+        },
+        {
+          "id": "ぽいずにゃ～しんどろーむ",
+          "type": "music_release",
+          "name": "ぽいずにゃ～しんどろーむ",
+          "confidence": 0.9,
+          "attributes": {
+            "name": {
+              "value": "ぽいずにゃ～しんどろーむ",
+              "confidence": 0.9
+            },
+            "genre": {
+              "value": null,
+              "confidence": 0.6
+            }
+          }
+        },
+        {
+          "id": "holo*27 Originals Vol.1",
+          "type": "music_release",
+          "name": "holo*27 Originals Vol.1",
+          "confidence": 0.9,
+          "attributes": {
+            "name": {
+              "value": "holo*27 Originals Vol.1",
+              "confidence": 0.9
+            },
+            "genre": {
+              "value": null,
+              "confidence": 0.6
+            }
+          }
+        },
+        {
+          "id": "hololive Summer 2022",
+          "type": "event",
+          "name": "hololive Summer 2022",
+          "confidence": 0.8,
+          "attributes": {
+            "name": {
+              "value": "hololive Summer 2022",
+              "confidence": 0.8
+            },
+            "date": {
+              "value": "August 11, 2022",
+              "confidence": 0.7
+            },
+            "type": {
+              "value": "3D swimsuit outfit debut",
+              "confidence": 0.7
+            },
+            "location": {
+              "value": null,
+              "confidence": 0.5
+            }
+          }
+        },
+        {
+          "id": "POISONYA SYNDROME",
+          "type": "event",
+          "name": "POISONYA SYNDROME",
+          "confidence": 0.8,
+          "attributes": {
+            "name": {
+              "value": "POISONYA SYNDROME",
+              "confidence": 0.8
+            },
+            "date": {
+              "value": "September 30, 2022",
+              "confidence": 0.7
+            },
+            "type": {
+              "value": "1st sololive",
+              "confidence": 0.7
+            },
+            "location": {
+              "value": null,
+              "confidence": 0.5
+            }
+          }
+        },
+        {
+          "id": "おかゆにゅ～～む！~Okayunyumu~",
+          "type": "game",
+          "name": "おかゆにゅ～～む！~Okayunyumu~",
+          "confidence": 0.8,
+          "attributes": {
+            "name": {
+              "value": "おかゆにゅ～～む！~Okayunyumu~",
+              "confidence": 0.8
+            },
+            "genre": {
+              "value": "visual novel",
+              "confidence": 0.7
+            },
+            "developer": {
+              "value": "ENTERGRAM",
+              "confidence": 0.8
+            }
+          }
+        },
+        {
+          "id": "PERSONYA RESPECT",
+          "type": "event",
+          "name": "PERSONYA RESPECT",
+          "confidence": 0.8,
+          "attributes": {
+            "name": {
+              "value": "PERSONYA RESPECT",
+              "confidence": 0.8
+            },
+            "date": {
+              "value": "May 28, 2025",
+              "confidence": 0.7
+            },
+            "type": {
+              "value": "2nd Sololive",
+              "confidence": 0.7
+            },
+            "location": {
+              "value": null,
+              "confidence": 0.5
+            }
+          }
+        },
+        {
+          "id": "ookami_mio",
+          "type": "vtuber",
+          "attributes": {
+            "name": {
+              "value": "Ookami Mio",
+              "confidence": 0.99
+            },
+            "synonyms": {
+              "value": "大神ミオ, Miosha, Mio Mama, 澪媽, 狼媽",
+              "confidence": 0.9
+            },
+            "description": {
+              "value": "A black-haired wolf girl who appeared on our radar randomly. She often shows up around shrines. She likes gaming.",
+              "confidence": 0.8
+            }
+          },
+          "confidence": 0.95
+        },
+        {
+          "id": "hololive",
+          "type": "agency",
+          "attributes": {
+            "name": {
+              "value": "Hololive",
+              "confidence": 0.95
+            }
+          },
+          "confidence": 0.9
+        },
+        {
+          "id": "minecraft",
+          "type": "game",
+          "attributes": {
+            "name": {
+              "value": "Minecraft",
+              "confidence": 0.7
+            }
+          },
+          "confidence": 0.6
+        },
+        {
+          "id": "howling",
+          "type": "music_release",
+          "attributes": {
+            "name": {
+              "value": "Howling",
+              "confidence": 0.9
+            }
+          },
+          "confidence": 0.8
+        },
+        {
+          "id": "nonstop_story",
+          "type": "event",
+          "attributes": {
+            "name": {
+              "value": "Nonstop Story",
+              "confidence": 0.8
+            },
+            "date": {
+              "value": "January 24, 2020",
+              "confidence": 0.7
+            }
+          },
+          "confidence": 0.7
+        },
+        {
+          "id": "shiny_smily_story",
+          "type": "music_release",
+          "attributes": {
+            "name": {
+              "value": "Shiny Smily Story",
+              "confidence": 0.8
+            }
+          },
+          "confidence": 0.7
+        },
+        {
+          "id": "night_walk",
+          "type": "music_release",
+          "attributes": {
+            "name": {
+              "value": "Night walk",
+              "confidence": 0.9
+            },
+            "genre": {
+              "value": "J-Pop",
+              "confidence": 0.6
+            }
+          },
+          "confidence": 0.8
+        },
+        {
+          "id": "bouquet",
+          "type": "music_release",
+          "attributes": {
+            "name": {
+              "value": "Bouquet",
+              "confidence": 0.8
+            }
+          },
+          "confidence": 0.7
+        },
+        {
+          "id": "shirakami_fubuki",
+          "type": "vtuber",
+          "attributes": {
+            "name": {
+              "value": "Shirakami Fubuki",
+              "confidence": 0.8
+            }
+          },
+          "confidence": 0.7
+        },
+        {
+          "id": "nakiri_ayame",
+          "type": "vtuber",
+          "attributes": {
+            "name": {
+              "value": "Nakiri Ayame",
+              "confidence": 0.8
+            }
+          },
+          "confidence": 0.7
+        },
+        {
+          "id": "hakui_koyori",
+          "type": "vtuber",
+          "attributes": {
+            "name": {
+              "value": "Hakui Koyori",
+              "confidence": 0.7
+            }
+          },
+          "confidence": 0.6
+        },
+        {
+          "id": "our_sparkle",
+          "type": "event",
+          "attributes": {
+            "name": {
+              "value": "Our Sparkle",
+              "confidence": 0.7
+            },
+            "type": {
+              "value": "sololive concert",
+              "confidence": 0.7
+            },
+            "location": {
+              "value": "Pia Arena MM",
+              "confidence": 0.7
+            },
+            "date": {
+              "value": "May 4, 2025",
+              "confidence": 0.6
+            }
+          },
+          "confidence": 0.6
+        },
+        {
+          "id": "my_sparkle",
+          "type": "music_release",
+          "attributes": {
+            "name": {
+              "value": "My Sparkle",
+              "confidence": 0.7
+            }
+          },
+          "confidence": 0.6
+        },
+        {
+          "id": "Shirakami Fubuki",
+          "type": "vtuber",
+          "name": "Shirakami Fubuki",
+          "confidence": 0.95,
+          "attributes": {
+            "name": {
+              "value": "Shirakami Fubuki",
+              "confidence": 0.99
+            },
+            "synonyms": {
+              "value": "白上フブキ, FBK, Fox Burger King, Waifriend, Foobs, Scatman, Meme Queen, Cat, Alien, 狐狸、朋友、 猫 、好狐、少主、主子",
+              "confidence": 0.9
+            },
+            "description": {
+              "value": "White-haired animal-eared otaku fox. She loves talking with people and will be happy if you give her the time of day. She aims to become a top otaku idol while enjoying each and every day.",
+              "confidence": 0.9
+            }
+          }
+        },
+        {
+          "id": "Fortnite Battle Royale",
+          "type": "game",
+          "name": "Fortnite Battle Royale",
+          "confidence": 0.65,
+          "attributes": {
+            "name": {
+              "value": "Fortnite Battle Royale",
+              "confidence": 0.7
+            },
+            "genre": {
+              "value": "FPS",
+              "confidence": 0.6
+            }
+          }
+        },
+        {
+          "id": "Say!ファンファーレ!",
+          "type": "music_release",
+          "name": "Say!ファンファーレ!",
+          "confidence": 0.8,
+          "attributes": {
+            "name": {
+              "value": "Say!ファンファーレ!",
+              "confidence": 0.9
+            },
+            "genre": {
+              "value": "J-Pop",
+              "confidence": 0.6
+            }
+          }
+        },
+        {
+          "id": "FBKBP2019",
+          "type": "event",
+          "name": "FBKBP2019",
+          "confidence": 0.65,
+          "attributes": {
+            "name": {
+              "value": "FBKBP2019",
+              "confidence": 0.7
+            },
+            "date": {
+              "value": "Nov. 16, 2019",
+              "confidence": 0.7
+            },
+            "type": {
+              "value": "birthday party event",
+              "confidence": 0.7
+            }
+          }
+        },
+        {
+          "id": "Shirakami Cafe Music",
+          "type": "music_release",
+          "name": "Shirakami Cafe Music",
+          "confidence": 0.7,
+          "attributes": {
+            "name": {
+              "value": "Shirakami Cafe Music",
+              "confidence": 0.8
+            }
+          }
+        },
+        {
+          "id": "#幻想郷ホロイズム (#GENSOKYOholoism)",
+          "type": "music_release",
+          "name": "#幻想郷ホロイズム (#GENSOKYOholoism)",
+          "confidence": 0.7,
+          "attributes": {
+            "name": {
+              "value": "#幻想郷ホロイズム (#GENSOKYOholoism)",
+              "confidence": 0.8
+            }
+          }
+        },
+        {
+          "id": "もっふもふ DE よいのじゃよ (Moffumoffu DE Yoi no Ja yo)",
+          "type": "music_release",
+          "name": "もっふもふ DE よいのじゃよ (Moffumoffu DE Yoi no Ja yo)",
+          "confidence": 0.6,
+          "attributes": {
+            "name": {
+              "value": "もっふもふ DE よいのじゃよ (Moffumoffu DE Yoi no Ja yo)",
+              "confidence": 0.7
+            }
+          }
+        },
+        {
+          "id": "クックパッドおすすめレシピ",
+          "type": "music_release",
+          "name": "クックパッドおすすめレシピ",
+          "confidence": 0.6,
+          "attributes": {
+            "name": {
+              "value": "クックパッドおすすめレシピ",
+              "confidence": 0.7
+            }
+          }
+        },
+        {
+          "id": "朝が来て",
+          "type": "music_release",
+          "name": "朝が来て",
+          "confidence": 0.6,
+          "attributes": {
+            "name": {
+              "value": "朝が来て",
+              "confidence": 0.7
+            }
+          }
+        },
+        {
+          "id": "香りのやる気スイッチ！",
+          "type": "music_release",
+          "name": "香りのやる気スイッチ！",
+          "confidence": 0.6,
+          "attributes": {
+            "name": {
+              "value": "香りのやる気スイッチ！",
+              "confidence": 0.7
+            }
+          }
+        },
+        {
+          "id": "2:23 AM",
+          "type": "music_release",
+          "name": "2:23 AM",
+          "confidence": 0.6,
+          "attributes": {
+            "name": {
+              "value": "2:23 AM",
+              "confidence": 0.7
+            }
+          }
+        },
+        {
+          "id": "APEX Legends",
+          "type": "game",
+          "name": "APEX Legends",
+          "confidence": 0.6,
+          "attributes": {
+            "name": {
+              "value": "APEX Legends",
+              "confidence": 0.7
+            }
+          }
+        },
+        {
+          "id": "Phasmophobia",
+          "type": "game",
+          "name": "Phasmophobia",
+          "confidence": 0.6,
+          "attributes": {
+            "name": {
+              "value": "Phasmophobia",
+              "confidence": 0.7
+            }
+          }
+        },
+        {
+          "id": "Kurokami",
+          "type": "vtuber",
+          "name": "Kurokami",
+          "confidence": 0.8,
+          "attributes": {
+            "name": {
+              "value": "Kurokami",
+              "confidence": 0.9
+            },
+            "synonyms": {
+              "value": "alter persona",
+              "confidence": 0.7
+            },
+            "description": {
+              "value": "Fubuki's alter persona, appeared at some point in February of 2019. She has a more aggressive and harsh nature in contrast to the shy and calm Fubuki everyone knows, often not having any tact, coming off verbally strong to people, pushes her work to other people and absolutely hates doing embarrassing things.",
+              "confidence": 0.8
+            }
+          }
+        },
+        {
+          "id": "Usada Pekora",
+          "type": "vtuber",
+          "name": "Usada Pekora",
+          "confidence": 0.95,
+          "attributes": {
+            "name": {
+              "value": "Usada Pekora",
+              "confidence": 1.0
+            },
+            "synonyms": {
+              "value": "兎田ぺこら, 兔田佩克拉, Peko-chan, Shachou, War Criminal, Comedian",
+              "confidence": 0.9
+            },
+            "description": {
+              "value": "A lonely rabbit-eared girl who loves carrots. Part of the 3rd generation, Hololive Fantasy, she is eternally 111 years old.",
+              "confidence": 0.9
+            }
+          }
+        },
+        {
+          "id": "ぺこらんだむぶれいん!",
+          "type": "music_release",
+          "name": "ぺこらんだむぶれいん!",
+          "confidence": 0.75,
+          "attributes": {
+            "name": {
+              "value": "ぺこらんだむぶれいん!",
+              "confidence": 0.8
+            }
+          }
+        },
+        {
+          "id": "ぺこみこ大戦争！！",
+          "type": "music_release",
+          "name": "ぺこみこ大戦争！！",
+          "confidence": 0.75,
+          "attributes": {
+            "name": {
+              "value": "ぺこみこ大戦争！！",
+              "confidence": 0.8
+            }
+          }
+        },
+        {
+          "id": "#幻想郷ホロイズム",
+          "type": "music_release",
+          "name": "#幻想郷ホロイズム",
+          "confidence": 0.75,
+          "attributes": {
+            "name": {
+              "value": "#幻想郷ホロイズム",
+              "confidence": 0.8
+            }
+          }
+        },
+        {
+          "id": "Bloom",
+          "type": "event",
+          "name": "Bloom",
+          "confidence": 0.7,
+          "attributes": {
+            "name": {
+              "value": "Bloom",
+              "confidence": 0.8
+            }
+          }
+        },
+        {
+          "id": "Pekora 24",
+          "type": "event",
+          "name": "Pekora 24",
+          "confidence": 0.7,
+          "attributes": {
+            "name": {
+              "value": "Pekora 24",
+              "confidence": 0.8
+            }
+          }
+        },
+        {
+          "id": "-Usagi The MegaMi!!-",
+          "type": "event",
+          "name": "-Usagi The MegaMi!!-",
+          "confidence": 0.7,
+          "attributes": {
+            "name": {
+              "value": "-Usagi The MegaMi!!-",
+              "confidence": 0.8
+            }
+          }
+        }
+      ],
+      "relationships": [
+        {
+          "source": "vtuber",
+          "relation": "belongs_to",
+          "target": "INNK Music",
+          "confidence": 0.9,
+          "properties": {}
+        },
+        {
+          "source": "vtuber",
+          "relation": "collaborated_with",
+          "target": "vtuber",
+          "confidence": 0.7,
+          "properties": {
+            "hours": {
+              "value": null,
+              "confidence": 0.0
+            },
+            "times": {
+              "value": null,
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "source": "vtuber",
+          "relation": "played",
+          "target": "game",
+          "confidence": 0.8,
+          "properties": {
+            "hours_streamed": {
+              "value": null,
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "source": "vtuber",
+          "relation": "released",
+          "target": "tenkyu_suisei_wa_yoru_o_koede",
+          "confidence": 0.8,
+          "properties": {}
+        },
+        {
+          "source": "vtuber",
+          "relation": "performed_at",
+          "target": "Nonstop Story",
+          "confidence": 0.7,
+          "properties": {}
+        },
+        {
+          "source": "INNK Music",
+          "relation": "held",
+          "target": "Nonstop Story",
+          "confidence": 0.6,
+          "properties": {
+            "description": {
+              "value": null,
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "source": "Inugami Korone",
+          "relation": "belongs_to",
+          "target": "Hololive",
+          "confidence": 0.95,
+          "properties": {}
+        },
+        {
+          "source": "Inugami Korone",
+          "relation": "played",
+          "target": "Animal Crossing",
+          "confidence": 0.7,
+          "properties": {
+            "hours_streamed": {
+              "value": null,
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "source": "Inugami Korone",
+          "relation": "released",
+          "target": "ころねの最凶天災わんだふぉーわーるど",
+          "confidence": 0.8,
+          "properties": {}
+        },
+        {
+          "source": "Inugami Korone",
+          "relation": "performed_at",
+          "target": "Nonstop Story",
+          "confidence": 0.7,
+          "properties": {}
+        },
+        {
+          "source": "Nekomata Okayu",
+          "relation": "belongs_to",
+          "target": "Hololive GAMERS",
+          "confidence": 0.95,
+          "properties": {}
+        },
+        {
+          "source": "Nekomata Okayu",
+          "relation": "played",
+          "target": "Yo-kai Watch PuniPuni",
+          "confidence": 0.7,
+          "properties": {
+            "hours_streamed": {
+              "value": null,
+              "confidence": 0.5
+            }
+          }
+        },
+        {
+          "source": "Nekomata Okayu",
+          "relation": "played",
+          "target": "おかゆにゅ～～む！~Okayunyumu~",
+          "confidence": 0.7,
+          "properties": {
+            "hours_streamed": {
+              "value": null,
+              "confidence": 0.5
+            }
+          }
+        },
+        {
+          "source": "Nekomata Okayu",
+          "relation": "released",
+          "target": "もぐもぐYUMMY!",
+          "confidence": 0.8,
+          "properties": {}
+        },
+        {
+          "source": "Nekomata Okayu",
+          "relation": "released",
+          "target": "Shiny Smily Story",
+          "confidence": 0.8,
+          "properties": {}
+        },
+        {
+          "source": "Nekomata Okayu",
+          "relation": "released",
+          "target": "ぽいずにゃ～しんどろーむ",
+          "confidence": 0.8,
+          "properties": {}
+        },
+        {
+          "source": "Nekomata Okayu",
+          "relation": "released",
+          "target": "holo*27 Originals Vol.1",
+          "confidence": 0.8,
+          "properties": {}
+        },
+        {
+          "source": "Nekomata Okayu",
+          "relation": "performed_at",
+          "target": "hololive Summer 2022",
+          "confidence": 0.8,
+          "properties": {}
+        },
+        {
+          "source": "Nekomata Okayu",
+          "relation": "performed_at",
+          "target": "POISONYA SYNDROME",
+          "confidence": 0.8,
+          "properties": {}
+        },
+        {
+          "source": "Nekomata Okayu",
+          "relation": "performed_at",
+          "target": "PERSONYA RESPECT",
+          "confidence": 0.8,
+          "properties": {}
+        },
+        {
+          "source": "ookami_mio",
+          "relation": "belongs_to",
+          "target": "Hololive",
+          "confidence": 0.9
+        },
+        {
+          "source": "ookami_mio",
+          "relation": "collaborated_with",
+          "target": "shirakami_fubuki",
+          "confidence": 0.7
+        },
+        {
+          "source": "ookami_mio",
+          "relation": "collaborated_with",
+          "target": "nakiri_ayame",
+          "confidence": 0.7
+        },
+        {
+          "source": "ookami_mio",
+          "relation": "collaborated_with",
+          "target": "Hakui Koyori",
+          "confidence": 0.7
+        },
+        {
+          "source": "ookami_mio",
+          "relation": "played",
+          "target": "Minecraft",
+          "confidence": 0.6
+        },
+        {
+          "source": "ookami_mio",
+          "relation": "released",
+          "target": "howling",
+          "confidence": 0.8
+        },
+        {
+          "source": "ookami_mio",
+          "relation": "performed_at",
+          "target": "nonstop_story",
+          "confidence": 0.7
+        },
+        {
+          "source": "ookami_mio",
+          "relation": "released",
+          "target": "shiny_smily_story",
+          "confidence": 0.8
+        },
+        {
+          "source": "ookami_mio",
+          "relation": "released",
+          "target": "night_walk",
+          "confidence": 0.8
+        },
+        {
+          "source": "ookami_mio",
+          "relation": "released",
+          "target": "bouquet",
+          "confidence": 0.7
+        },
+        {
+          "source": "Hololive",
+          "relation": "held",
+          "target": "Our Sparkle",
+          "confidence": 0.6
+        },
+        {
+          "source": "ookami_mio",
+          "relation": "released",
+          "target": "My Sparkle",
+          "confidence": 0.8
+        },
+        {
+          "source": "Shirakami Fubuki",
+          "relation": "belongs_to",
+          "target": "Hololive",
+          "confidence": 0.95,
+          "properties": {}
+        },
+        {
+          "source": "Shirakami Fubuki",
+          "relation": "collaborated_with",
+          "target": "Kurokami",
+          "confidence": 0.7,
+          "properties": {
+            "hours": {
+              "value": "",
+              "confidence": 0.0
+            },
+            "times": {
+              "value": "",
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "source": "Shirakami Fubuki",
+          "relation": "played",
+          "target": "Fortnite Battle Royale",
+          "confidence": 0.6,
+          "properties": {
+            "hours_streamed": {
+              "value": "",
+              "confidence": 0.6
+            }
+          }
+        },
+        {
+          "source": "Shirakami Fubuki",
+          "relation": "released",
+          "target": "Say!ファンファーレ!",
+          "confidence": 0.8,
+          "properties": {}
+        },
+        {
+          "source": "Shirakami Fubuki",
+          "relation": "performed_at",
+          "target": "FBKBP2019",
+          "confidence": 0.7,
+          "properties": {}
+        },
+        {
+          "source": "Hololive",
+          "relation": "held",
+          "target": "FBKBP2019",
+          "confidence": 0.6,
+          "properties": {
+            "description": {
+              "value": "",
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "source": "Shirakami Fubuki",
+          "relation": "released",
+          "target": "Shiny Smily Story",
+          "confidence": 0.8,
+          "properties": {}
+        },
+        {
+          "source": "Shirakami Fubuki",
+          "relation": "released",
+          "target": "Shirakami Cafe Music",
+          "confidence": 0.8,
+          "properties": {}
+        },
+        {
+          "source": "Shirakami Fubuki",
+          "relation": "released",
+          "target": "#幻想郷ホロイズム (#GENSOKYOholoism)",
+          "confidence": 0.8,
+          "properties": {}
+        },
+        {
+          "source": "Shirakami Fubuki",
+          "relation": "released",
+          "target": "もっふもふ DE よいのじゃよ (Moffumoffu DE Yoi no Ja yo)",
+          "confidence": 0.7,
+          "properties": {}
+        },
+        {
+          "source": "Shirakami Fubuki",
+          "relation": "released",
+          "target": "クックパッドおすすめレシピ",
+          "confidence": 0.7,
+          "properties": {}
+        },
+        {
+          "source": "Shirakami Fubuki",
+          "relation": "released",
+          "target": "朝が来て",
+          "confidence": 0.7,
+          "properties": {}
+        },
+        {
+          "source": "Shirakami Fubuki",
+          "relation": "released",
+          "target": "香りのやる気スイッチ！",
+          "confidence": 0.7,
+          "properties": {}
+        },
+        {
+          "source": "Shirakami Fubuki",
+          "relation": "released",
+          "target": "2:23 AM",
+          "confidence": 0.7,
+          "properties": {}
+        },
+        {
+          "source": "Shirakami Fubuki",
+          "relation": "performed_at",
+          "target": "Nonstop Story",
+          "confidence": 0.7,
+          "properties": {}
+        },
+        {
+          "source": "Hololive",
+          "relation": "held",
+          "target": "Nonstop Story",
+          "confidence": 0.6,
+          "properties": {
+            "description": {
+              "value": "",
+              "confidence": 0.05
+            }
+          }
+        },
+        {
+          "source": "Shirakami Fubuki",
+          "relation": "played",
+          "target": "APEX Legends",
+          "confidence": 0.6,
+          "properties": {
+            "hours_streamed": {
+              "value": "",
+              "confidence": 0.6
+            }
+          }
+        },
+        {
+          "source": "Shirakami Fubuki",
+          "relation": "played",
+          "target": "Phasmophobia",
+          "confidence": 0.6,
+          "properties": {
+            "hours_streamed": {
+              "value": "",
+              "confidence": 0.6
+            }
+          }
+        },
+        {
+          "source": "Shirakami Fubuki",
+          "relation": "played",
+          "target": "Yo-kai Watch PuniPuni",
+          "confidence": 0.6,
+          "properties": {
+            "hours_streamed": {
+              "value": "",
+              "confidence": 0.6
+            }
+          }
+        },
+        {
+          "source": "Usada Pekora",
+          "relation": "belongs_to",
+          "target": "Hololive",
+          "confidence": 0.9,
+          "properties": {}
+        },
+        {
+          "source": "Usada Pekora",
+          "relation": "collaborated_with",
+          "target": "Usada Pekora",
+          "confidence": 0.7,
+          "properties": {
+            "hours": {
+              "value": "",
+              "confidence": 0.0
+            },
+            "times": {
+              "value": "",
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "source": "Usada Pekora",
+          "relation": "played",
+          "target": "Yo-kai Watch PuniPuni",
+          "confidence": 0.6,
+          "properties": {
+            "hours_streamed": {
+              "value": "",
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "source": "Usada Pekora",
+          "relation": "released",
+          "target": "ぺこらんだむぶれいん!",
+          "confidence": 0.8,
+          "properties": {}
+        },
+        {
+          "source": "Usada Pekora",
+          "relation": "released",
+          "target": "ぺこみこ大戦争！！",
+          "confidence": 0.8,
+          "properties": {}
+        },
+        {
+          "source": "Usada Pekora",
+          "relation": "released",
+          "target": "#幻想郷ホロイズム",
+          "confidence": 0.8,
+          "properties": {}
+        },
+        {
+          "source": "Usada Pekora",
+          "relation": "performed_at",
+          "target": "Nonstop Story",
+          "confidence": 0.7,
+          "properties": {}
+        },
+        {
+          "source": "Usada Pekora",
+          "relation": "performed_at",
+          "target": "Beyond the Stage",
+          "confidence": 0.7,
+          "properties": {}
+        },
+        {
+          "source": "Usada Pekora",
+          "relation": "performed_at",
+          "target": "Bloom",
+          "confidence": 0.7,
+          "properties": {}
+        },
+        {
+          "source": "Usada Pekora",
+          "relation": "performed_at",
+          "target": "Pekora 24",
+          "confidence": 0.7,
+          "properties": {}
+        },
+        {
+          "source": "Usada Pekora",
+          "relation": "performed_at",
+          "target": "-Usagi The MegaMi!!-",
+          "confidence": 0.7,
+          "properties": {}
+        },
+        {
+          "source": "Hololive",
+          "relation": "held",
+          "target": "Beyond the Stage",
+          "confidence": 0.5,
+          "properties": {
+            "description": {
+              "value": "",
+              "confidence": 0.0
+            }
+          }
+        },
+        {
+          "source": "Hololive",
+          "relation": "held",
+          "target": "Bloom",
+          "confidence": 0.5,
+          "properties": {
+            "description": {
+              "value": "",
+              "confidence": 0.0
+            }
+          }
+        }
+      ],
+      "_source_file": "hoshimachi-suisei_hololivewiki.json",
+      "_source": "hololivewiki"
+    }
+  ]
+}
